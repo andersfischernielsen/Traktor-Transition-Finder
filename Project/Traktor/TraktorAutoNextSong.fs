@@ -10,6 +10,7 @@ type Chord = Major | Minor | None
 type Song = { BPM : decimal; Title : string; Artist : string; Key : (int * Chord) }
 type Edge = { Weight : double; From : Song; To : Song }
 
+
 let parseCollection = 
     let parseKey (s:string) = 
         let key = match s.[1] with
@@ -39,6 +40,8 @@ let rec createGraph (original: Song list) (list:Song list) acc =
                    createGraph original ss ((song, edgesFromSong) :: acc)
     | []      -> acc
 
+
+
 let weightForKey (key : int * Chord) (other : int * Chord) : int = 
     match key with                                               //TODO: Define key rules and add more key rules.
     | (n, Major) -> match other with
@@ -54,6 +57,8 @@ let weightForKey (key : int * Chord) (other : int * Chord) : int =
    
     | _                                                     -> 10000
 
+
+
 let rec calculateWeights list acc = 
     let calculateWeight edge = 
         let bpmWeight = System.Math.Abs (edge.From.BPM - edge.To.BPM)
@@ -66,6 +71,7 @@ let rec calculateWeights list acc =
     match list with 
     | x::xs -> calculateWeights xs ((weightForSongEdgeTuple x) :: acc) //TODO: List.fold instead of pattern matching.
     | []     -> acc
+
 
 
 [<EntryPoint>]
