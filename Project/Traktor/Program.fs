@@ -3,7 +3,7 @@ open FSharp.Data
 open System.Collections.Generic
 
 
-type Collection = XmlProvider<"C:\Users\Fischer\Desktop\Traktor\Traktor\collection.nml">
+type Collection = XmlProvider<".\collection.nml">
 
 type Song = { BPM : decimal; Title : string; Artist : string; Key : string }
 type Edge = { Weight : int; From : Song; To : Song }
