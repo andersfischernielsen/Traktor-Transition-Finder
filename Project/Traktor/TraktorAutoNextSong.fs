@@ -66,6 +66,17 @@ let weightForKey (key, other) =
                                     | "4m" | "9m"         -> 0 
                                     | "5m"                -> 0
                                     | _                   -> 20 
+            | ("3d", other)      -> match other with
+                                    | "3m" | "4d" | "2d"  -> 0
+                                    | "5d" | "10d"        -> 0 
+                                    | "12d"               -> 0
+                                    | _                   -> 20 
+            | ("3m", other)      -> match other with
+                                    | "3d" | "4m" | "2m"  -> 0 
+                                    | "5m" | "10m"        -> 0 
+                                    | "6m"                -> 0
+                                    | _                   -> 20 
+
             | _                 -> 10000
 
 let rec calculateWeights list acc = 
