@@ -76,6 +76,26 @@ let weightForKey (key, other) =
                                     | "5m" | "10m"        -> 0 
                                     | "6m"                -> 0
                                     | _                   -> 20 
+            | ("4d", other)      -> match other with
+                                    | "4m" | "5d" | "3d"  -> 0
+                                    | "6d" | "11d"        -> 0 
+                                    | "1d"                -> 0
+                                    | _                   -> 20 
+            | ("4m", other)      -> match other with
+                                    | "4d" | "5m" | "3m"  -> 0 
+                                    | "6m" | "11m"        -> 0 
+                                    | "7m"                -> 0
+                                    | _                   -> 20 
+            | ("5d", other)      -> match other with
+                                    | "5m" | "6d" | "4d"  -> 0
+                                    | "7d" | "12d"        -> 0 
+                                    | "2d"                -> 0
+                                    | _                   -> 20 
+            | ("5m", other)      -> match other with
+                                    | "5d" | "6m" | "4m"  -> 0 
+                                    | "7m" | "12m"        -> 0 
+                                    | "8m"                -> 0
+                                    | _                   -> 20 
 
             | _                 -> 10000
 
