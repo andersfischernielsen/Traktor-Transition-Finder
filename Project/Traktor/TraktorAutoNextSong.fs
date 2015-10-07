@@ -31,19 +31,31 @@ let parseCollection (pathToCollection : string) =
 
     let parseMusicalKey k = 
         match k with 
-        | 0     -> parseKey "1d"
-        | 1     -> parseKey "8d"
-        | 2     -> parseKey "3d"
-        | 3     -> parseKey "10d"
-        | 4     -> parseKey "5d"
-        | 5     -> parseKey "12d"
-        | 6     -> parseKey "7d"
-        | 7     -> parseKey "2d"
-        | 8     -> parseKey "9d"
-        | 9     -> parseKey "9d"
-        | 10    -> parseKey "11d"
-        | 11    -> parseKey "6d"
-        | _     -> (0, Invalid)     //TODO: Get the rest of the keys.
+        | 0     -> (1, Major)
+        | 1     -> (8, Major)
+        | 2     -> (3, Major)
+        | 3     -> (10, Major)
+        | 4     -> (5, Major)
+        | 5     -> (12, Major)
+        | 6     -> (7, Major)
+        | 7     -> (2, Major)
+        | 8     -> (9, Major)
+        | 9     -> (4, Major)
+        | 10    -> (11, Major)
+        | 11    -> (6, Major)
+        | 12    -> (10,Minor)
+        | 13    -> (5, Minor)
+        | 14    -> (12, Minor)
+        | 15    -> (7, Minor)
+        | 16    -> (2, Minor)
+        | 17    -> (9, Minor)
+        | 18    -> (4, Minor)
+        | 19    -> (11, Minor)
+        | 20    -> (6, Minor)
+        | 21    -> (1, Minor)
+        | 22    -> (8, Minor)
+        | 23    -> (3, Minor)
+        | _     -> (0, Invalid)
 
     let unwrapString s = 
         match s with
@@ -114,15 +126,18 @@ let rec calculateWeights list acc =
 
 [<EntryPoint>]
 let main argv = 
-    //printf "Input path to collection.nml: \n"
-    //let path = Console.ReadLine()
+    printf "Please input path to collection.nml: \n"
+    let path = Console.ReadLine()
     let songs = parseCollection ""
     let graph = createGraph songs songs []
     let withWeights = calculateWeights graph []
     
-    let result = List.sortBy (fun x -> (fst x).Artist) withWeights
+    printf "Please input song title to search for: \n"
+    let searchTitle = Console.ReadLine()
+    let result = List.filter (fun x -> (fst x).Title.Contains(searchTitle)) withWeights
 
-    //let goodTransitions = List.sortBy (fun x -> x.Weight) (snd result)
-    //printf "\nBest 3 transitions from: \n\n%A \n\n are: \n\n" <| fst result
-    Seq.iter (fun x -> printf "%A \n\n" (fst x)) <| Seq.take 100 result
+    let goodTransitions = List.sortBy (fun x -> x.Weight) (snd result.Head)
+    printf "\nBest 4 transitions from: \n\n%A \n\n are: \n\n" <| fst result.Head
+    let withoutFirst = Seq.skip 1 goodTransitions
+    Seq.iter (fun x -> printf "%A \n\n" x.To) <| Seq.take 2 withoutFirst
     0
