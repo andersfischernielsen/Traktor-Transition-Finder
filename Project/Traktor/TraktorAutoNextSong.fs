@@ -154,37 +154,41 @@ module Search =
 
         List.filter (fun x -> titleContains searchTerm x || artistContains searchTerm x) graphWithWeights
 
+
+module UI =
+    let SimpleUI = 
+        printfn "Please input path to collection.nml:"
+        let path = Console.ReadLine()
+        let songs = CollectionParser.parseCollection path
+        let graph = Graph.buildGraph songs |> Graph.calculateWeights
+    
+        let rec search list = 
+            printfn "\nPlease input song title to search for:"
+            let searchTitle = Console.ReadLine()
+            let result = Search.search searchTitle graph
+            if result.IsEmpty then search [] else result
+
+        let result = search []
+
+        printfn "\nPlease choose a song (type number):"
+        let mutable i = 0
+        List.iter (fun x -> printfn "%A: %A by %A"i (fst x).Title (fst x).Artist; i <- i+1) result
+        let index = Int32.Parse <| Console.ReadLine()
+        let choice = List.nth result index 
+
+        let goodTransitions = List.sortBy (fun x -> x.Weight) (snd choice)
+    
+        printfn "\nFrom"
+        let chosen = fst choice
+        printfn "-------\n%A %A\n%A by %A\n-------" chosen.BPM chosen.Key chosen.Title chosen.Artist
+
+        printfn "\nGood transitions would be:"
+        let mutable i = 0
+        List.iter (fun x -> 
+            if (i < 8) 
+            then printfn "-------\n%A %A\n%A by %A" x.To.BPM x.To.Key x.To.Title x.To.Artist; i <- i+1 ) goodTransitions
+
 [<EntryPoint>]
 let main argv = 
-    printfn "Please input path to collection.nml:"
-    let path = Console.ReadLine()
-    let songs = CollectionParser.parseCollection path
-    let graph = Graph.buildGraph songs |> Graph.calculateWeights
-    
-    let rec search list = 
-        printfn "\nPlease input song title to search for:"
-        let searchTitle = Console.ReadLine()
-        let result = Search.search searchTitle graph
-        if result.IsEmpty then search [] else result
-
-    let result = search []
-
-    printfn "\nPlease choose a song (type number):"
-    let mutable i = 0
-    List.iter (fun x -> printfn "%A: %A by %A"i (fst x).Title (fst x).Artist; i <- i+1) result
-    let index = Int32.Parse <| Console.ReadLine()
-    let choice = List.nth result index 
-
-    let goodTransitions = List.sortBy (fun x -> x.Weight) (snd choice)
-    
-    printfn "\nFrom"
-    let chosen = fst choice
-    printfn "-------\n%A %A\n%A by %A\n-------" chosen.BPM chosen.Key chosen.Title chosen.Artist
-
-    printfn "\nGood transitions would be:"
-    let mutable i = 0
-    List.iter (fun x -> 
-        if (i < 8) 
-        then printfn "-------\n%A %A\n%A by %A" x.To.BPM x.To.Key x.To.Title x.To.Artist; i <- i+1 ) goodTransitions
-
+    UI.SimpleUI
     0
