@@ -2,34 +2,47 @@
 open FSharp.Data
 open System.Collections.Generic
 open System
+open System.Text.RegularExpressions
 
 
 type Collection = XmlProvider<".\collection.nml">
 
-type Chord = Major | Minor | None
+type Chord = Major | Minor | Invalid
 type Song = { BPM : decimal; Title : string; Artist : string; Key : (int * Chord) }
 type Edge = { Weight : double; From : Song; To : Song }
 
 
 let parseCollection = 
+    let regex = Regex @"\d+"
+
+    let (|Success|Failure|) tryResult =
+        match tryResult with
+        | true, value -> Success value
+        | _ -> Failure
+
     let parseKey (s:string) = 
-        let key = match s.[1] with
-                  | 'd' -> Major
-                  | 'm' -> Minor
-                  | _   -> None
-        let number = Int32.Parse <| s.[0].ToString()
+        let num = regex.Match s
+        let key = if s.Contains("d") then Major else Minor
+
+        let number = match Int32.TryParse num.Value with
+                     | Success value -> value
+                     | Failure -> 0
         (number, key)
 
+    let unwrapString s = 
+        match s with
+        | Some e -> e
+        | None   -> ""
+
     let parseToSong (i:Collection.Entry) = 
-        let title = i.Title
-        let tempo = i.Tempo.Bpm
-        let artist = i.Artist
-        let key = parseKey i.Info.Key
+        match i.Tempo, i.Title.String, i.Artist, i.Info.Key with
+        | Some te, Some ti, Some a, Some k    -> { BPM = te.Bpm; Title = ti; Artist = a; Key = parseKey k }
+        | Some te, _, Some a, Some k          -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = a; Key = parseKey k}
+        | Some te, Some ti, _, Some k         -> { BPM = te.Bpm; Title = ti; Artist = unwrapString i.Artist; Key = parseKey k}
+        | _, _, _, _                          -> { BPM = new Decimal (0); Title = String.Empty; Artist = String.Empty; Key = (0, Invalid)}
 
-        { BPM = tempo; Title = title; Artist = artist; Key = key }
-
-    let sample = Collection.GetSample()
-    let entries = sample.Collection.Entries2
+    let collection = Collection.Load("..\..\collection.nml")
+    let entries = collection.Collection.Entries2
     let songs = Array.map (fun i -> parseToSong i) entries
     List.ofArray songs
 
@@ -43,20 +56,21 @@ let rec createGraph (original: Song list) (list:Song list) acc =
 
 
 let weightForKey (key : int * Chord) (other : int * Chord) : int = 
-    match key with                                               //TODO: Define key rules and add more key rules.
-    | (n, Major) -> match other with
-                    | (1, Minor) | (2, Major) | (12, Major) -> 0 //Major to minor, one key up/down.
-                    | (3, Major) | (8, Major)               -> 0 //One semitone, two semitones up.
-                    | (10, Major)                           -> 0 //Since major, three keys down.
-                    | _                                     -> 20 //Keys do not match up, add 20 to weight.
-    | (n, Minor) -> match other with
-                    | (1, Major) | (2, Minor) | (12, Minor) -> 0 //Major to minor, one key up/down.
-                    | (3, Minor) | (8, Minor)               -> 0 //One semitone, two semitones up.
-                    | (4, Minor)                            -> 0 //Since minor, three keys UP.
-                    | _                                     -> 20 //Keys do not match up, add 20 to weight.
-   
-    | _                                                     -> 10000
+    let accountFor12 n = if n % 12 = 0 then 12 else n % 12
 
+    let k = fst key
+    let plusOne = accountFor12 k + 1             //One key up
+    let minusOne = accountFor12 k + 11           //One key down.
+    let oneSemitone = accountFor12 k + 2         //One semitone up.
+    let twoSemitones = accountFor12 k + 7        //two semitones up.
+    let threeUpDown = match snd other with              //If minor, three keys UP, if major three keys DOWN.
+                      | Minor -> accountFor12 k + 3 
+                      | Major -> accountFor12 k + 9
+                      | Invalid  -> Int32.MaxValue
+
+    let list = [ plusOne; minusOne; oneSemitone; twoSemitones; threeUpDown ] //Create a list of all good key transitions.
+    let filtered = List.filter (fun x -> fst other = x) list                 //See if other key matches any of the good key transitions.
+    if filtered.IsEmpty then 20 else 0                                       //If there were any matches, then we're have a nice transition.
 
 
 let rec calculateWeights list acc = 
@@ -80,4 +94,8 @@ let main argv =
     let graph = createGraph songs songs []
     let withWeights = calculateWeights graph []
     
+    let justinResults = List.filter (fun x -> (fst x).Artist = "Justin Timberlake") withWeights
+    let justin = justinResults.Head
+    let goodTransitions = List.sortBy (fun x -> x.Weight) (snd justin)
+
     0
