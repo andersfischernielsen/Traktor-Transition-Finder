@@ -4,7 +4,7 @@ open System.Collections.Generic
 open System
 
 
-type Collection = XmlProvider<".\collection.nml">
+type Collection = XmlProvider<"collection.nml">
 
 type Chord = Major | Minor | Invalid
 type Song = { BPM : decimal; Title : string; Artist : string; Key : (int * Chord); AudioId : string }
@@ -91,7 +91,7 @@ module CollectionParser =
             //Invalid key info.
             | _, _, _, _, _, _  -> { BPM = new Decimal (0); Title = String.Empty; Artist = String.Empty; Key = (0, Invalid); AudioId = String.Empty}
 
-        let collection = Collection.Load("C:\collection.nml")
+        let collection = Collection.Load(pathToCollection)
         let entries = collection.Collection.Entries2
         let songs = Array.Parallel.map (fun i -> parseToSong i) entries
         List.ofArray songs
@@ -159,7 +159,7 @@ module UI =
     let SimpleUI = 
         printfn "Please input path to collection.nml:"
         let path = Console.ReadLine()
-        let songs = CollectionParser.parseCollection path
+        let songs = CollectionParser.parseCollection <| path.Trim()
         let graph = Graph.buildGraph songs |> Graph.calculateWeights
     
         let rec search list = 
@@ -171,8 +171,8 @@ module UI =
         let result = search []
 
         printfn "\nPlease choose a song (type number):"
-        let mutable i = 0
-        List.iter (fun x -> printfn "%A: %A by %A"i (fst x).Title (fst x).Artist; i <- i+1) result
+        let i = ref 0
+        List.iter (fun x -> printfn "%A: %A by %A" !i (fst x).Title (fst x).Artist; i := !i+1) result
         let index = Int32.Parse <| Console.ReadLine()
         let choice = List.nth result index 
 
@@ -183,10 +183,10 @@ module UI =
         printfn "-------\n%A %A\n%A by %A\n-------" chosen.BPM chosen.Key chosen.Title chosen.Artist
 
         printfn "\nGood transitions would be:"
-        let mutable i = 0
+        let i = ref 0
         List.iter (fun x -> 
-            if (i < 8) 
-            then printfn "-------\n%A %A\n%A by %A" x.To.BPM x.To.Key x.To.Title x.To.Artist; i <- i+1 ) goodTransitions
+            if (!i < 8) 
+            then printfn "-------\n%A %A\n%A by %A" x.To.BPM x.To.Key x.To.Title x.To.Artist; i := !i+1 ) goodTransitions
 
 [<EntryPoint>]
 let main argv = 
