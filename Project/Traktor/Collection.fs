@@ -1,4 +1,6 @@
-﻿open System.Xml.Linq
+﻿module Collection
+
+open System.Xml.Linq
 open FSharp.Data
 open System.Collections.Generic
 open System
@@ -188,7 +190,3 @@ module UI =
             if (!i < 8) 
             then printfn "-------\n%A %A\n%A by %A" x.To.BPM x.To.Key x.To.Title x.To.Artist; i := !i+1 ) goodTransitions
 
-[<EntryPoint>]
-let main argv = 
-    UI.SimpleUI
-    0
