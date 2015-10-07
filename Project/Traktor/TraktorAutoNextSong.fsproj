@@ -55,6 +55,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Server.fs" />
     <Compile Include="TraktorAutoNextSong.fs" />
     <None Include="App.config" />
     <None Include="sample.nml" />
