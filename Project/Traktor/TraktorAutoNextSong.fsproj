@@ -57,8 +57,9 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="TraktorAutoNextSong.fs" />
     <None Include="App.config" />
-    <None Include="collection.nml" />
+    <None Include="sample.nml" />
     <Content Include="packages.config" />
+    <None Include="collection.nml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
