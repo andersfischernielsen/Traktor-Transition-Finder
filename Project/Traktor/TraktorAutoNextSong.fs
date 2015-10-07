@@ -2,16 +2,17 @@
 open FSharp.Data
 open System.Collections.Generic
 open System
-open System.Text.RegularExpressions
 
 
 type Collection = XmlProvider<".\collection.nml">
 
 type Chord = Major | Minor | Invalid
-type Song = { BPM : decimal; Title : string; Artist : string; Key : (int * Chord) }
+type Song = { BPM : decimal; Title : string; Artist : string; Key : (int * Chord); AudioId : string }
 type Edge = { Weight : double; From : Song; To : Song }
 
 module CollectionParser = 
+    open System.Text.RegularExpressions
+
     let parseCollection (pathToCollection : string) = 
         let regex = Regex @"\d+"
 
@@ -68,28 +69,37 @@ module CollectionParser =
 
         ///Parse a given NML Entry into a Song type.
         let parseToSong (i:Collection.Entry) = 
-            match i.Tempo, i.Title.String, i.Artist, i.MusicalKey, i.Info.Key with
+            match i.Tempo, i.Title.String, i.Artist, i.MusicalKey, i.Info.Key, i.AudioId with
             //Use the main MUSICAL_KEY attribute if possible.
-            | Some te, Some ti, Some a, Some k, _ -> { BPM = te.Bpm; Title = ti; Artist = a; Key = parseMusicalKey k.Value }
-            | Some te, _, Some a, Some k, _       -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = a; Key = parseMusicalKey k.Value}
-            | Some te, Some ti, _, Some k, _      -> { BPM = te.Bpm; Title = ti; Artist = unwrapString i.Artist; Key = parseMusicalKey k.Value}
-            | Some te,  _, _, Some k, _           -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = unwrapString i.Artist; Key = parseMusicalKey k.Value}
+            | Some te, Some ti, Some a, Some k, _, Some id      
+                    -> { BPM = te.Bpm; Title = ti; Artist = a; Key = parseMusicalKey k.Value; AudioId = id }
+            | Some te, _, Some a, Some k, _, Some id                   
+                    -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = a; Key = parseMusicalKey k.Value; AudioId = id}
+            | Some te, Some ti, _, Some k, _, Some id      
+                    -> { BPM = te.Bpm; Title = ti; Artist = unwrapString i.Artist; Key = parseMusicalKey k.Value; AudioId = id}
+            | Some te,  _, _, Some k, _, Some id           
+                    -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = unwrapString i.Artist; Key = parseMusicalKey k.Value; AudioId = id}
             //If MUSICAL_KEY isn't available use INFO.KEY
-            | Some te, Some ti, Some a, _, Some k -> { BPM = te.Bpm; Title = ti; Artist = a; Key = parseKey k }
-            | Some te, _, Some a, _, Some k       -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = a; Key = parseKey k}
-            | Some te, Some ti, _, _, Some k      -> { BPM = te.Bpm; Title = ti; Artist = unwrapString i.Artist; Key = parseKey k}
-            | Some te,  _, _, _, Some k           -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = unwrapString i.Artist; Key = parseKey k}
+            | Some te, Some ti, Some a, _, Some k, Some id 
+                    -> { BPM = te.Bpm; Title = ti; Artist = a; Key = parseKey k; AudioId = id}
+            | Some te, _, Some a, _, Some k, Some id       
+                    -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = a; Key = parseKey k; AudioId = id}
+            | Some te, Some ti, _, _, Some k, Some id      
+                    -> { BPM = te.Bpm; Title = ti; Artist = unwrapString i.Artist; Key = parseKey k; AudioId = id}
+            | Some te,  _, _, _, Some k, Some id           
+                    -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = unwrapString i.Artist; Key = parseKey k; AudioId = id}
             //Invalid key info.
-            | _, _, _, _, _                       -> { BPM = new Decimal (0); Title = String.Empty; Artist = String.Empty; Key = (0, Invalid)}
+            | _, _, _, _, _, _  -> { BPM = new Decimal (0); Title = String.Empty; Artist = String.Empty; Key = (0, Invalid); AudioId = String.Empty}
 
         let collection = Collection.Load("C:\collection.nml")
         let entries = collection.Collection.Entries2
         let songs = Array.Parallel.map (fun i -> parseToSong i) entries
         List.ofArray songs
 
-module GraphBuilder = 
+
+module Graph = 
     ///Create a graph (represented as a (Song * Edge list) list from  a Song list. 
-    let createGraph list = 
+    let buildGraph list = 
         let rec createGraphAcc (original: Song list) (list:Song list) acc = 
             match list with     //TODO: Implement as fold, then to parallel processing for performance.
             | song::ss  -> let otherSongs = List.filter (fun s -> (s <> song)) original
@@ -134,26 +144,47 @@ module GraphBuilder =
         
         calculateWeightsAcc list []
 
-module Search = 
-    let search searchTerm graphWithWeights = 
-        let result = List.filter (fun x -> (fst x).Title.Contains(searchTerm)) graphWithWeights
-        let goodTransitions = List.sortBy (fun x -> x.Weight) (snd result.Head)
-        List.ofSeq <| Seq.skip 1 goodTransitions
 
+module Search = 
+    open System.Globalization
+
+    let search searchTerm graphWithWeights = 
+        let titleContains s e = (fst e).Title.IndexOf(s, StringComparison.OrdinalIgnoreCase) >= 0;
+        let artistContains s e = (fst e).Artist.IndexOf(s, StringComparison.OrdinalIgnoreCase) >= 0;
+
+        List.filter (fun x -> titleContains searchTerm x || artistContains searchTerm x) graphWithWeights
 
 [<EntryPoint>]
 let main argv = 
-    printf "Please input path to collection.nml: \n"
+    printfn "Please input path to collection.nml:"
     let path = Console.ReadLine()
     let songs = CollectionParser.parseCollection path
-    let graph = GraphBuilder.createGraph songs
-    let withWeights = GraphBuilder.calculateWeights graph
+    let graph = Graph.buildGraph songs |> Graph.calculateWeights
     
-    printf "Please input song title to search for: \n"
-    let searchTitle = Console.ReadLine()
+    let rec search list = 
+        printfn "\nPlease input song title to search for:"
+        let searchTitle = Console.ReadLine()
+        let result = Search.search searchTitle graph
+        if result.IsEmpty then search [] else result
+
+    let result = search []
+
+    printfn "\nPlease choose a song (type number):"
+    let mutable i = 0
+    List.iter (fun x -> printfn "%A: %A by %A"i (fst x).Title (fst x).Artist; i <- i+1) result
+    let index = Int32.Parse <| Console.ReadLine()
+    let choice = List.nth result index 
+
+    let goodTransitions = List.sortBy (fun x -> x.Weight) (snd choice)
     
-    let result = Search.search searchTitle withWeights
-    printf "\nBest 4 transitions from: \n\n%A \n\n are: \n\n" <| result.Head.From
-    Seq.iter (fun x -> printf "%A \n\n" x.To) <| Seq.take 2 result
+    printfn "\nFrom"
+    let chosen = fst choice
+    printfn "-------\n%A %A\n%A by %A\n-------" chosen.BPM chosen.Key chosen.Title chosen.Artist
+
+    printfn "\nGood transitions would be:"
+    let mutable i = 0
+    List.iter (fun x -> 
+        if (i < 8) 
+        then printfn "-------\n%A %A\n%A by %A" x.To.BPM x.To.Key x.To.Title x.To.Artist; i <- i+1 ) goodTransitions
 
     0
