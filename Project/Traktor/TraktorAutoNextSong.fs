@@ -94,7 +94,7 @@ let main argv =
     let graph = createGraph songs songs []
     let withWeights = calculateWeights graph []
     
-    let justinResults = List.filter (fun x -> (fst x).Artist = "Justin Timberlake") withWeights
+    let justinResults = List.filter (fun x -> (fst x).Artist.Contains("Justin")) withWeights
     let justin = justinResults.Head
     let goodTransitions = List.sortBy (fun x -> x.Weight) (snd justin)
 
