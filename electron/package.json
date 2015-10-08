@@ -1,0 +1,9 @@
+{
+  "name"    : "TraktorAutoFindNextSong",
+  "version" : "0.1.0",
+  "main"    : "main.js",
+  "dependencies": {
+    "electron-prebuilt": "^0.28.3",
+    "react": "^0.13.3"
+  }
+}
