@@ -1,8 +1,22 @@
 'use strict';
 
 var ipc = require('ipc');
+var fs = require('fs');
 
-var upload = document.querySelector('.upload');
-upload.addEventListener("change", function () {
-    ipc.send('collection-upload');
-});
+function openFile() {
+	var remote = require('remote');
+	var dialog = remote.require('dialog');
+	var fs = require('fs');
+
+ 	dialog.showOpenDialog(
+        remote.getCurrentWindow(), 
+		{ 
+            filters: [ { name: 'Traktor Collection', extensions: ['nml']} ], 
+            properties: [ 'openFile' ]
+        }, 
+        function (fileNames) {
+      		if (fileNames === undefined) return;
+      		var fileName = fileNames[0];
+      		ipc.send('collection-upload', fileName);
+  	}
+)}
