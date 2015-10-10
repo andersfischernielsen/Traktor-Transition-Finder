@@ -6,6 +6,8 @@ var ipc = require('ipc');
 // Report crashes to our server.
 require('crash-reporter').start();
 
+var collection;
+
 var mainWindow = null;
 var collection_path = ""
 
@@ -20,6 +22,21 @@ app.on('ready', function() {
 
 ipc.on('collection-upload', function (event, arg) {
 	collection_path = arg;
-    console.log(collection_path);
-    mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
+    var request = require('request');
+	request.post({
+	  	headers: {'content-type' : 'application/x-www-form-urlencoded'},
+	  	url:     'http://localhost:8083/collection',
+	  	body:    arg
+	}, function(error, response, body) {
+		if (error) {
+			console.log(error);
+		}
+		
+		if (response.statusCode != 200) {
+			console.log("Error: response was: " + response.statusCode);
+			mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
+		}
+		
+		mainWindow.loadUrl('file://' + __dirname + '/app/song-select.html');
+	});
 });
