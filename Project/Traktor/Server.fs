@@ -19,9 +19,6 @@ type WebPart = HttpContext -> SuaveTask<HttpContext>
 ///JSON data type
 type SongResponse = { Song : Song; Transitions : Song list }
 
-///Convert a byte array into a string.
-let byteArrayAsString s = System.Text.Encoding.ASCII.GetString(s)
-
 ///Take n elements from a given list until there are no more elements.
 let take n list = 
     let rec takeAcc n list acc = 
@@ -49,9 +46,9 @@ let mutable graph = []
 
 ///Set a new path to the collection from an incoming HTTP POST. Graph will be rebuilt.
 let setCollectionString s = 
-    let asString = byteArrayAsString s
-    let g = Graph.buildGraph <| CollectionParser.parseCollection asString 
-    let withWeights = Graph.calculateWeights g
+    let asString = System.Text.Encoding.ASCII.GetString(s)
+    let built = Graph.buildGraph <| CollectionParser.parseCollection asString
+    let withWeights = Graph.calculateWeights built
     graph <- withWeights
    
 ///Find a given (Song * Edge list) tuple with the given AudioId.
