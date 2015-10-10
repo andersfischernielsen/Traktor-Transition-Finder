@@ -11,3 +11,7 @@ h1, h2, h3 {
 .full-width {
 	width: 100%;
 }
+
+.buffer {
+	margin-top: 10px;
+}
