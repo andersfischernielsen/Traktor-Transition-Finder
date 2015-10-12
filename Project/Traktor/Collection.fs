@@ -97,16 +97,13 @@ module CollectionParser =
 
 
 module Graph = 
-    ///Create a graph (represented as a (Song * Edge list) list from  a Song list. 
+    ///Create a graph (represented as a Song * Edge list array) from  a Song list. 
     let buildGraph list = 
-        let rec createGraphAcc (original: Song list) (list:Song list) acc = 
-            match list with     //TODO: Implement as fold, then to parallel processing for performance.
-            | song::ss  -> let otherSongs = List.filter (fun s -> (s <> song)) original
-                           let edgesFromSong = List.map (fun s -> { Weight = System.Double.MaxValue; From = song; To = s }) otherSongs
-                           createGraphAcc original ss ((song, edgesFromSong) :: acc)
-            | []      -> acc
-        
-        createGraphAcc list list []
+        let original = list;
+        let withEdges = Array.Parallel.map (fun song -> let otherSongs = List.filter (fun s -> (s <> song)) original;
+                                                        let edgesFromSong = List.map (fun s -> { Weight = System.Double.MaxValue; From = song; To = s }) otherSongs
+                                                        (song, edgesFromSong)) <| Array.ofList list 
+        withEdges
 
     ///Calculate the weight from a given Key to another Key.
     let weightForKey key other = 
