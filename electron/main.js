@@ -15,7 +15,7 @@ var mainWindow = null;
 var collection_path = ""
 
 app.on('ready', function() {
-  	mainWindow = new BrowserWindow({width: 300, 'min-width': 300, height: 600});
+  	mainWindow = new BrowserWindow({width: 350, 'min-width': 350, 'max-width': 430, height: 600});
   	mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
 
   	mainWindow.on('closed', function() {
@@ -38,9 +38,11 @@ ipc.on('collection-upload', function (event, arg) {
 			if (response.statusCode != 200) {
 				console.log("Error: response was: " + response.statusCode);
 				mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
-			}	
+			}
 			
-			mainWindow.loadUrl('file://' + __dirname + '/app/song-select.html');
+			else {
+				event.sender.send('collection-uploaded');
+			}	
 		}
 	});
 });

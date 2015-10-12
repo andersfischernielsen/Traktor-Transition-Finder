@@ -8,16 +8,56 @@
 	</head>
 
 	<body>
-		<div class="container">
+		<div class="container" id="collection-select" style="visibility: visible">
+			<div class="row buffer"></div>
 			<div class="row">
 		  		<div class="col-md-2"></div>
 		  		<div class="col-md-8">
-			    	<h1>Auto Next Song</h1>
-			    	<button class="btn btn-default full-width" onclick="openFile()">Open "collection.nml"</button>
+			    	<button class="btn btn-default btn-lg full-width" onclick="openFile()">Open "collection.nml"</button>
+					<div id="spinner"></div>
 		    	</div>
 		  		<div class="col-md-2"></div>
 		    </div>
 	    </div>
+		
+		<div class="container" id="drop-song" style="visibility: hidden">
+			<div class="row buffer"></div>
+			<div class="row">		
+				<div class="col-md-2"></div>
+		  		<div class="col-md-8">
+			    	<div id="dropzone" class="dropzone full-width">
+						<div class="inner-dropzone" id="inner-dropzone">
+							Drop Song...
+						</div>
+					</div>
+		    	</div>
+		  		<div class="col-md-2"></div>	
+			</div>
+			<div class="row buffer"></div>
+			<div class="row">
+		  		<div class="col-sm-2"></div>
+		  		<div class="col-sm-8">
+					<div class="row">
+						<div class="col-md-12 chosen-maindisplay" id="chosen-maindisplay"></div>
+					</div>
+					<div class="row">
+		  				<div class="col-xs-4"></div>
+						<div class="col-xs-2" id="subdisplay-bpm"></div>
+						<div class="col-xs-2" id="subdisplay-key"></div>
+		  				<div class="col-xs-4"></div>
+					</div>					
+		    	</div>
+		  		<div class="col-sm-2"></div>
+		    </div>
+			<div class="row buffer">
+				<div class="col-md-2"></div>
+		  		<div class="col-md-8">
+					<div id="transition-list" class="container"></div>
+		  		<div class="col-md-2"></div>	
+			</div>
+		</div>
+		
 	    <script src="index.js"></script>
+		<script src="song-select.js"></script>
 	</body>
 </html>

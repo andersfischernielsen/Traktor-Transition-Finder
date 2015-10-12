@@ -17,5 +17,13 @@ function openFile() {
       		if (fileNames === undefined) return;
       		var fileName = fileNames[0];
       		ipc.send('collection-upload', fileName);
-  	}
+            document.getElementById('spinner').className = 'spinner';
+  	    }
 )}
+
+ipc.on('collection-uploaded', function() {
+    var drop = document.getElementById("drop-song");
+    var select = document.getElementById("collection-select");
+    select.parentNode.removeChild(select);
+    drop.style.visibility = "visible";
+});
