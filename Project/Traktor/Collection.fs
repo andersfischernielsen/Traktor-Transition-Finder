@@ -70,22 +70,22 @@ module CollectionParser =
         let parseToSong (i:Collection.Entry) = 
             match i.Tempo, i.Title.String, i.Artist, i.MusicalKey, i.Info.Key, i.Location.File with
             //Use the main MUSICAL_KEY attribute if possible.
-            | Some te, Some ti, Some a, Some k, _, id      
+            | Some te, Some ti, Some a, Some k, _, id
                     -> { BPM = te.Bpm; Title = ti; Artist = a; Key = parseMusicalKey k.Value; AudioId = hashString id }
-            | Some te, _, Some a, Some k, _, id                   
+            | Some te, _, Some a, Some k, _, id
                     -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = a; Key = parseMusicalKey k.Value; AudioId = hashString id}
-            | Some te, Some ti, _, Some k, _, id      
+            | Some te, Some ti, _, Some k, _, id
                     -> { BPM = te.Bpm; Title = ti; Artist = unwrapString i.Artist; Key = parseMusicalKey k.Value; AudioId = hashString id}
-            | Some te,  _, _, Some k, _, id           
+            | Some te,  _, _, Some k, _, id
                     -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = unwrapString i.Artist; Key = parseMusicalKey k.Value; AudioId = hashString id}
             //If MUSICAL_KEY isn't available use INFO.KEY
             | Some te, Some ti, Some a, _, Some k, id 
                     -> { BPM = te.Bpm; Title = ti; Artist = a; Key = parseKey k; AudioId = hashString id}
-            | Some te, _, Some a, _, Some k, id       
+            | Some te, _, Some a, _, Some k, id
                     -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = a; Key = parseKey k; AudioId = hashString id}
-            | Some te, Some ti, _, _, Some k, id      
+            | Some te, Some ti, _, _, Some k, id
                     -> { BPM = te.Bpm; Title = ti; Artist = unwrapString i.Artist; Key = parseKey k; AudioId = hashString id}
-            | Some te,  _, _, _, Some k, id           
+            | Some te,  _, _, _, Some k, id
                     -> { BPM = te.Bpm; Title = unwrapString i.Title.String; Artist = unwrapString i.Artist; Key = parseKey k; AudioId = hashString id}
             //Invalid key info.
             | _, _, _, _, _, _  -> { BPM = new Decimal (0); Title = String.Empty; Artist = String.Empty; Key = (0, Invalid); AudioId = String.Empty}
