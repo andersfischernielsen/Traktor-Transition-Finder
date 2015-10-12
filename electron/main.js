@@ -53,5 +53,16 @@ function createHash(s) {
 
 ipc.on('song-drop', function (event, arg) {
 	var hash = createHash(arg);
-	console.log(hash);
+	
+	request.get({
+	  	url:     'http://localhost:8083/choose/' + hash,
+	}, function(error, response, body) {
+		if (error != null) {
+			console.log(error);
+		}
+		
+		else {
+			event.sender.send('receive-transitions', body);
+		}
+	});
 });
