@@ -1,1 +1,1 @@
-/Applications/Electron.app/Contents/MacOS/Electron ../electron
+node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron ../electron

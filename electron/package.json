@@ -9,6 +9,6 @@
     "remote": "^0.2.6"
   },
   "devDependencies": {
-    "electron-prebuilt": "^0.28.3"
+    "electron-prebuilt": "^0.30.6"
   }
 }
