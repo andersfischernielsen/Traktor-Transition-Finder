@@ -1,22 +1,25 @@
 'use strict';
 
 var ipc = require('ipc');
-var fs = require('fs');
 
-function openFile() {
-	var remote = require('remote');
-	var dialog = remote.require('dialog');
-	var fs = require('fs');
+var dropzone = document.getElementById("dropzone");
 
- 	dialog.showOpenDialog(
-        remote.getCurrentWindow(), 
-		{ 
-            filters: [ { name: 'Traktor Collection', extensions: ['nml']} ], 
-            properties: [ 'openFile' ]
-        }, 
-        function (fileNames) {
-      		if (fileNames === undefined) return;
-      		var fileName = fileNames[0];
-      		ipc.send('collection-upload', fileName);
-  	}
-)}
+dropzone.addEventListener('dragover', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+});
+
+
+dropzone.addEventListener('drop', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var file = e.dataTransfer.files[0];
+    
+    var reader = new FileReader();
+    reader.onloadstart = function(e2) { // finished reading file data.
+        ipc.send('song-drop', file.name);
+    }
+    
+    reader.readAsDataURL(file); // start reading the file data.
+});

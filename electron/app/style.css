@@ -15,3 +15,9 @@ h1, h2, h3 {
 .buffer {
 	margin-top: 10px;
 }
+
+#dropzone {
+	background-color: white;
+	border-radius: 10px;
+	height: 300px;
+}
