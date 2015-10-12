@@ -17,6 +17,19 @@ module CollectionParser =
     open System.Security.Cryptography
     open System.Text
 
+    ///Hash a given string using SHA256 (UTF-8)
+    let hashString (s:string) = 
+        let sha256 = SHA256Managed.Create();
+        let bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(s));
+        Convert.ToBase64String(bytes);
+
+    ///Unwrap a string option into either the value or "" if None.
+    let unwrapString s = 
+        match s with
+        | Some e -> e
+        | None   -> ""
+
+    ///Parse a .nml collection into a Song list.
     let parseCollection (pathToCollection : string) = 
         let regex = Regex @"\d+"
 
@@ -52,18 +65,6 @@ module CollectionParser =
             | 20    -> (6, Minor) | 21    -> (1, Minor)
             | 22    -> (8, Minor) | 23    -> (3, Minor)
             | _     -> (0, Invalid)
-
-
-        let hashString (s:string) = 
-            let sha256 = SHA256Managed.Create();
-            let bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(s));
-            Convert.ToBase64String(bytes);
-
-        ///Unwrap a string option into either the value or "" if None.
-        let unwrapString s = 
-            match s with
-            | Some e -> e
-            | None   -> ""
 
         ///Parse a given NML Entry into a Song type.
         let parseToSong (i:Collection.Entry) = 
