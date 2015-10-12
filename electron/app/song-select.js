@@ -61,24 +61,17 @@ function setTransitionInfo(transitions) {
     }
     
     transitions.forEach(function(elem) {
-        var div = document.createElement('div');
-        div.className = 'row transition-list-element';
+        var tr = document.createElement('tr');
+        var title = document.createElement('td');
+        var bpm = document.createElement('td');
+        var key = document.createElement('td');
+        title.innerHTML = elem.title;
+        bpm.innerHTML = elem.bpm;
+        key.innerHTML = elem.key.item1 + elem.key.item2.case[0];
         
-        var title = document.createElement('div');
-        title.className = 'col-xs-7 song-title';
-        title.appendChild(document.createTextNode(elem.title));
-        
-        var bpm = document.createElement('div');
-        bpm.className = 'col-xs-3'
-        bpm.appendChild(document.createTextNode(elem.bpm));
-        
-        var key = document.createElement('div');
-        key.className = 'col-xs-1'
-        key.appendChild(document.createTextNode(elem.key.item1 + elem.key.item2.case[0]));
-        
-        div.appendChild(title);
-        div.appendChild(bpm);
-        div.appendChild(key);
-        list.appendChild(div);
+        tr.appendChild(title);
+        tr.appendChild(bpm);
+        tr.appendChild(key);
+        list.appendChild(tr);
     });
 }
