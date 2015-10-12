@@ -77,11 +77,11 @@ let app =
     [ GET >>= choose
         [ path "/" >>= OK "Web server is running."
           pathScan "/search/%s" (fun searchTerm -> searchAndReturnAsJsonString searchTerm)
+          pathScan "/choose/%s" (fun id -> getFiveBestTransitionsFromId id)
         ]
       POST >>= choose
         [ path "/collection" >>= request (fun req -> setCollectionString <| req.rawForm; 
                                                      OK "Collection path succesfully set.") 
-          pathScan "/choose/%s" (fun id -> getFiveBestTransitionsFromId id)
         ]
     ]
 
