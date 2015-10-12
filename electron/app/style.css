@@ -2,6 +2,7 @@
 body {
 	background-color: black;
 	color: white;
+	font-weight: 300;
 }
 
 h1, h2, h3, h4 {
@@ -32,25 +33,95 @@ h1, h2, h3, h4 {
 	font-size: 30px;
 }
 
-.song-title {
-	text-overflow: ellipsis; 
-	white-space: nowrap;
-  	overflow: hidden;
-}
-
 .dragover {
 	box-shadow:inset 0px 0px 0px 4px white;
 	background-color: #2a2a2a;
 }
 
-.chosen-maindisplay {
-	text-align: center;
-	font-size: 24px;
+.header {
+	padding-left: 10px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
-.chosen-subdisplay {
-	text-align: center;
-	font-size: 24px;
+.header-title {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 2em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 10%;
+}
+
+.header-artist {
+	color: #8d8d8d;
+	font-size: 1.5em;
+}
+
+.header-key {
+	font-size: 1.5em;
+	float: left;
+	color: #78d7e0;
+}
+
+.header-bpm {
+	font-size: 1.5em;
+	float: right;
+	color: #78d7e0;
+}
+
+.transition-list {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-right: -5%;
+}
+
+.list-item {
+	border-bottom: solid 1px white;
+	border-top: solid 1px white;
+	margin-top: -1px;
+	padding-right: 20px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-left: 10px;
+}
+
+.list-item-title {
+	font-size: 1.2em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.list-item-artist {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 1.1em;
+	color: #8d8d8d;
+	width: 65%;
+}
+
+.list-item-key-bpm {
+	float: right;
+	width: 30%;
+	color: #78d7e0;
+	margin-top: -1.3em;
+}
+
+.list-item-key {
+	margin-left: 0;
+	text-align: left;
+	float: left;
+	color: #78d7e0;
+}
+
+.list-item-bpm {
+	text-align: left;
+	float: right;
+	color: #78d7e0;
 }
 
 /** FROM http://tobiasahlin.com/spinkit/ **/

@@ -2,25 +2,25 @@
 
 var ipc = require('ipc');
 
-var dropzone = document.getElementById("dropzone");
+var dropzone = document.getElementById('dropzone');
 
 dropzone.addEventListener('dragover', function(e) {
     e.stopPropagation();
     e.preventDefault();
     e.dataTransfer.dropEffect = 'link';
-    dropzone.className = dropzone.className + " dragover";
+    dropzone.className = dropzone.className + ' dragover';
 });
 
 dropzone.addEventListener('dragleave', function(e) {
     e.stopPropagation();
     e.preventDefault();
-    dropzone.className = "dropzone";
+    dropzone.className = 'dropzone';
 });
 
 dropzone.addEventListener('drop', function(e) {
     e.stopPropagation();
     e.preventDefault();
-    dropzone.className = "dropzone";
+    dropzone.className = 'dropzone';
     var file = e.dataTransfer.files[0];
     
     var reader = new FileReader();
@@ -44,34 +44,57 @@ ipc.on('receive-transitions', function (arg) {
 });
 
 function setChosenSongInfo(song) {
-    var main = document.getElementById('chosen-maindisplay');
-    main.innerHTML = song.title;
+    var chosenTitle = document.getElementById('chosen-title');
+    chosenTitle.innerHTML = song.title;
+
+    var chosenArtist = document.getElementById('chosen-artist');
+    chosenArtist.innerHTML = song.artist;
     
-    var subKey = document.getElementById('subdisplay-key');
-    subKey.innerHTML = song.key.item1 + song.key.item2.case[0];    
-    var subBpm = document.getElementById('subdisplay-bpm');
-    subBpm.innerHTML = song.bpm;  
+    var chosenKey = document.getElementById('chosen-key');
+    chosenKey.innerHTML = song.key.item1 + song.key.item2.case[0];
+
+    var chosenBpm = document.getElementById('chosen-bpm');
+    chosenBpm.innerHTML = song.bpm;  
 }
 
 function setTransitionInfo(transitions) {
     var list = document.getElementById('transition-list');
-    
+
     for (var i = 0; i < list.childNodes.length; i++) {
         list.removeChild(list.childNodes[i]);
     }
     
     transitions.forEach(function(elem) {
-        var tr = document.createElement('tr');
-        var title = document.createElement('td');
-        var bpm = document.createElement('td');
-        var key = document.createElement('td');
+        var item = document.createElement('div');
+        item.className = 'list-item';
+
+        var title = document.createElement('div');
+        title.className = 'list-item-title';
+
+        var artist = document.createElement('div');
+        artist.className = 'list-item-artist';
+
+        var keyBpm = document.createElement('div');
+        keyBpm.className = 'list-item-key-bpm';
+
+        var bpm = document.createElement('div');
+        bpm.className = 'list-item-bpm';
+
+        var key = document.createElement('div');
+        key.className = 'list-item-key';
+
         title.innerHTML = elem.title;
-        bpm.innerHTML = elem.bpm;
+        artist.innerHTML = elem.artist;
         key.innerHTML = elem.key.item1 + elem.key.item2.case[0];
+        bpm.innerHTML = elem.bpm;
+
+        keyBpm.appendChild(key);
+        keyBpm.appendChild(bpm);
+
+        item.appendChild(title);
+        item.appendChild(artist);
+        item.appendChild(keyBpm);
         
-        tr.appendChild(title);
-        tr.appendChild(bpm);
-        tr.appendChild(key);
-        list.appendChild(tr);
+        list.appendChild(item);
     });
 }
