@@ -6,7 +6,6 @@ var fs = require('fs');
 function openFile() {
 	var remote = require('remote');
 	var dialog = remote.require('dialog');
-	var fs = require('fs');
 
  	dialog.showOpenDialog(
         remote.getCurrentWindow(), 
