@@ -11,6 +11,7 @@ open Suave.Json
 open Collection
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
+open System.Collections.Generic
 
 //Suave data types.
 type SuaveTask<'a> = Async<'a option>
@@ -40,7 +41,7 @@ let fromJson v =
     JsonConvert.DeserializeObject(v, jsonSerializerSettings)
 
 //Mutable graph of songs.
-let mutable graph = []
+let mutable graph = Map.empty
 
 
 
@@ -49,10 +50,10 @@ let setCollectionString s =
     let asString = System.Text.Encoding.ASCII.GetString(s)
     let built = Graph.buildGraph <| CollectionParser.parseCollection asString
     let withWeights = Graph.calculateWeights built
-    graph <- withWeights
+    graph <- Graph.asMap withWeights
    
 ///Find a given (Song * Edge list) tuple with the given AudioId.
-let getById id graph = List.find (fun x -> (fst x).AudioId = id) graph
+let getById id = Map.find id
 
 ///Get the n best transitions from a given (Song * Edge list) tuple.
 let bestTransitions n edges = 
@@ -60,23 +61,18 @@ let bestTransitions n edges =
           |> take n 
           |> List.map (fun x -> x.To)
 
-///Search for a song using the current graph. Returns the result as a JSON HttpContext option.
-let searchAndReturnAsJsonString searchTerm = 
-    let search s = Search.search s graph |> List.map (fun x -> fst x)
-    search searchTerm |> asJson
-
 let getFiveBestTransitionsFromId id = 
     let tuple = getById id graph
     let transitions = bestTransitions 5 <| snd tuple
     let response = { Song = fst tuple; Transitions = transitions }
     response |> asJson
 
+
 ///Setup web server.
 let app =
   choose
     [ GET >>= choose
         [ path "/" >>= OK "Web server is running."
-          pathScan "/search/%s" (fun searchTerm -> searchAndReturnAsJsonString searchTerm)
           pathScan "/choose/%s" (fun id -> getFiveBestTransitionsFromId id)
         ]
       POST >>= choose
