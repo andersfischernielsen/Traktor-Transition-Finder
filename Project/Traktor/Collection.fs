@@ -123,18 +123,20 @@ module Graph =
         let filtered = List.filter (fun x -> fst other = x) list                 //See if other key matches any of the good key transitions.
         if filtered.IsEmpty then 20 else 0                                       //If there were any matches, then we're have a nice transition.
 
-    ///Calculate weights for a (Song * Edge list) list
-    let calculateWeights list =
-        let rec calculateWeightsAcc list acc = 
-            let calculateWeight edge = 
-                let bpmWeight = System.Math.Abs (edge.From.BPM - edge.To.BPM)
-                let keyWeight = weightForKey edge.From.Key edge.To.Key
-                (double) bpmWeight + (double) keyWeight
+    ///Calculate weights for a (Song * Edge list) array
+    let calculateWeights graph =
+        let calculateWeight edge = 
+            let bpmWeight = System.Math.Abs (edge.From.BPM - edge.To.BPM)
+            let keyWeight = weightForKey edge.From.Key edge.To.Key
+            (double) bpmWeight + (double) keyWeight
 
-            let weightForSongEdgeTuple (song, edges) = 
-                (song, List.map (fun e -> { Weight = calculateWeight e; From = e.From; To = e.To }) edges)
-
-            match list with 
-            | x::xs -> calculateWeightsAcc xs ((weightForSongEdgeTuple x) :: acc) //TODO: List.fold instead of pattern matching.
-            | []     -> acc
+        let weightForSongEdgeTuple (song, edges) = 
+            (song, List.map (fun e -> { Weight = calculateWeight e; From = e.From; To = e.To }) edges)
         
+        let withWeights = Array.Parallel.map (fun x -> weightForSongEdgeTuple x) graph
+        withWeights
+
+    ///Create a Map<audioId:string, (Song * Edge list)> from a Song * Edge list array.
+    let asMap graph = 
+        let mapped = Array.Parallel.map (fun x -> ((fst x).AudioId, x)) graph
+        Map.ofArray mapped
