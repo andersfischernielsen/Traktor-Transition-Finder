@@ -15,7 +15,11 @@ var mainWindow = null;
 var collection_path = ""
 
 app.on('ready', function() {
-  	mainWindow = new BrowserWindow({width: 350, 'min-width': 350, 'max-width': 1430, height: 600});
+  	mainWindow = new BrowserWindow({width: 350, 
+	  								'min-width': 350, 
+									'max-width': 400, 
+									'min-height': 550, 
+									'max-height': 550});
   	mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
 
   	mainWindow.on('closed', function() {

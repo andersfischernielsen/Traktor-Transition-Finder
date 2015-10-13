@@ -67,13 +67,13 @@ function setTransitionInfo(transitions) {
         item.className = 'list-item';
 
         var title = document.createElement('div');
-        title.className = 'list-item-title';
+        title.className = 'list-item-title ellipsis-overflow';
 
         var artist = document.createElement('div');
-        artist.className = 'list-item-artist';
+        artist.className = 'list-item-artist ellipsis-overflow';
 
         var keyBpm = document.createElement('div');
-        keyBpm.className = 'list-item-key-bpm';
+        keyBpm.className = 'list-item-key-bpm blue-color';
 
         var bpm = document.createElement('div');
         bpm.className = 'list-item-bpm';
@@ -93,6 +93,6 @@ function setTransitionInfo(transitions) {
         item.appendChild(artist);
         item.appendChild(keyBpm);
         
-        list.appendChild(item);
+        list.appendChild(item).animate;
     });
 }

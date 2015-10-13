@@ -20,7 +20,7 @@ h1, h2, h3, h4 {
 .dropzone {
 	border-radius: 10px;
 	box-shadow:inset 0px 0px 0px 4px #78d7e0;
-	height: 500px;
+	height: 300px;
 	transition: all 0.3s ease-out;
 }
 
@@ -29,7 +29,6 @@ h1, h2, h3, h4 {
   	top: 50%;
   	transform: translateY(-50%);
 	text-align: center;
-	color: #78d7e0;
 	font-size: 30px;
 }
 
@@ -37,6 +36,17 @@ h1, h2, h3, h4 {
 	box-shadow:inset 0px 0px 0px 4px white;
 	background-color: #2a2a2a;
 }
+
+.blue-color {
+	color: #78d7e0;
+}
+
+.ellipsis-overflow {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 
 .header {
 	padding-left: 10px;
@@ -49,9 +59,6 @@ h1, h2, h3, h4 {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	font-size: 2em;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	height: 10%;
 }
 
@@ -63,19 +70,19 @@ h1, h2, h3, h4 {
 .header-key {
 	font-size: 1.5em;
 	float: left;
-	color: #78d7e0;
 }
 
 .header-bpm {
 	font-size: 1.5em;
 	float: right;
-	color: #78d7e0;
 }
 
 .transition-list {
 	padding-top: 20px;
 	padding-bottom: 20px;
 	margin-right: -5%;
+	opacity: 0;
+	transition: opacity 0.3s ease-in;
 }
 
 .list-item {
@@ -90,15 +97,9 @@ h1, h2, h3, h4 {
 
 .list-item-title {
 	font-size: 1.2em;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 .list-item-artist {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	font-size: 1.1em;
 	color: #8d8d8d;
 	width: 65%;
@@ -107,7 +108,6 @@ h1, h2, h3, h4 {
 .list-item-key-bpm {
 	float: right;
 	width: 30%;
-	color: #78d7e0;
 	margin-top: -1.3em;
 }
 
@@ -115,13 +115,11 @@ h1, h2, h3, h4 {
 	margin-left: 0;
 	text-align: left;
 	float: left;
-	color: #78d7e0;
 }
 
 .list-item-bpm {
 	text-align: left;
 	float: right;
-	color: #78d7e0;
 }
 
 /** FROM http://tobiasahlin.com/spinkit/ **/
