@@ -61,7 +61,7 @@ function setTransitionInfo(transitions) {
     for (var i = 0; i < list.childNodes.length; i++) {
         list.removeChild(list.childNodes[i]);
     }
-    
+
     transitions.forEach(function(elem) {
         var item = document.createElement('div');
         item.className = 'list-item';
@@ -93,6 +93,6 @@ function setTransitionInfo(transitions) {
         item.appendChild(artist);
         item.appendChild(keyBpm);
         
-        list.appendChild(item).animate;
+        list.appendChild(item);
     });
 }
