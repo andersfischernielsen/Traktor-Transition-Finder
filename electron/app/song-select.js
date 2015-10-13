@@ -22,13 +22,11 @@ dropzone.addEventListener('drop', function(e) {
     e.preventDefault();
     dropzone.className = 'dropzone';
     var file = e.dataTransfer.files[0];
-    
     var reader = new FileReader();
-    reader.onloadstart = function(e2) { // finished reading file data.
+    reader.onloadstart = function(e2) {
         ipc.send('song-drop', file.name);
     }
-    
-    reader.readAsDataURL(file); // start reading the file data.
+    reader.readAsDataURL(file);
 });
 
 ipc.on('receive-transitions', function (arg) {
