@@ -13,33 +13,29 @@ The DJ can then pick a song from the list in Traktor Pro 2. The app merely funct
 ## Building
 The app consists of a F# backend handling parsing the Traktor 2 collection, and serving results via HTTP and JSON to the Electron frontend. 
 
-You can build the app by opening the solution in Visual Studio on Windows, or by running
+Running the app requires having Mono installed on your system.
 
+You can build the app by opening the solution by running
+
+    cd TraktorAutoNextSong
     xbuild /p:Configuration=Release Project/TraktorAutoNextSong.sln
 
-in your Terminal on linux and OS X.
+in your Terminal.
 
 ## Running
 The F# backend is started by running 
 
+    cd TraktorAutoNextSong
     mono Project/Traktor/bin/Release/Traktor.exe
 
-in your Terminal on linux and OS X. 
+in your Terminal. 
 
 The frontend is started by running
 
-    /Applications/Electron.app/Contents/MacOS/Electron electron
+    cd TraktorAutoNextSong
+    electron/node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron electron
 
-in your Terminal on OS X, 
-
-    PATH-TO-ELECTRON\electron\electron.exe electron 
-
-on Windows, or 
-
-    PATH-TO-ELECTRON/electron/electron electron
-
-on linux.
-
+in your Terminal.
 
 # Screenshot
 
