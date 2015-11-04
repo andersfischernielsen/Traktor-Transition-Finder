@@ -4,6 +4,8 @@ var request = require('request');
 var ipc = require('ipc');
 var crypto = require('crypto');
 var request = require('request');
+var dialog = require('dialog');
+var exec = require('child_process').exec;
 
 
 // Report crashes to our server.
@@ -15,16 +17,25 @@ var mainWindow = null;
 var collection_path = ""
 
 app.on('ready', function() {
-  	mainWindow = new BrowserWindow({width: 350, 
-	  								'min-width': 350, 
-									'max-width': 400, 
-									'min-height': 550, 
-									'max-height': 550});
+    mono = exec('mono ' + process.resourcesPath + '/Release/Traktor.exe', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
+    	dialog.showErrorBox('err', error.message);
+    });
+
+  	mainWindow = new BrowserWindow({width: 350, height: 600, resizable: false});
   	mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
 
   	mainWindow.on('closed', function() {
 		  mainWindow = null;
   	});
+});
+
+app.on('quit', function() {
+    //process.kill(mono.pid, 1);
+	mono.kill('SIGINT');
+});
+
+app.on('window-all-closed', function() {
+	app.quit();
 });
 
 ipc.on('collection-upload', function (event, arg) {
