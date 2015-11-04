@@ -58,10 +58,10 @@ function setChosenSongInfo(song) {
 function setTransitionInfo(transitions) {
     var list = document.getElementById('transition-list');
 
-    for (var i = 0; i < list.childNodes.length; i++) {
-        list.removeChild(list.childNodes[i]);
+    while (list.hasChildNodes()) {   
+        list.removeChild(list.firstChild);
     }
-
+    
     transitions.forEach(function(elem) {
         var item = document.createElement('div');
         item.className = 'list-item';
