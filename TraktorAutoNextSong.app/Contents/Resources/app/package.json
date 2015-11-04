@@ -1,0 +1,14 @@
+{
+  "name": "TraktorAutoFindNextSong",
+  "description": "",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "electron-prebuilt": "^0.28.3",
+    "express": "^4.13.3",
+    "remote": "^0.2.6"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^0.30.6"
+  }
+}
