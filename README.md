@@ -17,6 +17,7 @@ Running the app requires having Mono installed on your system.
 
 You can build the app by opening the solution by running
 
+    cd TraktorAutoNextSong
     xbuild /p:Configuration=Release Project/TraktorAutoNextSong.sln
 
 in your Terminal.
@@ -24,13 +25,15 @@ in your Terminal.
 ## Running
 The F# backend is started by running 
 
+    cd TraktorAutoNextSong
     mono Project/Traktor/bin/Release/Traktor.exe
 
 in your Terminal. 
 
 The frontend is started by running
 
-    /Applications/Electron.app/Contents/MacOS/Electron electron
+    cd TraktorAutoNextSong
+    electron/node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron electron
 
 in your Terminal.
 
