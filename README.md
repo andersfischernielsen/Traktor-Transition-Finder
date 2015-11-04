@@ -17,7 +17,7 @@ The app consists of a F# backend ahndling parsing the Traktor collection, and se
 
 You can build the app by opening the solution in Visual Studio on Windows og by running
 
-    xbuild /p:Configuration=Release TraktorAutoNextSong/Project/TraktorAutoNextSong.sln
+    xbuild /p:Configuration=Release Project/TraktorAutoNextSong.sln
 
 in your Terminal on linux and OS X.
 
@@ -31,4 +31,3 @@ in your Terminal on linux and OS X.
 The frontend is started by running
 
     /Applications/Electron.app/Contents/MacOS/Electron electron
-    
