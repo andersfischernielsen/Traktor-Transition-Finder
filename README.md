@@ -11,7 +11,7 @@ When a song is dropped into the app, the best transitions from that song are dis
 The DJ can then pick a song from the list in Traktor Pro 2. The app merely functions as a suggestion list.
 
 ### Download
-[Download TraktorAutoNextSong](https://raw.githubusercontent.com/andersfischernielsen/TraktorAutoNextSong/master/TraktorAutoNextSong.app)
+[Download TraktorAutoNextSong](https://raw.githubusercontent.com/andersfischernielsen/TraktorAutoNextSong/master/TraktorAutoNextSong.zip)
 
 ## Building
 The app consists of a F# backend handling parsing the Traktor 2 collection, and serving results via HTTP and JSON to the Electron frontend. 
