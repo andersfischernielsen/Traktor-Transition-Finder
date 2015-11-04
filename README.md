@@ -13,7 +13,7 @@ The DJ can then pick a song from the list in Traktor Pro 2. The app merely funct
 ## Building
 The app consists of a F# backend handling parsing the Traktor 2 collection, and serving results via HTTP and JSON to the Electron frontend. 
 
-You can build the app by opening the solution in Visual Studio on Windows og by running
+You can build the app by opening the solution in Visual Studio on Windows, or by running
 
     xbuild /p:Configuration=Release Project/TraktorAutoNextSong.sln
 
