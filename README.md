@@ -11,7 +11,7 @@ When a song is dropped into the app, the best transitions from that song are dis
 The DJ can then pick a song from the list in Traktor Pro 2. The app merely functions as a suggestion list.
 
 ## Building
-The app consists of a F# backend ahndling parsing the Traktor collection, and serving results via HTTP and JSON to the frontend. 
+The app consists of a F# backend handling parsing the Traktor 2 collection, and serving results via HTTP and JSON to the Electron frontend. 
 
 You can build the app by opening the solution in Visual Studio on Windows og by running
 
