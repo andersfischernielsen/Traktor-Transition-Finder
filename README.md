@@ -31,3 +31,11 @@ in your Terminal on linux and OS X.
 The frontend is started by running
 
     /Applications/Electron.app/Contents/MacOS/Electron electron
+
+in your Terminal on OS X, 
+
+    PATH-TO-ELECTRON\electron\electron.exe electron 
+
+ on Windows, or 
+
+    PATH-TO-ELECTRON/electron/electron electron
