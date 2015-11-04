@@ -20,7 +20,7 @@ h1, h2, h3, h4 {
 .dropzone {
 	border-radius: 10px;
 	box-shadow:inset 0px 0px 0px 4px #78d7e0;
-	height: 300px;
+	height: 550px;
 	transition: all 0.3s ease-out;
 }
 
@@ -29,7 +29,7 @@ h1, h2, h3, h4 {
   	top: 50%;
   	transform: translateY(-50%);
 	text-align: center;
-	font-size: 30px;
+	font-size: 18px;
 }
 
 .dragover {
