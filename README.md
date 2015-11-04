@@ -10,8 +10,6 @@ The frontend is written in Node.js/Electron and sends requests to the F# web ser
 When a song is dropped into the app, the best transitions from that song are displayed. 
 The DJ can then pick a song from the list in Traktor Pro 2. The app merely functions as a suggestion list.
 
-![Screenshot](/screenshot.png) 
-
 ## Building
 The app consists of a F# backend ahndling parsing the Traktor collection, and serving results via HTTP and JSON to the frontend. 
 
@@ -36,6 +34,13 @@ in your Terminal on OS X,
 
     PATH-TO-ELECTRON\electron\electron.exe electron 
 
- on Windows, or 
+on Windows, or 
 
     PATH-TO-ELECTRON/electron/electron electron
+
+on linux.
+
+
+# Screenshot
+
+![Screenshot](/screenshot.png) 
