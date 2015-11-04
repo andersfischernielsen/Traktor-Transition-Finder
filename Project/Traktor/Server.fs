@@ -21,21 +21,21 @@ type WebPart = HttpContext -> SuaveTask<HttpContext>
 type SongResponse = { Song : Song; Transitions : Song list }
 
 ///Take n elements from a given list until there are no more elements.
-let take n list = 
-    let rec takeAcc n list acc = 
+let take n list =
+    let rec takeAcc n list acc =
         match list with
         | x::xs     when n > 0 -> takeAcc (n-1) xs (x::acc)
         | _                    -> acc
     takeAcc n list []
 
 ///Convert a given object into JSON.
-let asJson v = 
+let asJson v =
     let jsonSerializerSettings = new JsonSerializerSettings()
     jsonSerializerSettings.ContractResolver <- new CamelCasePropertyNamesContractResolver()
     JsonConvert.SerializeObject(v, jsonSerializerSettings) |> OK >>= Writers.setMimeType "application/json; charset=utf-8"
 
 ///Deserialise a given object from JSON.
-let fromJson v = 
+let fromJson v =
     let jsonSerializerSettings = new JsonSerializerSettings()
     jsonSerializerSettings.ContractResolver <- new CamelCasePropertyNamesContractResolver()
     JsonConvert.DeserializeObject(v, jsonSerializerSettings)
@@ -46,24 +46,24 @@ let mutable graph = Map.empty
 
 
 ///Set a new path to the collection from an incoming HTTP POST. Graph will be rebuilt.
-let setCollectionString s = 
+let setCollectionString s =
     let asString = System.Text.Encoding.ASCII.GetString(s)
     let built = Graph.buildGraph <| CollectionParser.parseCollection asString
     let withWeights = Graph.calculateWeights built
     graph <- Graph.asMap withWeights
-   
+
 ///Find a given (Song * Edge list) tuple with the given AudioId.
 let getById id = Map.find id
 
 ///Get the n best transitions from a given (Song * Edge list) tuple.
-let bestTransitions n edges = 
-    edges |> List.sortBy (fun x -> x.Weight) 
-          |> take n 
+let bestTransitions n edges =
+    edges |> List.sortBy (fun x -> x.Weight)
+          |> take n
           |> List.map (fun x -> x.To)
 
-let getFiveBestTransitionsFromId id = 
+let getEightBestTransitionsFromId id =
     let tuple = getById id graph
-    let transitions = bestTransitions 5 <| snd tuple
+    let transitions = bestTransitions 8 <| snd tuple
     let response = { Song = fst tuple; Transitions = transitions }
     response |> asJson
 
@@ -73,11 +73,11 @@ let app =
   choose
     [ GET >>= choose
         [ path "/" >>= OK "Web server is running."
-          pathScan "/choose/%s" (fun id -> getFiveBestTransitionsFromId id)
+          pathScan "/choose/%s" (fun id -> getEightBestTransitionsFromId id)
         ]
       POST >>= choose
-        [ path "/collection" >>= request (fun req -> setCollectionString <| req.rawForm; 
-                                                     OK "Collection path succesfully set.") 
+        [ path "/collection" >>= request (fun req -> setCollectionString <| req.rawForm;
+                                                     OK "Collection path succesfully set.")
         ]
     ]
 
