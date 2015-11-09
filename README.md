@@ -12,6 +12,12 @@ The DJ can then pick a song from the list in Traktor Pro 2. The app merely funct
 
 #### [Download](https://raw.githubusercontent.com/andersfischernielsen/TraktorAutoNextSong/master/TraktorAutoNextSong.zip)
 
+## How to Use
+- Open the app and click the button to find your Traktor collection.
+- Browse to the location of your collection.nml file.
+- Let the app analyse the collection.
+- Drag a file from the song list in Traktor into the app to get a list of possible transitions from the song.
+
 ## Building
 The app consists of a F# backend handling parsing the Traktor 2 collection, and serving results via HTTP and JSON to the Electron frontend. 
 
@@ -41,4 +47,4 @@ in your Terminal.
 
 # Screenshot
 
-![Screenshot](/screenshot.png) 
+![Screenshot](readme/screenshot.png) 
