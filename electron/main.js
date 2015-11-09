@@ -30,7 +30,6 @@ app.on('ready', function() {
 });
 
 app.on('quit', function() {
-    //process.kill(mono.pid, 1);
 	mono.kill('SIGINT');
 });
 

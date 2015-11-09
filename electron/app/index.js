@@ -26,12 +26,14 @@ body.addEventListener('drop', function(e) {
 function openFile() {
 	var remote = require('remote');
 	var dialog = remote.require('dialog');
+    var app = remote.require('app')
 
  	dialog.showOpenDialog(
         remote.getCurrentWindow(), 
 		{ 
             filters: [ { name: 'Traktor Collection', extensions: ['nml']} ], 
-            properties: [ 'openFile' ]
+            properties: [ 'openFile' ],
+            defaultPath: app.getPath('home') + '/Documents/Native Instruments/',
         }, 
         function (fileNames) {
       		if (fileNames === undefined) return;
