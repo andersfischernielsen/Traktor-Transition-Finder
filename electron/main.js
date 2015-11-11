@@ -17,9 +17,17 @@ var mainWindow = null;
 var collection_path = ""
 
 app.on('ready', function() {
-    mono = exec('mono ' + process.resourcesPath + '/Release/Traktor.exe', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
-    	dialog.showErrorBox('err', error.message);
-    });
+	if (process.platform === 'darwin') {
+        graph = exec('mono ' + process.resourcesPath + '/Release/Traktor.exe', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
+    		dialog.showErrorBox('err', error.message);
+    	});
+    }
+
+    if (process.platform === 'win32') {
+    	graph = exec(process.resourcesPath + '/Release/Traktor.exe', null, function (error, stdout, stderr) {
+    		dialog.showErrorBox('err', error.message);
+    	});
+    }
 
   	mainWindow = new BrowserWindow({width: 350, height: 600, resizable: false});
   	mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
@@ -30,10 +38,11 @@ app.on('ready', function() {
 });
 
 app.on('quit', function() {
-	mono.kill('SIGINT');
+	graph.kill('SIGINT');
 });
 
 app.on('window-all-closed', function() {
+	graph.kill('SIGINT');
 	app.quit();
 });
 
