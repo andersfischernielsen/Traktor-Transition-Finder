@@ -9,8 +9,18 @@ open System
 type Collection = XmlProvider<"collection.nml">
 
 type Chord = Major | Minor | Invalid
-type Song = { BPM : float; Title : string; Artist : string; Key : (int * Chord); AudioId : string }
-type Edge = { Weight : float; From : Song; To : Song }
+type Song = { BPM : double; Title : string; Artist : string; Key : (int * Chord); AudioId : string }
+type Edge = { Weight : double; From : Song; To : Song }
+
+//The "punishment" for having a bad key transition.
+[<Literal>]
+let BADKEYWEIGHT = 15.0
+    
+//The weight limit for edges in the graph.
+//If the weight is higher than this, do not add the edge.
+[<Literal>]
+let MATCHWEIGHTLIMIT = 30.0
+
 
 module CollectionParser =
     open System.Text.RegularExpressions
@@ -71,39 +81,39 @@ module CollectionParser =
             match i.Tempo, i.Title.String, i.Artist, i.MusicalKey, i.Info.Key, i.Location.File with
             //Use the main MUSICAL_KEY attribute if possible.
             | Some te, Some ti, Some a, Some k, _, id
-                    -> { BPM = (float) te.Bpm; Title = ti; Artist = a;
+                    -> { BPM = (double) te.Bpm; Title = ti; Artist = a;
                          Key = parseMusicalKey k.Value;
                          AudioId = hashString id }
             | Some te, _, Some a, Some k, _, id
-                    -> { BPM = (float) te.Bpm; Title = unwrapString i.Title.String;
+                    -> { BPM = (double) te.Bpm; Title = unwrapString i.Title.String;
                          Artist = a;
                          Key = parseMusicalKey k.Value;
                          AudioId = hashString id }
             | Some te, Some ti, _, Some k, _, id
-                    -> { BPM = (float) te.Bpm; Title = ti; Artist = unwrapString i.Artist;
+                    -> { BPM = (double) te.Bpm; Title = ti; Artist = unwrapString i.Artist;
                          Key = parseMusicalKey k.Value;
                          AudioId = hashString id }
             | Some te,  _, _, Some k, _, id
-                    -> { BPM = (float) te.Bpm; Title = unwrapString i.Title.String;
+                    -> { BPM = (double) te.Bpm; Title = unwrapString i.Title.String;
                          Artist = unwrapString i.Artist;
                          Key = parseMusicalKey k.Value;
                          AudioId = hashString id }
             //If MUSICAL_KEY isn't available use INFO.KEY
             | Some te, Some ti, Some a, _, Some k, id
-                    -> { BPM = (float) te.Bpm; Title = ti; Artist = a;
+                    -> { BPM = (double) te.Bpm; Title = ti; Artist = a;
                          Key = parseKey k;
                          AudioId = hashString id }
             | Some te, _, Some a, _, Some k, id
-                    -> { BPM = (float) te.Bpm; Title = unwrapString i.Title.String;
+                    -> { BPM = (double) te.Bpm; Title = unwrapString i.Title.String;
                          Artist = a;
                          Key = parseKey k;
                          AudioId = hashString id }
             | Some te, Some ti, _, _, Some k, id
-                    -> { BPM = (float) te.Bpm; Title = ti; Artist = unwrapString i.Artist;
+                    -> { BPM = (double) te.Bpm; Title = ti; Artist = unwrapString i.Artist;
                          Key = parseKey k;
                          AudioId = hashString id }
             | Some te,  _, _, _, Some k, id
-                    -> { BPM = (float) te.Bpm; Title = unwrapString i.Title.String;
+                    -> { BPM = (double) te.Bpm; Title = unwrapString i.Title.String;
                          Artist = unwrapString i.Artist;
                          Key = parseKey k;
                          AudioId = hashString id }
@@ -114,19 +124,10 @@ module CollectionParser =
         let collection = Collection.Load(pathToCollection)
         let entries = collection.Collection.Entries2
         let songs = Array.Parallel.map (fun i -> parseToSong i) entries
-        List.ofArray songs
+        songs
 
 
 module Graph =
-    ///Create a graph (represented as a Song * Edge list array) from  a Song list.
-    let buildGraph list =
-        let original = list;
-        let withEdges = Array.Parallel.map (fun song ->
-          let otherSongs = List.filter (fun s -> (s <> song)) original;
-          let edgesFromSong = List.map (fun s -> { Weight = System.Double.MaxValue; From = song; To = s }) otherSongs
-          (song, edgesFromSong)) <| Array.ofList list
-        withEdges
-
     ///Calculate the weight from a given Key to another Key.
     let weightForKey key other =
         let accountFor12 n = if n % 12 = 0 then 12 else n % 12
@@ -141,24 +142,36 @@ module Graph =
                           | Major -> accountFor12 k + 9
                           | Invalid  -> Int32.MaxValue
 
-        let list = [ plusOne; minusOne; oneSemitone; twoSemitones; threeUpDown ] //Create a list of all good key transitions.
-        let filtered = List.filter (fun x -> fst other = x) list                 //See if other key matches any of the good key transitions.
-        if filtered.IsEmpty then (float) 15 else 0.0                             //If there were any matches, then we're have a nice transition.
+        //Create a list of all good key transitions.
+        let list = [ plusOne; minusOne; oneSemitone; twoSemitones; threeUpDown ]
+        //See if other key matches any of the good key transitions.
+        let filtered = List.filter (fun x -> fst other = x) list
+        //If there were any matches, then it's a nice key transition.
+        if filtered.IsEmpty then BADKEYWEIGHT else 0.0
 
-    ///Calculate weights for a (Song * Edge list) array
-    let calculateWeights graph =
-        let calculateWeight edge =
-            let bpmWeight = System.Math.Abs (edge.From.BPM - edge.To.BPM)
-            let keyWeight = weightForKey edge.From.Key edge.To.Key
-            (float) bpmWeight + keyWeight
+    ///Calculate weights for a (Song * Edge list) array.
+    ///Create a graph (represented as a Song * Edge list array) from  a Song list.
+    let buildGraph list =
+        let calculateWeight song other =
+            //Calculate BPM difference.
+            let bpmWeight = System.Math.Abs (song.BPM - other.BPM)
+            //Calculate key difference.
+            let keyWeight = weightForKey song.Key other.Key
+            bpmWeight + keyWeight
 
-        let weightForSongEdgeTuple (song, edges) =
-            let edges = List.map (fun e -> { Weight = calculateWeight e; From = e.From; To = e.To }) edges
-            let onlyBestResults = List.filter (fun x -> x.Weight < 30.0) edges
-            (song, onlyBestResults)
+        let weightLessThan song other limit =
+            let weight = calculateWeight song other
+            if weight <= limit
+            then Some { Weight = weight; From = song; To = other }
+            else None
 
-        let withWeights = Array.Parallel.map (fun x -> weightForSongEdgeTuple x) graph
-        withWeights
+        let generateEdges song songs =
+            let otherSongs = Array.filter (fun s -> (s <> song)) songs;
+            let edgesFromSong = Array.choose (fun s -> weightLessThan song s MATCHWEIGHTLIMIT) otherSongs
+            (song, edgesFromSong)
+
+        let withEdges = Array.Parallel.map (fun song -> generateEdges song list) list
+        withEdges
 
     ///Create a Map<audioId:string, (Song * Edge list)> from a Song * Edge list array.
     let asMap graph =

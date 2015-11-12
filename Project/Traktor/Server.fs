@@ -48,18 +48,18 @@ let mutable graph = Map.empty
 ///Set a new path to the collection from an incoming HTTP POST. Graph will be rebuilt.
 let setCollectionString s =
     let asString = System.Text.Encoding.ASCII.GetString(s)
-    let built = Graph.buildGraph <| CollectionParser.parseCollection asString
-    let withWeights = Graph.calculateWeights built
-    graph <- Graph.asMap withWeights
+    let parsed = CollectionParser.parseCollection asString
+    let built = Graph.buildGraph parsed
+    graph <- Graph.asMap built
 
 ///Find a given (Song * Edge list) tuple with the given AudioId.
 let getById id = Map.find id
 
 ///Get the n best transitions from a given (Song * Edge list) tuple.
 let bestTransitions n edges =
-    edges |> List.sortBy (fun x -> x.Weight)
-          |> take n
-          |> List.map (fun x -> x.To)
+    let asList = List.ofArray edges |> take n
+    let sorted = List.sortBy (fun x -> x.Weight) asList 
+    sorted |> List.map (fun x -> x.To)
 
 let getEightBestTransitionsFromId id =
     let tuple = getById id graph
