@@ -19,7 +19,7 @@ let BADKEYWEIGHT = 15.0
 //The weight limit for edges in the graph.
 //If the weight is higher than this, do not add the edge.
 [<Literal>]
-let MATCHWEIGHTLIMIT = 30.0
+let MATCHWEIGHTLIMIT = 25.0
 
 
 module CollectionParser =
