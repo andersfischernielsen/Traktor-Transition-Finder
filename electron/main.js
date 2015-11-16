@@ -30,7 +30,6 @@ app.on('ready', function() {
   	mainWindow = new BrowserWindow({width: 400, height: 620, resizable: true});
   	mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
 
-
   	mainWindow.on('closed', function() {
 		  mainWindow = null;
   	});

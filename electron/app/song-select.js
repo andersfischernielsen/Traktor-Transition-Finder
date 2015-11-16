@@ -61,6 +61,8 @@ function setTransitionInfo(transitions) {
     while (list.hasChildNodes()) {   
         list.removeChild(list.firstChild);
     }
+
+    transitions.reverse();
     
     transitions.forEach(function(elem) {
         var item = document.createElement('div');
