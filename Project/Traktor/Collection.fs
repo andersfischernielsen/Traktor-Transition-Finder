@@ -9,13 +9,13 @@ open System
 type Collection = XmlProvider<"collection.nml">
 
 type Chord = Major | Minor | Invalid
-type Song = { BPM : double; Title : string; Artist : string; Key : (int * Chord); AudioId : string }
-type Edge = { Weight : double; From : Song; To : Song }
+type Song = { BPM : float; Title : string; Artist : string; Key : (int * Chord); AudioId : string }
+type Edge = { Weight : float; From : Song; To : Song }
 
 //The "punishment" for having a bad key transition.
 [<Literal>]
 let BADKEYWEIGHT = 15.0
-    
+
 //The weight limit for edges in the graph.
 //If the weight is higher than this, do not add the edge.
 [<Literal>]
@@ -81,39 +81,39 @@ module CollectionParser =
             match i.Tempo, i.Title.String, i.Artist, i.MusicalKey, i.Info.Key, i.Location.File with
             //Use the main MUSICAL_KEY attribute if possible.
             | Some te, Some ti, Some a, Some k, _, id
-                    -> { BPM = (double) te.Bpm; Title = ti; Artist = a;
+                    -> { BPM = (float) te.Bpm; Title = ti; Artist = a;
                          Key = parseMusicalKey k.Value;
                          AudioId = hashString id }
             | Some te, _, Some a, Some k, _, id
-                    -> { BPM = (double) te.Bpm; Title = unwrapString i.Title.String;
+                    -> { BPM = (float) te.Bpm; Title = unwrapString i.Title.String;
                          Artist = a;
                          Key = parseMusicalKey k.Value;
                          AudioId = hashString id }
             | Some te, Some ti, _, Some k, _, id
-                    -> { BPM = (double) te.Bpm; Title = ti; Artist = unwrapString i.Artist;
+                    -> { BPM = (float) te.Bpm; Title = ti; Artist = unwrapString i.Artist;
                          Key = parseMusicalKey k.Value;
                          AudioId = hashString id }
             | Some te,  _, _, Some k, _, id
-                    -> { BPM = (double) te.Bpm; Title = unwrapString i.Title.String;
+                    -> { BPM = (float) te.Bpm; Title = unwrapString i.Title.String;
                          Artist = unwrapString i.Artist;
                          Key = parseMusicalKey k.Value;
                          AudioId = hashString id }
             //If MUSICAL_KEY isn't available use INFO.KEY
             | Some te, Some ti, Some a, _, Some k, id
-                    -> { BPM = (double) te.Bpm; Title = ti; Artist = a;
+                    -> { BPM = (float) te.Bpm; Title = ti; Artist = a;
                          Key = parseKey k;
                          AudioId = hashString id }
             | Some te, _, Some a, _, Some k, id
-                    -> { BPM = (double) te.Bpm; Title = unwrapString i.Title.String;
+                    -> { BPM = (float) te.Bpm; Title = unwrapString i.Title.String;
                          Artist = a;
                          Key = parseKey k;
                          AudioId = hashString id }
             | Some te, Some ti, _, _, Some k, id
-                    -> { BPM = (double) te.Bpm; Title = ti; Artist = unwrapString i.Artist;
+                    -> { BPM = (float) te.Bpm; Title = ti; Artist = unwrapString i.Artist;
                          Key = parseKey k;
                          AudioId = hashString id }
             | Some te,  _, _, _, Some k, id
-                    -> { BPM = (double) te.Bpm; Title = unwrapString i.Title.String;
+                    -> { BPM = (float) te.Bpm; Title = unwrapString i.Title.String;
                          Artist = unwrapString i.Artist;
                          Key = parseKey k;
                          AudioId = hashString id }
