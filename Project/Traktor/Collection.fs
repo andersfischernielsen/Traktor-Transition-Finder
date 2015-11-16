@@ -162,9 +162,9 @@ module Graph =
 
         let generateEdges song songs =
             let otherSongs = Array.filter (fun s -> (s <> song)) songs;
-            let edgesFromSong = Array.choose (fun s -> weightLessThan song s) otherSongs
-            let sorted = Array.sortBy (fun s -> s.Weight) edgesFromSong
-            (song, sorted)
+            let edgesFromSong = Array.choose (fun s -> weightLessThan song s) >> Array.sortBy (fun s -> s.Weight)
+            let result = edgesFromSong otherSongs
+            (song, result)
 
         let withEdges = Array.Parallel.map (fun song -> generateEdges song list) list
         withEdges
