@@ -14,8 +14,7 @@ On Mac the app requires Mono to run (download [here](http://www.mono-project.com
 
 On Windows the app requires .NET to run (download [here](https://www.microsoft.com/en-us/download/details.aspx?id=30653)).
 
-#### [Download for Mac](https://raw.githubusercontent.com/andersfischernielsen/TraktorAutoNextSong/master/built/TraktorAutoNextSong-OSX.zip)
-#### [Download for Windows](https://raw.githubusercontent.com/andersfischernielsen/TraktorAutoNextSong/master/built/TraktorAutoNextSong-WIN.zip)
+#### [Download](https://github.com/andersfischernielsen/TraktorAutoNextSong/releases/latest)
 
 ![Screenshot](readme/screenshot.png) 
 
