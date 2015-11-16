@@ -17,22 +17,19 @@ var mainWindow = null;
 var collection_path = ""
 
 app.on('ready', function() {
-	//if (process.platform === 'darwin') {
-    //    graph = exec('mono ' + process.resourcesPath + '/Release/Traktor.exe', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
-    //		dialog.showErrorBox('Error', error.message);
-    //	});
-    //}
+	if (process.platform === 'darwin') {
+        graph = exec('mono ' + process.resourcesPath + '/Release/Traktor.exe', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
+    		dialog.showErrorBox('Error', error.message);
+    	});
+    }
 
-    //if (process.platform === 'win32') {
-    //	graph = exec(process.resourcesPath + '/Release/Traktor.exe', null, function (error, stdout, stderr) {
-    //		dialog.showErrorBox('Error', error.message);
-    //	});
-    //}
+    if (process.platform === 'win32') {
+    	graph = exec(process.resourcesPath + '/Release/Traktor.exe', null, null);
+    }
 
-  	mainWindow = new BrowserWindow({width: 350, height: 600, resizable: true});
+  	mainWindow = new BrowserWindow({width: 400, height: 620, resizable: true});
   	mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
 
-    mainWindow.webContents.openDevTools();
 
   	mainWindow.on('closed', function() {
 		  mainWindow = null;
@@ -40,11 +37,10 @@ app.on('ready', function() {
 });
 
 app.on('quit', function() {
-	//graph.kill('SIGINT');
+	graph.kill('SIGKILL');
 });
 
 app.on('window-all-closed', function() {
-	//graph.kill('SIGINT');
 	app.quit();
 });
 
