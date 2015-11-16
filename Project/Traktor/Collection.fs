@@ -128,46 +128,41 @@ module CollectionParser =
 
 
 module Graph =
-    ///Calculate the weight from a given Key to another Key.
-    let weightForKey key other =
-        let accountFor12 n = if n % 12 = 0 then 12 else n % 12
-
-        let k = fst key
-        let plusOne = accountFor12 k + 1            //One key up
-        let minusOne = accountFor12 k + 11          //One key down.
-        let oneSemitone = accountFor12 k + 2        //One semitone up.
-        let twoSemitones = accountFor12 k + 7       //two semitones up.
-        let threeUpDown = match snd other with      //If minor, three keys UP, if major three keys DOWN.
-                          | Minor -> accountFor12 k + 3
-                          | Major -> accountFor12 k + 9
-                          | Invalid  -> Int32.MaxValue
-
-        //Create a list of all good key transitions.
-        let list = [ plusOne; minusOne; oneSemitone; twoSemitones; threeUpDown ]
-        //See if other key matches any of the good key transitions.
-        let filtered = List.filter (fun x -> fst other = x) list
-        //If there were any matches, then it's a nice key transition.
-        if filtered.IsEmpty then BADKEYWEIGHT else 0.0
-
     ///Calculate weights for a (Song * Edge list) array.
     ///Create a graph (represented as a Song * Edge list array) from  a Song list.
     let buildGraph list =
-        let calculateWeight song other =
-            //Calculate BPM difference.
-            let bpmWeight = System.Math.Abs (song.BPM - other.BPM)
-            //Calculate key difference.
-            let keyWeight = weightForKey song.Key other.Key
-            bpmWeight + keyWeight
+        ///Calculate the weight from a given Key to another Key.
+        let weightForKey key other =
+            let accountFor12 n = if n % 12 = 0 then 12 else n % 12
+            let k = fst key
+            let plusOne = accountFor12 k + 1            //One key up
+            let minusOne = accountFor12 k + 11          //One key down.
+            let oneSemitone = accountFor12 k + 2        //One semitone up.
+            let twoSemitones = accountFor12 k + 7       //two semitones up.
+            let threeUpDown = match snd other with      //If minor, three keys UP, if major three keys DOWN.
+                              | Minor -> accountFor12 k + 3
+                              | Major -> accountFor12 k + 9
+                              | Invalid  -> Int32.MaxValue
 
-        let weightLessThan song other limit =
-            let weight = calculateWeight song other
-            if weight <= limit
+            //Create a list of all good key transitions.
+            let list = [ plusOne; minusOne; oneSemitone; twoSemitones; threeUpDown ]
+            //See if other key matches any of the good key transitions.
+            let filtered = List.filter (fun x -> fst other = x) list
+            //If there were any matches, then it's a nice key transition.
+            if filtered.IsEmpty then BADKEYWEIGHT else 0.0
+
+        let weightLessThan song other =
+            let bpmDifference = System.Math.Abs (song.BPM - other.BPM)
+            let keyWeight = weightForKey song.Key other.Key
+
+            let weight = bpmDifference + keyWeight
+            if weight <= MATCHWEIGHTLIMIT
             then Some { Weight = weight; From = song; To = other }
             else None
 
         let generateEdges song songs =
             let otherSongs = Array.filter (fun s -> (s <> song)) songs;
-            let edgesFromSong = Array.choose (fun s -> weightLessThan song s MATCHWEIGHTLIMIT) otherSongs
+            let edgesFromSong = Array.choose (fun s -> weightLessThan s song) otherSongs
             (song, edgesFromSong)
 
         let withEdges = Array.Parallel.map (fun song -> generateEdges song list) list
