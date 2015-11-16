@@ -123,7 +123,7 @@ module CollectionParser =
 
         let collection = Collection.Load(pathToCollection)
         let entries = collection.Collection.Entries2
-        let songs = Array.Parallel.map (fun i -> parseToSong i) entries
+        let songs = Array.Parallel.map (parseToSong) entries
         songs
 
 
@@ -163,7 +163,8 @@ module Graph =
         let generateEdges song songs =
             let otherSongs = Array.filter (fun s -> (s <> song)) songs;
             let edgesFromSong = Array.choose (fun s -> weightLessThan song s) otherSongs
-            (song, edgesFromSong)
+            let sorted = Array.sortBy (fun s -> s.Weight) edgesFromSong
+            (song, sorted)
 
         let withEdges = Array.Parallel.map (fun song -> generateEdges song list) list
         withEdges
