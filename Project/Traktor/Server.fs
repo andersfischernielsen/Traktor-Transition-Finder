@@ -57,9 +57,10 @@ let getById id = Map.find id
 
 ///Get the n best transitions from a given (Song * Edge list) tuple.
 let bestTransitions n edges =
-    let asList = List.ofArray edges |> take n
-    let sorted = List.sortBy (fun x -> x.Weight) asList 
-    sorted |> List.map (fun x -> x.To)
+    let asList = List.ofArray edges
+    List.sortBy (fun x -> x.Weight) asList 
+        |> take n 
+        |> List.map (fun x -> x.To)
 
 let getEightBestTransitionsFromId id =
     let tuple = getById id graph
