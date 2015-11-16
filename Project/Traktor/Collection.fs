@@ -151,13 +151,13 @@ module Graph =
             //If there were any matches, then it's a nice key transition.
             if filtered.IsEmpty then BADKEYWEIGHT else 0.0
 
-        let weightLessThan song other =
-            let bpmDifference = System.Math.Abs (song.BPM - other.BPM)
-            let keyWeight = weightForKey song.Key other.Key
+        let weightLessThan fromSong toSong =
+            let bpmDifference = System.Math.Abs (fromSong.BPM - toSong.BPM)
+            let keyWeight = weightForKey fromSong.Key toSong.Key
 
             let weight = bpmDifference + keyWeight
             if weight <= MATCHWEIGHTLIMIT
-            then Some { Weight = weight; From = song; To = other }
+            then Some { Weight = weight; From = fromSong; To = toSong }
             else None
 
         let generateEdges song songs =
