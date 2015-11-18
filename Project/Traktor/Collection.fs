@@ -16,10 +16,9 @@ type Edge = { Weight : float; From : Song; To : Song }
 [<Literal>]
 let BADKEYWEIGHT = 15.0
 
-//The weight limit for edges in the graph.
-//If the weight is higher than this, do not add the edge.
+//The number of best transitions to have for each song.
 [<Literal>]
-let MATCHWEIGHTLIMIT = 25.0
+let NUMBEROFEDGES = 8
 
 
 module CollectionParser =
@@ -151,19 +150,31 @@ module Graph =
             //If there were any matches, then it's a nice key transition.
             if filtered.IsEmpty then BADKEYWEIGHT else 0.0
 
-        let weightLessThan fromSong toSong =
+        let calculateWeight fromSong toSong =
             let bpmDifference = System.Math.Abs (fromSong.BPM - toSong.BPM)
             let keyWeight = weightForKey fromSong.Key toSong.Key
 
             let weight = bpmDifference + keyWeight
-            if weight <= MATCHWEIGHTLIMIT
-            then Some { Weight = weight; From = fromSong; To = toSong }
-            else None
+            { Weight = weight; From = fromSong; To = toSong }
 
         let generateEdges song songs =
-            let otherSongs = Array.filter (fun s -> (s <> song)) songs;
-            let edgesFromSong = Array.choose (fun s -> weightLessThan song s) >> Array.sortBy (fun s -> s.Weight)
-            let result = edgesFromSong otherSongs
+            ///Take n elements from a given list until there are no more elements.
+            let take n list =
+                let rec takeAcc n list acc =
+                    match list with
+                    | x::xs     when n > 0 -> takeAcc (n-1) xs (x::acc)
+                    | _                    -> acc
+                takeAcc n list []
+
+            let findOtherSongs = Array.filter (fun s -> (s <> song));
+            let createEdgesFromSong songs =
+                findOtherSongs songs
+                    |> Array.map (fun s -> calculateWeight song s)
+                    |> Array.sortBy (fun s -> s.Weight)
+                    |> List.ofArray
+                    |> take NUMBEROFEDGES
+
+            let result = Array.ofList <| createEdgesFromSong songs
             (song, result)
 
         let withEdges = Array.Parallel.map (fun song -> generateEdges song list) list

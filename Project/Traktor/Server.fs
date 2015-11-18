@@ -58,7 +58,7 @@ let getById id = Map.find id
 ///Get the n best transitions from a given (Song * Edge list) tuple.
 let bestTransitions n edges =
     List.ofArray edges
-        |> take n 
+        |> take n
         |> List.map (fun x -> x.To)
 
 let getEightBestTransitionsFromId id =
@@ -66,7 +66,6 @@ let getEightBestTransitionsFromId id =
     let transitions = bestTransitions 8 <| snd tuple
     let response = { Song = fst tuple; Transitions = transitions }
     response |> asJson
-
 
 ///Setup web server.
 let app =
