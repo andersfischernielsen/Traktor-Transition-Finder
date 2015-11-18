@@ -3,10 +3,11 @@ body {
 	background-color: #131414;
 	color: white;
 	font-weight: 300;
+	font-family: 'Helvetica Neue';
 }
 
-h1, h2, h3, h4 {
-	text-align: center;
+h1, h2, h3, h4, h5 {
+	font-weight: 100;
 }
 
 .full-width {
@@ -90,7 +91,7 @@ h1, h2, h3, h4 {
 	padding-right: 20px;
 	padding-top: 15px;
 	padding-bottom: 15px;
-	margin-left: 0px;
+	margin-left: 10px;
 	cursor: pointer;
 	transition: all 0.3s ease-in;
 }
