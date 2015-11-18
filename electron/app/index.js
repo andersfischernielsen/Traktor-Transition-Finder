@@ -7,6 +7,7 @@ var dialog = remote.require('dialog');
 var app = remote.require('app')
 var Menu = remote.require('menu');
 
+
 function setBodyDrag() {
 	var body = document.getElementsByTagName('body')[0];
 
@@ -67,7 +68,8 @@ function setMenu() {
 		      	},
 		      	{
 	        		label: 'Preferences...',
-					accelerator: 'Command+,'
+					accelerator: 'Command+,',
+					click: function() { ipc.send('preferences'); }
 		      	},
 		      	{
 				  	type: 'separator'

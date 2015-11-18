@@ -3,14 +3,16 @@ var BrowserWindow = require('browser-window');
 var request = require('request');
 var ipc = require('electron').ipcMain;
 var crypto = require('crypto');
+var fs = require('fs');
 var request = require('request');
 var dialog = require('dialog');
 var exec = require('child_process').exec;
 
-var collection;
-
 var mainWindow = null;
-var collection_path = ""
+var preferencesWindow = null;
+var settings = { };
+var path = app.getPath('userData');
+
 
 app.on('ready', function() {
 	if (process.platform === 'darwin') {
@@ -32,6 +34,15 @@ app.on('ready', function() {
   	mainWindow.on('closed', function() {
 		  mainWindow = null;
   	});
+
+	fs.readFile(path + '/settings.json', 'utf8', function(error, data) {
+		if (!error) {
+			settings = JSON.parse(data);
+			if (settings.collectionPath) {
+    			mainWindow.webContents.send('collection-uploaded');
+			}
+		}
+	});
 });
 
 app.on('quit', function() {
@@ -42,8 +53,10 @@ app.on('window-all-closed', function() {
 	app.quit();
 });
 
+function SendCollectionRequest
+
 ipc.on('collection-upload', function (event, arg) {
-	collection_path = arg;
+	settings.collectionPath = arg;
 	request.post({
 	  	headers: {'content-type' : 'application/x-www-form-urlencoded'},
 	  	url:     'http://localhost:8083/collection',
@@ -92,4 +105,23 @@ ipc.on('song-drop', function (event, fileName, hash) {
 			event.sender.send('receive-transitions', body);
 		}
 	});
+});
+
+ipc.on('preferences', function (event, arg) {
+	preferencesWindow = new BrowserWindow({width: 500, height: 400, resizable: true});
+  	preferencesWindow.loadURL('file://' + __dirname + '/app/preferences.html');
+});
+
+ipc.on('collection-path-request', function (event) {
+	event.sender.send('receive-collection-path', settings.collectionPath);
+});
+
+ipc.on('close-preferences', function (event, settings) {
+	settings = settings;
+	var asJSON = JSON.stringify(settings);
+	fs.writeFile(path + '/settings.json', asJSON, 'utf8');
+});
+
+ipc.on('request-settings', function(event) {
+	event.sender.send('receive-settings', settings);
 });
