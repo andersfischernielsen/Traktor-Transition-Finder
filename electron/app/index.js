@@ -1,45 +1,46 @@
 'use strict';
 
-var ipc = require('ipc');
+var ipc = require('electron').ipcRenderer;
 var fs = require('fs');
+var remote = require('remote');
+var dialog = remote.require('dialog');
+var app = remote.require('app')
+var Menu = remote.require('menu');
 
-var body = document.getElementsByTagName('body')[0];
+function setBodyDrag() {
+	var body = document.getElementsByTagName('body')[0];
 
-//Make the main window ignore drag-n-drop.
-body.addEventListener('dragover', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-});
+	//Make the main window ignore drag-n-drop.
+	body.addEventListener('dragover', function(e) {
+	    e.stopPropagation();
+	    e.preventDefault();
+	});
 
-body.addEventListener('dragleave', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-});
+	body.addEventListener('dragleave', function(e) {
+	    e.stopPropagation();
+	    e.preventDefault();
+	});
 
-body.addEventListener('drop', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-});
-
+	body.addEventListener('drop', function(e) {
+	    e.stopPropagation();
+	    e.preventDefault();
+	});
+}
 
 //On button click in view, ask Electron main process to open file from file system.
 function openFile() {
-	var remote = require('remote');
-	var dialog = remote.require('dialog');
-    var app = remote.require('app')
-
  	dialog.showOpenDialog(
-        remote.getCurrentWindow(), 
-		{ 
-            filters: [ { name: 'Traktor Collection', extensions: ['nml']} ], 
+        remote.getCurrentWindow(),
+		{
+            filters: [ { name: 'Traktor Collection', extensions: ['nml']} ],
             properties: [ 'openFile' ],
             defaultPath: app.getPath('home') + '/Documents/Native Instruments/',
-        }, 
+        },
         function (fileNames) {
       		if (fileNames === undefined) return;
       		var fileName = fileNames[0];
       		ipc.send('collection-upload', fileName);
-            document.getElementById('spinner').className = 'spinner';
+        	document.getElementById('spinner').className = 'spinner';
   	    }
 )}
 
@@ -132,4 +133,6 @@ function setMenu() {
     var menu = Menu.buildFromTemplate(template);
 	Menu.setApplicationMenu(menu);
 }
+
+setBodyDrag();
 setMenu();

@@ -1,15 +1,11 @@
-var app = require('app'); 
-var BrowserWindow = require('browser-window'); 
-var request = require('request'); 
-var ipc = require('ipc');
+var app = require('app');
+var BrowserWindow = require('browser-window');
+var request = require('request');
+var ipc = require('electron').ipcMain;
 var crypto = require('crypto');
 var request = require('request');
 var dialog = require('dialog');
 var exec = require('child_process').exec;
-
-
-// Report crashes to our server.
-require('crash-reporter').start();
 
 var collection;
 
@@ -23,12 +19,15 @@ app.on('ready', function() {
     	});
     }
 
-    if (process.platform === 'win32') {
-    	graph = exec(process.resourcesPath + '/Release/Traktor.exe', null, null);
-    }
+    //For future Windows support.
+    //if (process.platform === 'win32') {
+    //	graph = exec(process.resourcesPath + '/Release/Traktor.exe', null, null);
+    //}
 
-  	mainWindow = new BrowserWindow({width: 400, height: 620, resizable: true});
-  	mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
+  	mainWindow = new BrowserWindow({'min-width': 350, width: 400, height: 600, resizable: true});
+  	mainWindow.loadURL('file://' + __dirname + '/app/index.html');
+
+    //mainWindow.webContents.openDevTools();
 
   	mainWindow.on('closed', function() {
 		  mainWindow = null;
@@ -53,16 +52,16 @@ ipc.on('collection-upload', function (event, arg) {
 		if (error != null) {
 			console.log(error);
 		}
-		
+
 		else {
 			if (response.statusCode != 200) {
 				console.log("Error: response was: " + response.statusCode);
 				mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
 			}
-			
+
 			else {
 				event.sender.send('collection-uploaded');
-			}	
+			}
 		}
 	});
 });
@@ -75,14 +74,14 @@ function createHash(s) {
 
 ipc.on('song-drop', function (event, arg) {
 	var hash = createHash(arg);
-	
+
 	request.get({
 	  	url:     'http://localhost:8083/choose/' + hash,
 	}, function(error, response, body) {
 		if (error != null) {
 			console.log(error);
 		}
-		
+
 		else {
 			event.sender.send('receive-transitions', body);
 		}
