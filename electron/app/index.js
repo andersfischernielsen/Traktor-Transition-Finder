@@ -50,3 +50,86 @@ ipc.on('collection-uploaded', function() {
     select.parentNode.removeChild(select);
     drop.style.visibility = "visible";
 });
+
+
+function setMenu() {
+	var template = [
+		{
+			label: 'Traktor Auto Next Song',
+		    submenu: [
+		      	{
+	        		label: 'About Traktor Auto Next Song',
+	        		selector: 'orderFrontStandardAboutPanel:'
+		      	},
+				{
+	        		type: 'separator'
+		      	},
+		      	{
+	        		label: 'Preferences...',
+					accelerator: 'Command+,'
+		      	},
+		      	{
+				  	type: 'separator'
+		      	},
+		      	{
+	        		type: 'separator'
+		      	},
+		      	{
+	        		label: 'Services',
+	        		submenu: []
+		      	},
+		      	{
+				  	type: 'separator'
+		      	},
+		      	{
+		        	label: 'Hide Electron',
+		        	accelerator: 'Command+H',
+		        	selector: 'hide:'
+		      	},
+		      	{
+			        label: 'Hide Others',
+			        accelerator: 'Command+Shift+H',
+			        selector: 'hideOtherApplications:'
+		      	},
+		      	{
+			        label: 'Show All',
+			        selector: 'unhideAllApplications:'
+		      	},
+		      	{
+			        type: 'separator'
+		      	},
+		      	{
+		        	label: 'Quit',
+		        	accelerator: 'Command+Q',
+		        	selector: 'terminate:'
+		      	},
+		    ]
+		},
+		  {
+			  label: 'Window',
+			  submenu: [
+				  {
+					  label: 'Minimize',
+					  accelerator: 'Command+M',
+					  selector: 'performMiniaturize:'
+				  },
+				  {
+					  label: 'Close',
+					  accelerator: 'Command+W',
+					  selector: 'performClose:'
+				  },
+				  {
+					  type: 'separator'
+				  },
+				  {
+					  label: 'Bring All to Front',
+					  selector: 'arrangeInFront:'
+				  }
+			  ]
+		  }
+	  ];
+
+    var menu = Menu.buildFromTemplate(template);
+	Menu.setApplicationMenu(menu);
+}
+setMenu();
