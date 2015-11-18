@@ -72,8 +72,14 @@ function createHash(s) {
     return sha256.digest("base64");
 }
 
-ipc.on('song-drop', function (event, arg) {
-	var hash = createHash(arg);
+ipc.on('song-drop', function (event, fileName, hash) {
+	var hash;
+	if (fileName) {
+		hash = createHash(fileName);
+	}
+	if (hash) {
+		hash = hash;
+	}
 
 	request.get({
 	  	url:     'http://localhost:8083/choose/' + hash,

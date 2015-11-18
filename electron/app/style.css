@@ -20,7 +20,7 @@ h1, h2, h3, h4 {
 .dropzone {
 	border-radius: 10px;
 	box-shadow:inset 0px 0px 0px 4px #78d7e0;
-	height: 550px;
+	height: 90vh;
 	transition: all 0.3s ease-out;
 }
 
@@ -51,8 +51,8 @@ h1, h2, h3, h4 {
 .header {
 	padding-left: 10px;
 	padding-right: 20px;
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
 .header-title {
@@ -90,7 +90,13 @@ h1, h2, h3, h4 {
 	padding-right: 20px;
 	padding-top: 15px;
 	padding-bottom: 15px;
-	margin-left: 10px;
+	margin-left: 0px;
+	cursor: pointer;
+	transition: all 0.3s ease-in;
+}
+
+.list-item:hover {
+	background-color: rgba(255, 255, 255, 0.05);
 }
 
 .list-item-title {
@@ -125,7 +131,7 @@ h1, h2, h3, h4 {
 	width: 50px;
 	height: 50px;
 	background-color: #78d7e0;
-	
+
 	margin: 70% auto;
 	-webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
 	animation: sk-rotateplane 1.2s infinite ease-in-out;
@@ -138,13 +144,13 @@ h1, h2, h3, h4 {
 }
 
 @keyframes sk-rotateplane {
-	0% { 
+	0% {
 		transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-		-webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
-	} 50% { 
+		-webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+	} 50% {
 		transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-		-webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
-	} 100% { 
+		-webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+	} 100% {
 		transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
 		-webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
   	}

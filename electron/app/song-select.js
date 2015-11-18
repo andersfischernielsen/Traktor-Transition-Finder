@@ -10,7 +10,7 @@ function setDropZone() {
         e.stopPropagation();
         e.preventDefault();
         e.dataTransfer.dropEffect = 'link';
-        dropzone.className = dropzone.className + ' dragover';
+        dropzone.classList.add('dragover');
     });
 
     dropzone.addEventListener('dragleave', function(e) {
@@ -68,6 +68,9 @@ function setTransitionInfo(transitions) {
     transitions.forEach(function(elem) {
         var item = buildItem(elem);
         list.appendChild(item);
+        item.style.opacity = 0;
+        window.getComputedStyle(item).opacity;
+        item.style.opacity = 1;
     });
 }
 
@@ -115,6 +118,10 @@ function buildItem(elem) {
     item.appendChild(title);
     item.appendChild(artist);
     item.appendChild(keyBpm);
+
+    item.addEventListener('click', function(e) {
+        ipc.send('song-drop', null, elem.audioId);
+    });
 
     return item;
 }
