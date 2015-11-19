@@ -16,14 +16,14 @@ var path = app.getPath('userData');
 
 app.on('ready', function() {
 	if (process.platform === 'darwin') {
-        graph = exec('mono ' + process.resourcesPath + '/Release/Traktor.exe', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
+        graph = exec('mono ' + process.resourcesPath + '/app/Release/Traktor.exe', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
     		dialog.showErrorBox('Error', error.message);
     	});
     }
 
     //For future Windows support.
     //if (process.platform === 'win32') {
-    //	graph = exec(process.resourcesPath + '/Release/Traktor.exe', null, null);
+    //	graph = exec(process.resourcesPath + '/app/Release/Traktor.exe', null, null);
     //}
 
   	mainWindow = new BrowserWindow({'min-width': 350, width: 400, height: 600, resizable: true});
@@ -59,14 +59,15 @@ app.on('window-all-closed', function() {
 });
 
 ipc.on('collection-upload', function (event, arg) {
-	this.settings.collectionPath = arg;
+	debugger;
+	settings.collectionPath = arg;
 	request.post({
 	  	headers: {'content-type' : 'application/x-www-form-urlencoded'},
 	  	url:     'http://localhost:8083/collection',
 	  	body:    arg
 	}, function(error, response, body) {
 		if (error != null) {
-			console.log(error);
+    		dialog.showErrorBox('F# Server Error', error.message);
 		}
 
 		else {
