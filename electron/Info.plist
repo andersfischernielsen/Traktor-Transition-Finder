@@ -7,11 +7,11 @@
 	<key>CFBundleDisplayName</key>
 	<string>Traktor Auto Next Song</string>
 	<key>CFBundleExecutable</key>
-	<string>Traktor Auto Next Song</string>
+	<string>Electron</string>
 	<key>CFBundleIconFile</key>
 	<string>atom.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.andersfischernielsen.traktorautonextsong</string>
+	<string>com.github.electron</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
