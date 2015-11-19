@@ -35,15 +35,20 @@ app.on('ready', function() {
 		  mainWindow = null;
   	});
 
+	ReadSettings();	
+});
+
+function ReadSettings() {
 	fs.readFile(path + '/settings.json', 'utf8', function(error, data) {
+		debugger;
 		if (!error) {
-			settings = JSON.parse(data);
-			if (settings.collectionPath) {
-    			mainWindow.webContents.send('collection-uploaded');
+			this.settings = JSON.parse(data);
+			if (this.settings.collectionPath) {
+    			//TODO: Load view for dropping song. 
 			}
 		}
 	});
-});
+}
 
 app.on('quit', function() {
 	graph.kill('SIGKILL');
@@ -53,10 +58,8 @@ app.on('window-all-closed', function() {
 	app.quit();
 });
 
-function SendCollectionRequest
-
 ipc.on('collection-upload', function (event, arg) {
-	settings.collectionPath = arg;
+	this.settings.collectionPath = arg;
 	request.post({
 	  	headers: {'content-type' : 'application/x-www-form-urlencoded'},
 	  	url:     'http://localhost:8083/collection',
@@ -110,18 +113,19 @@ ipc.on('song-drop', function (event, fileName, hash) {
 ipc.on('preferences', function (event, arg) {
 	preferencesWindow = new BrowserWindow({width: 500, height: 400, resizable: true});
   	preferencesWindow.loadURL('file://' + __dirname + '/app/preferences.html');
+    //preferencesWindow.webContents.openDevTools();	
 });
 
 ipc.on('collection-path-request', function (event) {
-	event.sender.send('receive-collection-path', settings.collectionPath);
+	event.sender.send('receive-collection-path', this.settings.collectionPath);
 });
 
 ipc.on('close-preferences', function (event, settings) {
-	settings = settings;
-	var asJSON = JSON.stringify(settings);
+	this.settings = settings;
+	var asJSON = JSON.stringify(this.settings);
 	fs.writeFile(path + '/settings.json', asJSON, 'utf8');
 });
 
 ipc.on('request-settings', function(event) {
-	event.sender.send('receive-settings', settings);
+	event.sender.send('receive-settings', this.settings);
 });

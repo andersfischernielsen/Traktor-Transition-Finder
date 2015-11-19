@@ -46,7 +46,7 @@ function openFile() {
 )}
 
 //When collection has been uploaded, change view to drop state.
-ipc.on('collection-uploaded', function() {
+ipc.on('collection-uploaded', function(event) {
     var drop = document.getElementById("drop-song");
     var select = document.getElementById("collection-select");
     select.parentNode.removeChild(select);
