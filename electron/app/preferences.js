@@ -48,7 +48,7 @@ ipc.on('receive-collection-path', function(event, path) {
 
 window.onbeforeunload = function() {
 	settings.collectionPath = field.value;
-	settings.cached = checkBox.value;
+	settings.cached = checkBox.checked;
 	ipc.send('close-preferences', settings);
 };
 
