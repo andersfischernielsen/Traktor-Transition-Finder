@@ -19,6 +19,7 @@ type WebPart = HttpContext -> SuaveTask<HttpContext>
 
 ///JSON data type
 type SongResponse = { Song : Song; Transitions : Song list }
+type ParsingOptions = { CollectionPath : string; NumberOfEdges : int}
 
 ///Take n elements from a given list until there are no more elements.
 let take n list =
@@ -35,10 +36,10 @@ let asJson v =
     JsonConvert.SerializeObject(v, jsonSerializerSettings) |> OK >>= Writers.setMimeType "application/json; charset=utf-8"
 
 ///Deserialise a given object from JSON.
-let fromJson v =
+let fromJson<'T> v =
     let jsonSerializerSettings = new JsonSerializerSettings()
     jsonSerializerSettings.ContractResolver <- new CamelCasePropertyNamesContractResolver()
-    JsonConvert.DeserializeObject(v, jsonSerializerSettings)
+    JsonConvert.DeserializeObject<'T>(v, jsonSerializerSettings)
 
 //Mutable graph of songs.
 let mutable graph = Map.empty
@@ -46,10 +47,12 @@ let mutable graph = Map.empty
 
 
 ///Set a new path to the collection from an incoming HTTP POST. Graph will be rebuilt.
-let setCollectionString s =
-    let asString = System.Text.Encoding.ASCII.GetString(s)
-    let parsed = CollectionParser.parseCollection asString
-    let built = Graph.buildGraph parsed
+let parseCollection options =
+    let path = options.CollectionPath
+    let edges = options.NumberOfEdges
+
+    let parsed = CollectionParser.parseCollection path
+    let built = Graph.buildGraph parsed edges
     graph <- Graph.asMap built
 
 ///Find a given (Song * Edge list) tuple with the given AudioId.
@@ -61,23 +64,32 @@ let bestTransitions n edges =
         |> take n
         |> List.map (fun x -> x.To)
 
-let getEightBestTransitionsFromId id =
+let getBestTransitionsFromId id amount =
     let tuple = getById id graph
-    let transitions = bestTransitions 8 <| snd tuple
+    let transitions = bestTransitions amount <| snd tuple
     let response = { Song = fst tuple; Transitions = transitions }
     response |> asJson
+
+
+let parseCollectionFromBytes bytes =
+    let options =
+        let asString = System.Text.Encoding.ASCII.GetString(bytes)
+        fromJson<ParsingOptions> asString
+    parseCollection options
 
 ///Setup web server.
 let app =
   choose
     [ GET >>= choose
         [ path "/" >>= OK "Web server is running."
-          pathScan "/choose/%s" (fun id -> getEightBestTransitionsFromId id)
+          pathScan "/choose/%i/%s" (fun (amt, id) -> getBestTransitionsFromId id amt)
         ]
       POST >>= choose
-        [ path "/collection" >>= request (fun req -> setCollectionString <| req.rawForm;
-                                                     OK "Collection path succesfully set.")
+        [ path "/collection" >>= request (fun req -> parseCollectionFromBytes req.rawForm;
+                                                     OK "Graph building started.")
         ]
     ]
+
+//let options = fromJson req.url; parseCollection <| options; OK "Graph building started.")
 
 startWebServer defaultConfig app
