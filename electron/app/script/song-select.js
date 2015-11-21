@@ -2,10 +2,10 @@
 
 var ipc = require('electron').ipcRenderer;
 
+var dropzone = document.getElementById('dropzone');
 setDropZone();
-function setDropZone() {
-    var dropzone = document.getElementById('dropzone');
 
+function setDropZone() {
     dropzone.addEventListener('dragover', function(e) {
         e.stopPropagation();
         e.preventDefault();
@@ -64,13 +64,12 @@ function setTransitionInfo(transitions) {
         list.removeChild(list.firstChild);
     }
 
-    transitions.reverse();
     transitions.forEach(function(elem) {
         var item = buildItem(elem);
         list.appendChild(item);
-        item.style.opacity = 0;
+        item.style.opacity = '0';
         window.getComputedStyle(item).opacity;
-        item.style.opacity = 1;
+        item.style.opacity = '1';
     });
 }
 
