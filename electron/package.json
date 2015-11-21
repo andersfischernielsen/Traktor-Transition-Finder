@@ -6,6 +6,7 @@
   "dependencies": {
     "electron-prebuilt": "^0.28.3",
     "express": "^4.13.3",
+    "nconf": "^0.8.2",
     "remote": "^0.2.6"
   },
   "devDependencies": {
