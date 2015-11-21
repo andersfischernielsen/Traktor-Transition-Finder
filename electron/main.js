@@ -7,11 +7,12 @@ var fs = require('fs');
 var request = require('request');
 var dialog = require('dialog');
 var exec = require('child_process').exec;
+var configuration = require('./configuration');
 
 var mainWindow = null;
 var preferencesWindow = null;
-var settings = { };
-var path = app.getPath('userData');
+var collectionPath;
+var graph;
 
 
 app.on('ready', function() {
@@ -27,28 +28,28 @@ app.on('ready', function() {
     //}
 
   	mainWindow = new BrowserWindow({'min-width': 350, width: 400, height: 600, resizable: true});
-  	mainWindow.loadURL('file://' + __dirname + '/app/index.html');
+  	mainWindow.loadURL('file://' + __dirname + '/app/view/index.html');
+
+	function checkIfSettingsPresent() {
+		debugger;
+		var collectionPath = configuration.readSettings('collectionPath');
+		if (collectionPath) {
+			mainWindow.webContents.on('did-finish-load', function() {
+				sendCollectionRequest(collectionPath);
+			})
+		}
+	}
+
+	checkIfSettingsPresent();
 
     //mainWindow.webContents.openDevTools();
 
   	mainWindow.on('closed', function() {
-		  mainWindow = null;
+		preferencesWindow.close();
+		preferencesWindow = null;
+		mainWindow = null;
   	});
-
-	ReadSettings();	
 });
-
-function ReadSettings() {
-	fs.readFile(path + '/settings.json', 'utf8', function(error, data) {
-		debugger;
-		if (!error) {
-			this.settings = JSON.parse(data);
-			if (this.settings.collectionPath) {
-    			//TODO: Load view for dropping song. 
-			}
-		}
-	});
-}
 
 app.on('quit', function() {
 	graph.kill('SIGKILL');
@@ -58,13 +59,25 @@ app.on('window-all-closed', function() {
 	app.quit();
 });
 
-ipc.on('collection-upload', function (event, arg) {
-	debugger;
-	settings.collectionPath = arg;
+ipc.on('collection-upload', function (event, path) {
+	sendCollectionRequest(path);
+	collectionPath = path;
+});
+
+function sendCollectionRequest(path) {
+	var edges = configuration.readSettings('numberOfEdges');
+	var responseBody = null;
+	if (typeof edges != 'undefined') {
+		responseBody = { collectionPath: path, numberOfEdges: edges};
+	}
+	else {
+		responseBody = { collectionPath : path };
+	}
+
 	request.post({
 	  	headers: {'content-type' : 'application/x-www-form-urlencoded'},
 	  	url:     'http://localhost:8083/collection',
-	  	body:    arg
+	  	body:    JSON.stringify(responseBody)
 	}, function(error, response, body) {
 		if (error != null) {
     		dialog.showErrorBox('F# Server Error', error.message);
@@ -73,15 +86,15 @@ ipc.on('collection-upload', function (event, arg) {
 		else {
 			if (response.statusCode != 200) {
 				console.log("Error: response was: " + response.statusCode);
-				mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
+				mainWindow.loadUrl('file://' + __dirname + '/app/view/index.html');
 			}
 
 			else {
-				event.sender.send('collection-uploaded');
+				mainWindow.webContents.send('collection-uploaded');
 			}
 		}
 	});
-});
+}
 
 function createHash(s) {
     var sha256 = crypto.createHash("sha256");
@@ -90,19 +103,16 @@ function createHash(s) {
 }
 
 ipc.on('song-drop', function (event, fileName, hash) {
-	var hash;
-	if (fileName) {
-		hash = createHash(fileName);
-	}
-	if (hash) {
-		hash = hash;
-	}
+	if (fileName) hash = createHash(fileName);
+	var transitions = configuration.readSettings('transitions');
+	if (typeof transitions === 'undefined') transitions = 8;
 
+	var url = 'http://localhost:8083/choose/' + transitions + '/' + hash;
 	request.get({
-	  	url:     'http://localhost:8083/choose/' + hash,
+	  	url:     url,
 	}, function(error, response, body) {
 		if (error != null) {
-			console.log(error);
+			dialog.showErrorBox('F# Server Error', error.message);
 		}
 
 		else {
@@ -112,21 +122,17 @@ ipc.on('song-drop', function (event, fileName, hash) {
 });
 
 ipc.on('preferences', function (event, arg) {
-	preferencesWindow = new BrowserWindow({width: 500, height: 400, resizable: true});
-  	preferencesWindow.loadURL('file://' + __dirname + '/app/preferences.html');
-    //preferencesWindow.webContents.openDevTools();	
+	if (preferencesWindow) return;
+
+	preferencesWindow = new BrowserWindow({width: 530, height: 270, resizable: false});
+  	preferencesWindow.loadURL('file://' + __dirname + '/app/view/preferences.html');
+    //preferencesWindow.webContents.openDevTools();
+
+	preferencesWindow.on('closed', function() {
+		preferencesWindow = null;
+	})
 });
 
 ipc.on('collection-path-request', function (event) {
-	event.sender.send('receive-collection-path', this.settings.collectionPath);
-});
-
-ipc.on('close-preferences', function (event, settings) {
-	this.settings = settings;
-	var asJSON = JSON.stringify(this.settings);
-	fs.writeFile(path + '/settings.json', asJSON, 'utf8');
-});
-
-ipc.on('request-settings', function(event) {
-	event.sender.send('receive-settings', this.settings);
+	if (collectionPath) event.sender.send('receive-collection-path', collectionPath);
 });
