@@ -12,8 +12,6 @@ The DJ can then pick a song from the list in Traktor Pro 2. The app merely funct
 
 On Mac the app requires Mono to run (download [here](http://www.mono-project.com/docs/getting-started/install/mac/)).
 
-On Windows the app requires .NET to run (download [here](https://www.microsoft.com/en-us/download/details.aspx?id=30653)).
-
 #### [Download](https://github.com/andersfischernielsen/TraktorAutoNextSong/releases/latest)
 
 ![Screenshot](readme/screenshot.png) 
