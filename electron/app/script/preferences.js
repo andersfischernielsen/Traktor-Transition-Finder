@@ -38,21 +38,21 @@ ipc.on('receive-collection-path', function(event, path) {
 
 function retrieveSettings() {
 	var path = configuration.readSettings('collectionPath');
-	var cached = configuration.readSettings('cached');
 	var transitions = configuration.readSettings('transitions');
 	var edges = configuration.readSettings('numberOfEdges');
+	//var cached = configuration.readSettings('cached');
 
 	if (path) field.value = path;
-	if (typeof cached != 'undefined') checkBox.checked = cached;
 	if (typeof transitions != 'undefined') transitionsField.value = transitions;
 	if (typeof edges != 'undefined') edgesField.value = edges;
+	//if (typeof cached != 'undefined') checkBox.checked = cached;
 }
 
 window.onbeforeunload = function() {
 	configuration.saveSettings('collectionPath', field.value);
-	configuration.saveSettings('cached', checkBox.checked);
 	configuration.saveSettings('transitions', transitionsField.value);
 	configuration.saveSettings('numberOfEdges', edgesField.value);
+	//configuration.saveSettings('cached', checkBox.checked);
 };
 
 setBodyDrag();
