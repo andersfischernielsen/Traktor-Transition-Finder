@@ -16,10 +16,6 @@ type Edge = { Weight : float; From : Song; To : Song }
 [<Literal>]
 let BADKEYWEIGHT = 15.0
 
-//The number of best transitions to have for each song.
-[<Literal>]
-let NUMBEROFEDGES = 8
-
 
 module CollectionParser =
     open System.Text.RegularExpressions
@@ -129,7 +125,7 @@ module CollectionParser =
 module Graph =
     ///Calculate weights for a (Song * Edge list) array.
     ///Create a graph (represented as a Song * Edge list array) from  a Song list.
-    let buildGraph list =
+    let buildGraph list numberOfEdges =
         ///Calculate the weight from a given Key to another Key.
         let weightForKey key other =
             let accountFor12 n = if n % 12 = 0 then 12 else n % 12
@@ -172,7 +168,7 @@ module Graph =
                     |> Array.map (fun s -> calculateWeight song s)
                     |> Array.sortBy (fun s -> s.Weight)
                     |> List.ofArray
-                    |> take NUMBEROFEDGES
+                    |> take numberOfEdges
 
             let result = Array.ofList <| createEdgesFromSong songs
             (song, result)
