@@ -41,15 +41,24 @@ function openFile() {
       		if (fileNames === undefined) return;
       		var fileName = fileNames[0];
       		ipc.send('collection-upload', fileName);
-        	document.getElementById('spinner').className = 'spinner';
   	    }
 )}
+
+function startSpinnerOnParsing() {
+	debugger;
+	var select = document.getElementById("collection-select");
+	select.parentNode.removeChild(select);
+	document.getElementById('spinner').className = 'spinner';
+}
+
+ipc.on('parsing-started', function(event) {
+	startSpinnerOnParsing();
+});
 
 //When collection has been uploaded, change view to drop state.
 ipc.on('collection-uploaded', function(event) {
     var drop = document.getElementById("drop-song");
-    var select = document.getElementById("collection-select");
-    select.parentNode.removeChild(select);
+	document.getElementById('spinner').className = '';
     drop.style.visibility = "visible";
 });
 

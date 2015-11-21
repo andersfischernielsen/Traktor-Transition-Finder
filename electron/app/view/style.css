@@ -21,7 +21,7 @@ h1, h2, h3, h4, h5 {
 .dropzone {
 	border-radius: 10px;
 	box-shadow:inset 0px 0px 0px 4px #78d7e0;
-	height: 90vh;
+	height: 95vh;
 	transition: all 0.3s ease-out;
 }
 
@@ -129,11 +129,16 @@ h1, h2, h3, h4, h5 {
 
 /** FROM http://tobiasahlin.com/spinkit/ **/
 .spinner {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -25px;
+	margin-top: -25px;
+
 	width: 50px;
 	height: 50px;
 	background-color: #78d7e0;
 
-	margin: 70% auto;
 	-webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
 	animation: sk-rotateplane 1.2s infinite ease-in-out;
 }

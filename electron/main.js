@@ -31,7 +31,6 @@ app.on('ready', function() {
   	mainWindow.loadURL('file://' + __dirname + '/app/view/index.html');
 
 	function checkIfSettingsPresent() {
-		debugger;
 		var collectionPath = configuration.readSettings('collectionPath');
 		if (collectionPath) {
 			mainWindow.webContents.on('did-finish-load', function() {
@@ -73,6 +72,8 @@ function sendCollectionRequest(path) {
 	else {
 		responseBody = { collectionPath : path };
 	}
+
+	mainWindow.webContents.send('parsing-started');
 
 	request.post({
 	  	headers: {'content-type' : 'application/x-www-form-urlencoded'},
