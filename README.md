@@ -1,12 +1,6 @@
 # TraktorAutoNextSong
 
-<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=SQ9787KQ58QQU" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
-
-<script src="paypal-button.min.js?merchant=SQ9787KQ58QQU"
-    data-button="donate"
-    data-name="Donate"
-    async
-></script>
+<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GFDKRJ7LCQFQS" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
 
 A small tool for automatically finding the next song to play when DJing using Traktor Pro 2.
 
