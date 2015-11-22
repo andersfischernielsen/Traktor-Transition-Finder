@@ -1,4 +1,7 @@
 # TraktorAutoNextSong
+
+<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GFDKRJ7LCQFQS" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> - if you think this project is awesome. 😄 </span>
+
 A small tool for automatically finding the next song to play when DJing using Traktor Pro 2.
 
 The tool works by creating a weighted graph of every song in a Traktor collection of songs, where the weights determine what song is best to mix into. 
@@ -10,9 +13,7 @@ The frontend is written in Node.js/Electron and sends requests to the F# web ser
 When a song is dropped into the app, the best transitions from that song are displayed. 
 The DJ can then pick a song from the list in Traktor Pro 2. The app merely functions as a suggestion list.
 
-On Mac the app requires Mono to run (download [here](http://www.mono-project.com/docs/getting-started/install/mac/)).
-
-On Windows the app requires .NET to run (download [here](https://www.microsoft.com/en-us/download/details.aspx?id=30653)).
+The app requires Mono (.NET) to run (download [here](http://www.mono-project.com/docs/getting-started/install/mac/)).
 
 #### [Download](https://github.com/andersfischernielsen/TraktorAutoNextSong/releases/latest)
 
