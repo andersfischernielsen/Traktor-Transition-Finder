@@ -2,6 +2,12 @@
 
 <span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=SQ9787KQ58QQU" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
 
+<script src="paypal-button.min.js?merchant=YOUR_MERCHANT_ID"
+    data-button="donate"
+    data-name="Donate"
+    async
+></script>
+
 A small tool for automatically finding the next song to play when DJing using Traktor Pro 2.
 
 The tool works by creating a weighted graph of every song in a Traktor collection of songs, where the weights determine what song is best to mix into. 
