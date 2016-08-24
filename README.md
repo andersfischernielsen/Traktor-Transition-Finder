@@ -1,6 +1,6 @@
-# TraktorAutoNextSong
+# Traktor Transition Finder
 
-<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GFDKRJ7LCQFQS" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> - if you think this project is awesome. 😄 </span>
+<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GFDKRJ7LCQFQS" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> if you think this project is awesome. 😄 </span>
 
 A small tool for automatically finding the next song to play when DJing using Traktor Pro 2.
 
@@ -13,9 +13,7 @@ The frontend is written in Node.js/Electron and sends requests to the F# web ser
 When a song is dropped into the app, the best transitions from that song are displayed. 
 The DJ can then pick a song from the list in Traktor Pro 2. The app merely functions as a suggestion list.
 
-The app requires Mono (.NET) to run (download [here](http://www.mono-project.com/docs/getting-started/install/mac/)).
-
-#### [Download](https://github.com/andersfischernielsen/TraktorAutoNextSong/releases/latest)
+#### [Download](https://github.com/andersfischernielsen/Traktor-Transition-Finder/releases/latest)
 
 ![Screenshot](readme/screenshot.png) 
 
@@ -25,31 +23,4 @@ The app requires Mono (.NET) to run (download [here](http://www.mono-project.com
 - Let the app analyse the collection.
 - Drag a file from the song list in Traktor into the app to get a list of possible transitions from the song. ![Screenshot](readme/readme-2.png) 
 
-## Building
 The app consists of a F# backend handling parsing the Traktor 2 collection, and serving results via HTTP and JSON to the Electron frontend. 
-
-Running the app requires having Mono installed on your system.
-
-You can build the app by opening the solution by running
-
-    cd TraktorAutoNextSong
-    xbuild /p:Configuration=Release Project/TraktorAutoNextSong.sln
-
-in your Terminal.
-
-## Running
-The F# backend is started by running 
-
-    cd TraktorAutoNextSong
-    mono Project/Traktor/bin/Release/Traktor.exe
-
-in your Terminal. 
-
-The frontend is started by running
-
-    cd TraktorAutoNextSong
-    electron/node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron electron
-
-in your Terminal.
-
-
