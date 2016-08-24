@@ -16,7 +16,8 @@ let preferencesWindow;
 let collectionPath;
 let graph;
 
-app.on('ready', function() {
+app.on('ready', () => 
+{
 	if (process.platform === 'darwin') {
         graph = exec(process.resourcesPath + '/app/Release/Traktor', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
     		dialog.showErrorBox('Error', error.message);
@@ -29,9 +30,8 @@ app.on('ready', function() {
 	function checkIfSettingsPresent() {
 		var collectionPath = configuration.readSettings('collectionPath');
 		if (collectionPath) {
-			mainWindow.webContents.on('did-finish-load', function() {
-				sendCollectionRequest(collectionPath);
-			})
+			mainWindow.webContents.on('did-finish-load', () => 
+				sendCollectionRequest(collectionPath))
 		}
 	}
 
@@ -39,7 +39,8 @@ app.on('ready', function() {
 
     //mainWindow.webContents.openDevTools();
 
-  	mainWindow.on('closed', function() {
+  	mainWindow.on('closed', () => 
+	{
 		if (preferencesWindow != null) {
 			preferencesWindow.close();
 		}
@@ -48,15 +49,11 @@ app.on('ready', function() {
   	});
 });
 
-app.on('quit', function() {
-	graph.kill('SIGKILL');
-});
+app.on('quit', () => graph.kill('SIGKILL'));
+app.on('window-all-closed', () => app.quit());
 
-app.on('window-all-closed', function() {
-	app.quit();
-});
-
-ipc.on('collection-upload', function (event, path) {
+ipc.on('collection-upload', (event, path) => 
+{
 	sendCollectionRequest(path);
 	collectionPath = path;
 });
@@ -77,7 +74,7 @@ function sendCollectionRequest(path) {
 	  	headers: {'content-type' : 'application/x-www-form-urlencoded'},
 	  	url:     'http://localhost:8083/collection',
 	  	body:    JSON.stringify(responseBody)
-	}, function(error, response, body) {
+	}, (error, response, body) => {
 		if (error != null) {
     		dialog.showErrorBox('F# Server Error', error.message);
 		}
@@ -101,7 +98,8 @@ function createHash(s) {
     return sha256.digest("base64");
 }
 
-ipc.on('song-drop', function (event, fileName, hash) {
+ipc.on('song-drop', (event, fileName, hash) => 
+{
 	if (fileName) hash = createHash(fileName);
 	var transitions = configuration.readSettings('transitions');
 	if (typeof transitions === 'undefined') transitions = 8;
@@ -109,7 +107,7 @@ ipc.on('song-drop', function (event, fileName, hash) {
 	var url = 'http://localhost:8083/choose/' + transitions + '/' + hash;
 	request.get({
 	  	url:     url,
-	}, function(error, response, body) {
+	}, (error, response, body) => {
 		if (error != null) {
 			dialog.showErrorBox('F# Server Error', error.message);
 		}
@@ -120,18 +118,18 @@ ipc.on('song-drop', function (event, fileName, hash) {
 	});
 });
 
-ipc.on('preferences', function (event, arg) {
+ipc.on('preferences', (event, arg) => 
+{
 	if (preferencesWindow) return;
 
 	preferencesWindow = new BrowserWindow({width: 530, height: 270, resizable: false});
   	preferencesWindow.loadURL('file://' + __dirname + '/app/view/preferences.html');
     //preferencesWindow.webContents.openDevTools();
 
-	preferencesWindow.on('closed', function() {
-		preferencesWindow = null;
-	})
+	preferencesWindow.on('closed', () => preferencesWindow = null)
 });
 
-ipc.on('collection-path-request', function (event) {
+ipc.on('collection-path-request', (event) => 
+{
 	if (collectionPath) event.sender.send('receive-collection-path', collectionPath);
 });

@@ -41,7 +41,7 @@ function openFile() {
         },
         fileNames => 
 		{
-      		if (fileNames === undefined) return;
+      		if (fileNames == null) return;
       		var fileName = fileNames[0];
       		ipc.send('collection-upload', fileName);
   	    }
