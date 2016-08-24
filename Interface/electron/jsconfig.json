@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "target": "ES6"
+    },
+    "files": [
+        "main.ts",
+        "typings/index.d.ts"
+    ]
+}
