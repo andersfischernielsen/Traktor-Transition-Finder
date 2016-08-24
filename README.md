@@ -13,8 +13,6 @@ The frontend is written in Node.js/Electron and sends requests to the F# web ser
 When a song is dropped into the app, the best transitions from that song are displayed. 
 The DJ can then pick a song from the list in Traktor Pro 2. The app merely functions as a suggestion list.
 
-The app requires Mono (.NET) to run (download [here](http://www.mono-project.com/docs/getting-started/install/mac/)).
-
 #### [Download](https://github.com/andersfischernielsen/Traktor-Transition-Finder/releases/latest)
 
 ![Screenshot](readme/screenshot.png) 
