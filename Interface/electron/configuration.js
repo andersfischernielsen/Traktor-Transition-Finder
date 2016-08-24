@@ -1,7 +1,7 @@
 'use strict';
 
-var app = require('app');
-var nconf = require('nconf').file({file: getUserDataPath() + '/settings.json'});
+const app = require('electron').app;
+var nconf = require('nconf').file({file: app.getPath('userData') + '/settings.json'});
 
 function saveSettings(settingKey, settingValue) {
     nconf.set(settingKey, settingValue);
@@ -11,10 +11,6 @@ function saveSettings(settingKey, settingValue) {
 function readSettings(settingKey) {
     nconf.load();
     return nconf.get(settingKey);
-}
-
-function getUserDataPath() {
-    return app.getPath('userData');
 }
 
 module.exports = {

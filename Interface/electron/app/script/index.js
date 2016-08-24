@@ -1,11 +1,12 @@
 'use strict';
 
-var ipc = require('electron').ipcRenderer;
-var fs = require('fs');
-var remote = require('remote');
-var dialog = remote.require('dialog');
-var app = remote.require('app')
-var Menu = remote.require('menu');
+const electron = require('electron');
+const ipc = electron.ipcRenderer;
+const fs = require('fs');
+const remote = electron.remote;
+const dialog = remote.dialog;
+const app = remote.app;
+const Menu = remote.Menu;
 
 
 function setBodyDrag() {

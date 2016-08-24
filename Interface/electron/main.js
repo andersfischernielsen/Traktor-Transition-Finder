@@ -1,31 +1,28 @@
-var app = require('app');
-var BrowserWindow = require('browser-window');
-var request = require('request');
-var ipc = require('electron').ipcMain;
-var crypto = require('crypto');
-var fs = require('fs');
-var request = require('request');
-var dialog = require('dialog');
-var exec = require('child_process').exec;
-var configuration = require('./configuration');
+const electron = require('electron');
 
-var mainWindow = null;
-var preferencesWindow = null;
-var collectionPath;
-var graph;
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+const ipc = electron.ipcMain;
+const dialog = electron.dialog;
+
+const crypto = require('crypto');
+const fs = require('fs');
+const request = require('request');
+const {exec} = require('child_process');
+const configuration = require('./configuration');
+
+let mainWindow;
+let preferencesWindow;
+let collectionPath;
+let graph;
 
 
 app.on('ready', function() {
 	if (process.platform === 'darwin') {
-        graph = exec('mono ' + process.resourcesPath + '/app/Release/Traktor.exe', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
+        graph = exec(process.resourcesPath + '/app/Release/Traktor', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
     		dialog.showErrorBox('Error', error.message);
     	});
     }
-
-    //For future Windows support.
-    //if (process.platform === 'win32') {
-    //	graph = exec(process.resourcesPath + '/app/Release/Traktor.exe', null, null);
-    //}
 
   	mainWindow = new BrowserWindow({'min-width': 350, width: 400, height: 600, resizable: true});
   	mainWindow.loadURL('file://' + __dirname + '/app/view/index.html');
@@ -41,10 +38,12 @@ app.on('ready', function() {
 
 	checkIfSettingsPresent();
 
-    //mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
   	mainWindow.on('closed', function() {
-		preferencesWindow.close();
+		if (preferencesWindow != null) {
+			preferencesWindow.close();
+		}
 		preferencesWindow = null;
 		mainWindow = null;
   	});
@@ -127,7 +126,7 @@ ipc.on('preferences', function (event, arg) {
 
 	preferencesWindow = new BrowserWindow({width: 530, height: 270, resizable: false});
   	preferencesWindow.loadURL('file://' + __dirname + '/app/view/preferences.html');
-    //preferencesWindow.webContents.openDevTools();
+    preferencesWindow.webContents.openDevTools();
 
 	preferencesWindow.on('closed', function() {
 		preferencesWindow = null;

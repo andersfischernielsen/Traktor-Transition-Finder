@@ -1,6 +1,6 @@
 'use strict';
 
-var ipc = require('electron').ipcRenderer;
+const ipcSongSelect = require('electron').ipcRenderer;
 
 var dropzone = document.getElementById('dropzone');
 setDropZone();
@@ -26,13 +26,13 @@ function setDropZone() {
         var file = e.dataTransfer.files[0];
         var reader = new FileReader();
         reader.onloadstart = function(e2) {
-            ipc.send('song-drop', file.name);
+            ipcSongSelect.send('song-drop', file.name);
         }
         reader.readAsDataURL(file);
     });
 }
 
-ipc.on('receive-transitions', function (event, arg) {
+ipcSongSelect.on('receive-transitions', function (event, arg) {
     dropzone.style.height = '80px';
     dropzone.style.boxShadow = 'box-shadow:inset 0px 0px 0px 2px lightgrey;'
     document.getElementById('inner-dropzone').style.fontSize = '18px';
@@ -119,7 +119,7 @@ function buildItem(elem) {
     item.appendChild(keyBpm);
 
     item.addEventListener('click', function(e) {
-        ipc.send('song-drop', null, elem.audioId);
+        ipcSongSelect.send('song-drop', null, elem.audioId);
     });
 
     return item;

@@ -1,6 +1,6 @@
 'use strict';
 
-var ipc = require('electron').ipcRenderer;
+var ipcPreferences = require('electron').ipcRenderer;
 var configuration = require('electron').remote.require('./configuration');
 
 var field = document.getElementById('collection-path-field');
@@ -29,10 +29,10 @@ function setBodyDrag() {
 }
 
 function requestCurrentCollectionPath() {
-	ipc.send('collection-path-request');
+	ipcPreferences.send('collection-path-request');
 }
 
-ipc.on('receive-collection-path', function(event, path) {
+ipcPreferences.on('receive-collection-path', function(event, path) {
 	field.value = path;
 });
 
