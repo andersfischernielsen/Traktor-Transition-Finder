@@ -25,7 +25,7 @@ app.on('ready', function () {
         var collectionPath = configuration.readSettings('collectionPath');
         if (collectionPath) {
             mainWindow.webContents.on('did-finish-load', function () {
-                sendCollectionRequest(collectionPath);
+                return sendCollectionRequest(collectionPath);
             });
         }
     }
@@ -39,12 +39,8 @@ app.on('ready', function () {
         mainWindow = null;
     });
 });
-app.on('quit', function () {
-    graph.kill('SIGKILL');
-});
-app.on('window-all-closed', function () {
-    app.quit();
-});
+app.on('quit', function () { return graph.kill('SIGKILL'); });
+app.on('window-all-closed', function () { return app.quit(); });
 ipc.on('collection-upload', function (event, path) {
     sendCollectionRequest(path);
     collectionPath = path;
@@ -107,9 +103,7 @@ ipc.on('preferences', function (event, arg) {
     preferencesWindow = new BrowserWindow({ width: 530, height: 270, resizable: false });
     preferencesWindow.loadURL('file://' + __dirname + '/app/view/preferences.html');
     //preferencesWindow.webContents.openDevTools();
-    preferencesWindow.on('closed', function () {
-        preferencesWindow = null;
-    });
+    preferencesWindow.on('closed', function () { return preferencesWindow = null; });
 });
 ipc.on('collection-path-request', function (event) {
     if (collectionPath)

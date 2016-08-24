@@ -29,7 +29,7 @@ function openFile() {
         properties: ['openFile'],
         defaultPath: app.getPath('home') + '/Documents/Native Instruments/',
     }, function (fileNames) {
-        if (fileNames === undefined)
+        if (fileNames == null)
             return;
         var fileName = fileNames[0];
         ipc.send('collection-upload', fileName);

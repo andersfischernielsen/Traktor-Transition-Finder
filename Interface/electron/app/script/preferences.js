@@ -39,11 +39,12 @@ function retrieveSettings() {
         edgesField.value = edges;
     //if (typeof cached != 'undefined') checkBox.checked = cached;
 }
-window.onbeforeunload = function () {
-    configuration.saveSettings('collectionPath', field.value);
-    configuration.saveSettings('transitions', transitionsField.value);
-    configuration.saveSettings('numberOfEdges', edgesField.value);
-    //configuration.saveSettings('cached', checkBox.checked);
-};
+window.onbeforeunload =
+    function () {
+        configuration.saveSettings('collectionPath', field.value);
+        configuration.saveSettings('transitions', transitionsField.value);
+        configuration.saveSettings('numberOfEdges', edgesField.value);
+        //configuration.saveSettings('cached', checkBox.checked);
+    };
 setBodyDrag();
 retrieveSettings();
