@@ -1,6 +1,7 @@
 'use strict';
 
-const ipcSongSelect = require('electron').ipcRenderer;
+import electron = require('electron');
+var ipcSongSelect = electron.ipcRenderer;
 
 var dropzone = document.getElementById('dropzone');
 setDropZone();
