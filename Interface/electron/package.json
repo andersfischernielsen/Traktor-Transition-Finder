@@ -1,15 +1,15 @@
 {
-  "name": "TraktorAutoFindNextSong",
+  "name": "TransitionFinder",
   "description": "",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "main": "main.js",
   "dependencies": {
-    "electron-prebuilt": "^0.28.3",
+    "electron-prebuilt": "^1.2.0",
     "express": "^4.13.3",
     "nconf": "^0.8.2",
     "remote": "^0.2.6"
   },
   "devDependencies": {
-    "electron-prebuilt": "^0.30.6"
+    "electron-prebuilt": "^1.2.0"
   }
 }
