@@ -30,7 +30,7 @@ app.on('ready', function () {
         }
     }
     checkIfSettingsPresent();
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
     mainWindow.on('closed', function () {
         if (preferencesWindow != null) {
             preferencesWindow.close();
@@ -106,7 +106,7 @@ ipc.on('preferences', function (event, arg) {
         return;
     preferencesWindow = new BrowserWindow({ width: 530, height: 270, resizable: false });
     preferencesWindow.loadURL('file://' + __dirname + '/app/view/preferences.html');
-    preferencesWindow.webContents.openDevTools();
+    //preferencesWindow.webContents.openDevTools();
     preferencesWindow.on('closed', function () {
         preferencesWindow = null;
     });

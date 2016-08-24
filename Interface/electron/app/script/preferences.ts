@@ -1,5 +1,3 @@
-'use strict';
-
 var ipcPreferences = require('electron').ipcRenderer;
 var configuration = require('electron').remote.require('./configuration');
 

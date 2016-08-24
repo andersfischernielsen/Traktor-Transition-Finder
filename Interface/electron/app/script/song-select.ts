@@ -1,5 +1,3 @@
-'use strict';
-
 import electron = require('electron');
 var ipcSongSelect = electron.ipcRenderer;
 

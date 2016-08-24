@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 var electron = require('electron');
 var ipc = electron.ipcRenderer;
 var fs = require('fs');
@@ -36,14 +36,11 @@ function openFile() {
     });
 }
 function startSpinnerOnParsing() {
-    debugger;
     var select = document.getElementById("collection-select");
     select.parentNode.removeChild(select);
     document.getElementById('spinner').className = 'spinner';
 }
-ipc.on('parsing-started', function (event) {
-    startSpinnerOnParsing();
-});
+ipc.on('parsing-started', function (event) { return startSpinnerOnParsing(); });
 //When collection has been uploaded, change view to drop state.
 ipc.on('collection-uploaded', function (event) {
     var drop = document.getElementById("drop-song");
@@ -53,11 +50,11 @@ ipc.on('collection-uploaded', function (event) {
 function setMenu() {
     var template = [
         {
-            label: 'Traktor Auto Next Song',
+            label: 'Traktor Transition Finder',
             submenu: [
                 {
-                    label: 'About Traktor Auto Next Song',
-                    selector: 'orderFrontStandardAboutPanel:'
+                    label: 'About Traktor Transition Finder',
+                    role: 'about'
                 },
                 {
                     type: 'separator'
@@ -65,7 +62,7 @@ function setMenu() {
                 {
                     label: 'Preferences...',
                     accelerator: 'Command+,',
-                    click: function () { ipc.send('preferences'); }
+                    click: function () { return ipc.send('preferences'); }
                 },
                 {
                     type: 'separator'
@@ -83,16 +80,16 @@ function setMenu() {
                 {
                     label: 'Hide Electron',
                     accelerator: 'Command+H',
-                    selector: 'hide:'
+                    role: 'hide'
                 },
                 {
                     label: 'Hide Others',
                     accelerator: 'Command+Shift+H',
-                    selector: 'hideOtherApplications:'
+                    role: 'hideothers'
                 },
                 {
                     label: 'Show All',
-                    selector: 'unhideAllApplications:'
+                    role: 'unhide'
                 },
                 {
                     type: 'separator'
@@ -100,7 +97,7 @@ function setMenu() {
                 {
                     label: 'Quit',
                     accelerator: 'Command+Q',
-                    selector: 'terminate:'
+                    role: 'quit'
                 },
             ]
         },
@@ -110,19 +107,19 @@ function setMenu() {
                 {
                     label: 'Minimize',
                     accelerator: 'Command+M',
-                    selector: 'performMiniaturize:'
+                    role: 'minimize'
                 },
                 {
                     label: 'Close',
                     accelerator: 'Command+W',
-                    selector: 'performClose:'
+                    role: 'close'
                 },
                 {
                     type: 'separator'
                 },
                 {
                     label: 'Bring All to Front',
-                    selector: 'arrangeInFront:'
+                    role: 'front'
                 }
             ]
         }

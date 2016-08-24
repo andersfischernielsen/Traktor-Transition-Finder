@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 var electron = require('electron');
 var ipcSongSelect = electron.ipcRenderer;
 var dropzone = document.getElementById('dropzone');

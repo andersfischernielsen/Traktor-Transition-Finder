@@ -1,5 +1,3 @@
-'use strict';
-
 import electron = require('electron');
 const ipc = electron.ipcRenderer;
 const fs = require('fs');
@@ -13,17 +11,20 @@ function setBodyDrag() {
 	var body = document.getElementsByTagName('body')[0];
 
 	//Make the main window ignore drag-n-drop.
-	body.addEventListener('dragover', function(e) {
+	body.addEventListener('dragover', (e) =>
+	{    
+		e.stopPropagation();
+	    e.preventDefault();
+	});
+
+	body.addEventListener('dragleave', (e) => 
+	{
 	    e.stopPropagation();
 	    e.preventDefault();
 	});
 
-	body.addEventListener('dragleave', function(e) {
-	    e.stopPropagation();
-	    e.preventDefault();
-	});
-
-	body.addEventListener('drop', function(e) {
+	body.addEventListener('drop', (e) =>
+	{
 	    e.stopPropagation();
 	    e.preventDefault();
 	});
@@ -38,7 +39,8 @@ function openFile() {
             properties: [ 'openFile' ],
             defaultPath: app.getPath('home') + '/Documents/Native Instruments/',
         },
-        function (fileNames) {
+        fileNames => 
+		{
       		if (fileNames === undefined) return;
       		var fileName = fileNames[0];
       		ipc.send('collection-upload', fileName);
@@ -46,32 +48,30 @@ function openFile() {
 )}
 
 function startSpinnerOnParsing() {
-	debugger;
 	var select = document.getElementById("collection-select");
 	select.parentNode.removeChild(select);
 	document.getElementById('spinner').className = 'spinner';
 }
 
-ipc.on('parsing-started', function(event) {
-	startSpinnerOnParsing();
-});
+ipc.on('parsing-started', event => startSpinnerOnParsing());
 
 //When collection has been uploaded, change view to drop state.
-ipc.on('collection-uploaded', function(event) {
-    var drop = document.getElementById("drop-song");
-	document.getElementById('spinner').className = '';
-    drop.style.visibility = "visible";
-});
+ipc.on('collection-uploaded', event => 
+	{
+		var drop = document.getElementById("drop-song");
+		document.getElementById('spinner').className = '';
+		drop.style.visibility = "visible";
+	});
 
 
 function setMenu() {
-	var template = [
+	let template : Electron.MenuItemOptions[] = [
 		{
-			label: 'Traktor Auto Next Song',
+			label: 'Traktor Transition Finder',
 		    submenu: [
 		      	{
-	        		label: 'About Traktor Auto Next Song',
-	        		selector: 'orderFrontStandardAboutPanel:'
+	        		label: 'About Traktor Transition Finder',
+	        		role: 'about'
 		      	},
 				{
 	        		type: 'separator'
@@ -79,7 +79,7 @@ function setMenu() {
 		      	{
 	        		label: 'Preferences...',
 					accelerator: 'Command+,',
-					click: function() { ipc.send('preferences'); }
+					click: () => ipc.send('preferences')
 		      	},
 		      	{
 				  	type: 'separator'
@@ -97,16 +97,16 @@ function setMenu() {
 		      	{
 		        	label: 'Hide Electron',
 		        	accelerator: 'Command+H',
-		        	selector: 'hide:'
+		        	role: 'hide'
 		      	},
 		      	{
 			        label: 'Hide Others',
 			        accelerator: 'Command+Shift+H',
-			        selector: 'hideOtherApplications:'
+			        role: 'hideothers'
 		      	},
 		      	{
 			        label: 'Show All',
-			        selector: 'unhideAllApplications:'
+			        role: 'unhide'
 		      	},
 		      	{
 			        type: 'separator'
@@ -114,7 +114,7 @@ function setMenu() {
 		      	{
 		        	label: 'Quit',
 		        	accelerator: 'Command+Q',
-		        	selector: 'terminate:'
+		        	role: 'quit'
 		      	},
 		    ]
 		},
@@ -124,19 +124,19 @@ function setMenu() {
 				  {
 					  label: 'Minimize',
 					  accelerator: 'Command+M',
-					  selector: 'performMiniaturize:'
+					  role: 'minimize'
 				  },
 				  {
 					  label: 'Close',
 					  accelerator: 'Command+W',
-					  selector: 'performClose:'
+					  role: 'close'
 				  },
 				  {
 					  type: 'separator'
 				  },
 				  {
 					  label: 'Bring All to Front',
-					  selector: 'arrangeInFront:'
+					  role: 'front'
 				  }
 			  ]
 		  }

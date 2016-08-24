@@ -1,5 +1,3 @@
-'use strict';
-
 const app = require('electron').app;
 var nconf = require('nconf').file({file: app.getPath('userData') + '/settings.json'});
 
