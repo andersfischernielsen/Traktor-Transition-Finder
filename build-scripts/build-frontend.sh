@@ -1,6 +1,9 @@
 cd ../Interface/electron
 npm install
+typings install debug --save
+
 cd ../../build-scripts
+rm -r TraktorTransitionFinder.app
 cp -r Electron.app TraktorTransitionFinder.app
 cp -a ../Interface/electron/. TraktorTransitionFinder.app/Contents/Resources/app/
 cp -a ../Graph/Traktor/bin/Release TraktorTransitionFinder.app/Contents/Resources/app/
