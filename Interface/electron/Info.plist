@@ -5,7 +5,7 @@
 	<key>BuildMachineOSBuild</key>
 	<string>14F1021</string>
 	<key>CFBundleDisplayName</key>
-	<string>Traktor Auto Next Song</string>
+	<string>Traktor Transition Finder</string>
 	<key>CFBundleExecutable</key>
 	<string>Electron</string>
 	<key>CFBundleIconFile</key>
