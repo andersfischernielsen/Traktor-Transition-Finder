@@ -1,9 +1,9 @@
 "use strict";
 var electron = require('electron');
 var ipcSongSelect = electron.ipcRenderer;
-var dropzone = document.getElementById('dropzone');
-setDropZone();
-function setDropZone() {
+var dropzone;
+function setDropzone() {
+    dropzone = document.getElementById('dropzone');
     dropzone.addEventListener('dragover', function (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -103,3 +103,4 @@ function buildItem(elem) {
     });
     return item;
 }
+setDropzone();

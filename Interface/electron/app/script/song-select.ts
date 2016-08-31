@@ -1,10 +1,11 @@
 import electron = require('electron');
-var ipcSongSelect = electron.ipcRenderer;
+const ipcSongSelect = electron.ipcRenderer;
 
-var dropzone = document.getElementById('dropzone');
-setDropZone();
+var dropzone;
 
-function setDropZone() {
+function setDropzone() {
+    dropzone = document.getElementById('dropzone');
+    
     dropzone.addEventListener('dragover', e => 
     {
         e.stopPropagation();
@@ -40,9 +41,9 @@ ipcSongSelect.on('receive-transitions', (event, arg) =>
     dropzone.style.height = '80px';
     dropzone.style.boxShadow = 'box-shadow:inset 0px 0px 0px 2px lightgrey;'
     document.getElementById('inner-dropzone').style.fontSize = '18px';
-    var received = JSON.parse(arg);
-    var song = received.song;
-    var transitions = received.transitions;
+    let received = JSON.parse(arg);
+    let song = received.song;
+    let transitions = received.transitions;
 
     setChosenSongInfo(song);
     setTransitionInfo(transitions);
@@ -97,12 +98,12 @@ function setNoDrop(list) {
 }
 
 function buildItem(elem) {
-    var item = document.createElement('div');
-    var title = document.createElement('div');
-    var artist = document.createElement('div');
-    var keyBpm = document.createElement('div');
-    var bpm = document.createElement('div');
-    var key = document.createElement('div');
+    let item = document.createElement('div');
+    let title = document.createElement('div');
+    let artist = document.createElement('div');
+    let keyBpm = document.createElement('div');
+    let bpm = document.createElement('div');
+    let key = document.createElement('div');
 
     item.className = 'list-item';
     title.className = 'list-item-title ellipsis-overflow';
@@ -130,3 +131,5 @@ function buildItem(elem) {
 
     return item;
 }
+
+setDropzone();

@@ -1,5 +1,5 @@
 const app = require('electron').app;
-var nconf = require('nconf').file({file: app.getPath('userData') + '/settings.json'});
+const nconf = require('nconf').file({file: app.getPath('userData') + '/settings.json'});
 
 function saveSettings(settingKey, settingValue) {
     nconf.set(settingKey, settingValue);
