@@ -1,5 +1,4 @@
 import fs = require("fs");
-import tm = require('typematch');
 import xml2js = require('xml2js');
 
 enum Chord { Major, Minor, Invalid }
@@ -68,7 +67,6 @@ function CollectionParser() {
 
         ///Parse a given NML Entry into a Song type.
         function parseToSong (entry) : Song {
-            var _ = tm._;
             var te = entry.TEMPO;
             var ti = entry.$.TITLE;
             var a = entry.$.ARTIST;
