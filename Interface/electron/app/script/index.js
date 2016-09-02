@@ -1,23 +1,23 @@
 "use strict";
-var electron = require('electron');
-var ipc = electron.ipcRenderer;
-var fs = require('fs');
-var remote = electron.remote;
-var dialog = remote.dialog;
-var app = remote.app;
-var Menu = remote.Menu;
+const electron = require('electron');
+const ipc = electron.ipcRenderer;
+const fs = require('fs');
+const remote = electron.remote;
+const dialog = remote.dialog;
+const app = remote.app;
+const Menu = remote.Menu;
 function setBodyDrag() {
     var body = document.getElementsByTagName('body')[0];
     //Make the main window ignore drag-n-drop.
-    body.addEventListener('dragover', function (e) {
+    body.addEventListener('dragover', (e) => {
         e.stopPropagation();
         e.preventDefault();
     });
-    body.addEventListener('dragleave', function (e) {
+    body.addEventListener('dragleave', (e) => {
         e.stopPropagation();
         e.preventDefault();
     });
-    body.addEventListener('drop', function (e) {
+    body.addEventListener('drop', (e) => {
         e.stopPropagation();
         e.preventDefault();
     });
@@ -28,7 +28,7 @@ function openFile() {
         filters: [{ name: 'Traktor Collection', extensions: ['nml'] }],
         properties: ['openFile'],
         defaultPath: app.getPath('home') + '/Documents/Native Instruments/',
-    }, function (fileNames) {
+    }, fileNames => {
         if (fileNames == null)
             return;
         var fileName = fileNames[0];
@@ -40,15 +40,15 @@ function startSpinnerOnParsing() {
     select.parentNode.removeChild(select);
     document.getElementById('spinner').className = 'spinner';
 }
-ipc.on('parsing-started', function (event) { return startSpinnerOnParsing(); });
+ipc.on('parsing-started', event => startSpinnerOnParsing());
 //When collection has been uploaded, change view to drop state.
-ipc.on('collection-uploaded', function (event) {
+ipc.on('collection-uploaded', event => {
     var drop = document.getElementById("drop-song");
     document.getElementById('spinner').className = '';
     drop.style.visibility = "visible";
 });
 function setMenu() {
-    var template = [
+    let template = [
         {
             label: 'Traktor Transition Finder',
             submenu: [
@@ -62,7 +62,7 @@ function setMenu() {
                 {
                     label: 'Preferences...',
                     accelerator: 'Command+,',
-                    click: function () { return ipc.send('preferences'); }
+                    click: () => ipc.send('preferences')
                 },
                 {
                     type: 'separator'

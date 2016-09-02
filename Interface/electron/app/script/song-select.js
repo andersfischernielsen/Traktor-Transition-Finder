@@ -1,39 +1,39 @@
 "use strict";
-var electron = require('electron');
-var ipcSongSelect = electron.ipcRenderer;
+const electron = require('electron');
+const ipcSongSelect = electron.ipcRenderer;
 var dropzone;
 function setDropzone() {
     dropzone = document.getElementById('dropzone');
-    dropzone.addEventListener('dragover', function (e) {
+    dropzone.addEventListener('dragover', e => {
         e.stopPropagation();
         e.preventDefault();
         e.dataTransfer.dropEffect = 'link';
         dropzone.classList.add('dragover');
     });
-    dropzone.addEventListener('dragleave', function (e) {
+    dropzone.addEventListener('dragleave', e => {
         e.stopPropagation();
         e.preventDefault();
         dropzone.className = 'dropzone';
     });
-    dropzone.addEventListener('drop', function (e) {
+    dropzone.addEventListener('drop', e => {
         e.stopPropagation();
         e.preventDefault();
         dropzone.className = 'dropzone';
         var file = e.dataTransfer.files[0];
         var reader = new FileReader();
-        reader.onloadstart = function (e2) {
+        reader.onloadstart = e2 => {
             ipcSongSelect.send('song-drop', file.name);
         };
         reader.readAsDataURL(file);
     });
 }
-ipcSongSelect.on('receive-transitions', function (event, arg) {
+ipcSongSelect.on('receive-transitions', (event, arg) => {
     dropzone.style.height = '80px';
     dropzone.style.boxShadow = 'box-shadow:inset 0px 0px 0px 2px lightgrey;';
     document.getElementById('inner-dropzone').style.fontSize = '18px';
-    var received = JSON.parse(arg);
-    var song = received.song;
-    var transitions = received.transitions;
+    let received = JSON.parse(arg);
+    let song = received.song;
+    let transitions = received.transitions;
     setChosenSongInfo(song);
     setTransitionInfo(transitions);
 });
@@ -53,7 +53,7 @@ function setTransitionInfo(transitions) {
     while (list.hasChildNodes()) {
         list.removeChild(list.firstChild);
     }
-    transitions.forEach(function (elem) {
+    transitions.forEach(elem => {
         var item = buildItem(elem);
         list.appendChild(item);
         item.style.opacity = '0';
@@ -63,26 +63,26 @@ function setTransitionInfo(transitions) {
 }
 function setNoDrop(list) {
     //Make the main window ignore drag-n-drop.
-    list.addEventListener('dragover', function (e) {
+    list.addEventListener('dragover', e => {
         e.stopPropagation();
         e.preventDefault();
     });
-    list.addEventListener('dragleave', function (e) {
+    list.addEventListener('dragleave', e => {
         e.stopPropagation();
         e.preventDefault();
     });
-    list.addEventListener('drop', function (e) {
+    list.addEventListener('drop', e => {
         e.stopPropagation();
         e.preventDefault();
     });
 }
 function buildItem(elem) {
-    var item = document.createElement('div');
-    var title = document.createElement('div');
-    var artist = document.createElement('div');
-    var keyBpm = document.createElement('div');
-    var bpm = document.createElement('div');
-    var key = document.createElement('div');
+    let item = document.createElement('div');
+    let title = document.createElement('div');
+    let artist = document.createElement('div');
+    let keyBpm = document.createElement('div');
+    let bpm = document.createElement('div');
+    let key = document.createElement('div');
     item.className = 'list-item';
     title.className = 'list-item-title ellipsis-overflow';
     artist.className = 'list-item-artist ellipsis-overflow';
@@ -98,7 +98,7 @@ function buildItem(elem) {
     item.appendChild(title);
     item.appendChild(artist);
     item.appendChild(keyBpm);
-    item.addEventListener('click', function (e) {
+    item.addEventListener('click', e => {
         ipcSongSelect.send('song-drop', null, elem.audioId);
     });
     return item;

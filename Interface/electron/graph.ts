@@ -8,9 +8,9 @@ class Edge { Weight : Number; From : Song; To : Song }
 //The "punishment" for having a bad key transition.
 const BADKEYWEIGHT = 15.0
 
-function CollectionParser() {
+class CollectionParser {
     ///Parse a .nml collection into a Song list.
-    function parseCollection (pathToCollection : string) {
+    parseCollection (pathToCollection : string) {
         function parseXML() {
             var parsed;
             var parser = new xml2js.Parser();
@@ -87,11 +87,12 @@ function CollectionParser() {
         var songs = collection.map(parseToSong);
         songs
     }
+}
 
-function Graph() {
+class Graph {
     ///Calculate weights for a (Song * Edge list) array.
     ///Create a graph (represented as a Song * Edge list array) from  a Song list.
-    function buildGraph (list: Song[], numberOfEdges:Number) {
+    buildGraph (list: Song[], numberOfEdges:Number) {
         ///Calculate the weight from a given Key to another Key.
         function weightForKey (key, other) {
             var accountFor12 = (n:number) => n % 12 == 0 ? 12 : n % 12;
@@ -160,9 +161,14 @@ function Graph() {
     }
 
     ///Create a Map<audioId:string, (Song * Edge list)> from a Song * Edge list array.
-    function asMap(graph : [Song, Edge[]][]) {
+    asMap(graph : [Song, Edge[]][]) {
         let mapped = graph.map((x) => ((x[0]).AudioId, x));
         return mapped;
     }
-    }
+}
+
+module.exports = {
+    parseCollection: new CollectionParser().parseCollection,
+    buildGraph: new Graph().buildGraph,
+    asMap: new Graph().asMap
 }

@@ -1,26 +1,26 @@
 "use strict";
-var electron = require('electron');
-var app = electron.app;
-var BrowserWindow = electron.BrowserWindow;
-var ipc = electron.ipcMain;
-var dialog = electron.dialog;
-var crypto = require('crypto');
-var fs = require('fs');
-var request = require('request');
-var exec = require('child_process').exec;
-var configuration = require('./configuration');
-var mainWindow;
-var preferencesWindow;
-var collectionPath;
-var graph;
-app.on('ready', function () {
+const electron = require('electron');
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+const ipc = electron.ipcMain;
+const dialog = electron.dialog;
+const crypto = require('crypto');
+const fs = require('fs');
+const request = require('request');
+const { exec } = require('child_process');
+const configuration = require('./configuration');
+let mainWindow;
+let preferencesWindow;
+let collectionPath;
+let graph;
+app.on('ready', () => {
     executeBackendServer();
     setAppEvents();
     setIpcEvents();
     setUpMainWindow(false);
     var collectionPath = configuration.readSettings('collectionPath');
     if (collectionPath) {
-        mainWindow.webContents.on('did-finish-load', function () { return sendCollectionRequest(collectionPath); });
+        mainWindow.webContents.on('did-finish-load', () => sendCollectionRequest(collectionPath));
     }
 });
 function executeBackendServer() {
@@ -31,26 +31,25 @@ function executeBackendServer() {
     }
 }
 function setAppEvents() {
-    app.on('quit', function () { return graph.kill('SIGKILL'); });
-    app.on('window-all-closed', function () { return app.quit(); });
+    app.on('quit', () => graph.kill('SIGKILL'));
+    app.on('window-all-closed', () => app.quit());
 }
 function setIpcEvents() {
-    ipc.on('song-drop', function (event, fileName, hash) { return chooseSong(event, fileName, hash); });
-    ipc.on('preferences', function (event, arg) { return spawnPreferences(); });
-    ipc.on('collection-path-request', function (event) {
+    ipc.on('song-drop', (event, fileName, hash) => chooseSong(event, fileName, hash));
+    ipc.on('preferences', (event, arg) => spawnPreferences());
+    ipc.on('collection-path-request', (event) => {
         if (collectionPath)
             event.sender.send('receive-collection-path', collectionPath);
     });
-    ipc.on('collection-upload', function (event, path) {
+    ipc.on('collection-upload', (event, path) => {
         sendCollectionRequest(path);
         collectionPath = path;
     });
 }
-function setUpMainWindow(devTools) {
-    if (devTools === void 0) { devTools = false; }
+function setUpMainWindow(devTools = false) {
     mainWindow = new BrowserWindow({ minWidth: 350, width: 400, height: 600, resizable: true });
     mainWindow.loadURL('file://' + __dirname + '/app/view/index.html');
-    mainWindow.on('closed', function () {
+    mainWindow.on('closed', () => {
         if (preferencesWindow != null) {
             preferencesWindow.close();
         }
@@ -86,7 +85,7 @@ function chooseSong(event, fileName, hash) {
     var url = 'http://localhost:8083/choose/' + transitions + '/' + hash;
     request.get({
         url: url,
-    }, function (error, response, body) {
+    }, (error, response, body) => {
         if (error != null) {
             dialog.showErrorBox('F# Server Error', error.message);
         }
@@ -101,14 +100,14 @@ function spawnPreferences() {
     preferencesWindow = new BrowserWindow({ width: 530, height: 270, resizable: false });
     preferencesWindow.loadURL('file://' + __dirname + '/app/view/preferences.html');
     //preferencesWindow.webContents.openDevTools();
-    preferencesWindow.on('closed', function () { return preferencesWindow = null; });
+    preferencesWindow.on('closed', () => preferencesWindow = null);
 }
 function postCollection(responseBody) {
     request.post({
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         url: 'http://localhost:8083/collection',
         body: JSON.stringify(responseBody)
-    }, function (error, response, body) {
+    }, (error, response, body) => {
         if (error != null) {
             dialog.showErrorBox('F# Server Error', error.message);
         }

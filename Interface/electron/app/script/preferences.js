@@ -7,15 +7,15 @@ var transitionsField = document.getElementById('transition-number-field');
 function setBodyDrag() {
     var body = document.getElementsByTagName('body')[0];
     //Make the main window ignore drag-n-drop.
-    body.addEventListener('dragover', function (e) {
+    body.addEventListener('dragover', e => {
         e.stopPropagation();
         e.preventDefault();
     });
-    body.addEventListener('dragleave', function (e) {
+    body.addEventListener('dragleave', e => {
         e.stopPropagation();
         e.preventDefault();
     });
-    body.addEventListener('drop', function (e) {
+    body.addEventListener('drop', e => {
         e.stopPropagation();
         e.preventDefault();
     });
@@ -23,7 +23,7 @@ function setBodyDrag() {
 function requestCurrentCollectionPath() {
     ipcPreferences.send('collection-path-request');
 }
-ipcPreferences.on('receive-collection-path', function (event, path) {
+ipcPreferences.on('receive-collection-path', (event, path) => {
     field.value = path;
 });
 function retrieveSettings() {
@@ -40,7 +40,7 @@ function retrieveSettings() {
     //if (typeof cached != 'undefined') checkBox.checked = cached;
 }
 window.onbeforeunload =
-    function () {
+        () => {
         configuration.saveSettings('collectionPath', field.value);
         configuration.saveSettings('transitions', transitionsField.value);
         configuration.saveSettings('numberOfEdges', edgesField.value);
