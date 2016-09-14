@@ -1,26 +1,26 @@
 import electron = require('electron');
 
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-const ipc = electron.ipcMain;
-const dialog = electron.dialog;
+var app = electron.app;
+var BrowserWindow = electron.BrowserWindow;
+var ipc = electron.ipcMain;
+var dialog = electron.dialog;
 
-const crypto = require('crypto');
-const fs = require('fs');
-const request = require('request');
-const {exec} = require('child_process');
-const configuration = require('./configuration');
+var crypto = require('crypto');
+var fs = require('fs');
+var request = require('request');
+var {exec} = require('child_process');
+var configuration = require('./configuration');
+var graph = require('./graph.js');
 
 let mainWindow;
 let preferencesWindow;
 let collectionPath;
-let graph;
+let builtGraph;
 
 app.on('ready', () => {
-	executeBackendServer();
 	setAppEvents();
 	setIpcEvents();
-	setUpMainWindow(false);
+	setUpMainWindow(true);
 
 	var collectionPath = configuration.readSettings('collectionPath');
 	if (collectionPath) {
@@ -28,21 +28,12 @@ app.on('ready', () => {
 	}
 });
 
-function executeBackendServer() {
-	if (process.platform === 'darwin') {
-        graph = exec(process.resourcesPath + '/app/Release/Traktor', { cwd: undefined, env: '/usr/local/bin' }, function (error, stdout, stderr) {
-			dialog.showErrorBox('Error', error.message);
-		});
-    }
-}
-
 function setAppEvents() {
-	app.on('quit', () => graph.kill('SIGKILL'));
 	app.on('window-all-closed', () => app.quit());
 }
 
 function setIpcEvents() {
-	ipc.on('song-drop', (event, fileName, hash) => chooseSong(event, fileName, hash));
+	ipc.on('song-drop', (event, fileName) => chooseSong(event, fileName));
 	ipc.on('preferences', (event, arg) => spawnPreferences())
 	ipc.on('collection-path-request', (event) => {
 		if (collectionPath) event.sender.send('receive-collection-path', collectionPath);
@@ -70,41 +61,20 @@ function setUpMainWindow(devTools = false) {
 
 function sendCollectionRequest(path) {
 	var edges = configuration.readSettings('numberOfEdges');
-	var responseBody = null;
-	if (typeof edges != 'undefined') {
-		responseBody = { collectionPath: path, numberOfEdges: edges };
-	}
-	else {
-		responseBody = { collectionPath: path };
-	}
-
+	var request = { collectionPath: path, numberOfEdges: edges };
+	
 	mainWindow.webContents.send('parsing-started');
-	postCollection(responseBody);
+	var parsed = graph.parseCollection('/Users/Anders/Documents/Native Instruments/Traktor 2.10.2/collection.nml');
+	var builtGraph = graph.buildGraph(parsed, 5);
+	mainWindow.webContents.send('collection-uploaded');
 }
 
-function chooseSong(event, fileName, hash) {
-	function createHash(s) {
-		var sha256 = crypto.createHash("sha256");
-		sha256.update(s, "utf8");
-		return sha256.digest("base64");
-	}
-
-	if (fileName) hash = createHash(fileName);
+function chooseSong(event, fileName) {
 	var transitions = configuration.readSettings('transitions');
 	if (typeof transitions === 'undefined') transitions = 8;
 
-	var url = 'http://localhost:8083/choose/' + transitions + '/' + hash;
-	request.get({
-		url: url,
-	}, (error, response, body) => {
-		if (error != null) {
-			dialog.showErrorBox('F# Server Error', error.message);
-		}
-
-		else {
-			event.sender.send('receive-transitions', body);
-		}
-	});
+	var transitions = builtGraph[fileName];
+	event.sender.send('receive-transitions', transitions);
 }
 
 function spawnPreferences() {
@@ -115,27 +85,4 @@ function spawnPreferences() {
 	//preferencesWindow.webContents.openDevTools();
 
 	preferencesWindow.on('closed', () => preferencesWindow = null)
-}
-
-function postCollection(responseBody) {
-	request.post({
-		headers: { 'content-type': 'application/x-www-form-urlencoded' },
-		url: 'http://localhost:8083/collection',
-		body: JSON.stringify(responseBody)
-	}, (error, response, body) => {
-		if (error != null) {
-			dialog.showErrorBox('F# Server Error', error.message);
-		}
-
-		else {
-			if (response.statusCode != 200) {
-				console.log("Error: response was: " + response.statusCode);
-				mainWindow.loadUrl('file://' + __dirname + '/app/view/index.html');
-			}
-
-			else {
-				mainWindow.webContents.send('collection-uploaded');
-			}
-		}
-	});
 }

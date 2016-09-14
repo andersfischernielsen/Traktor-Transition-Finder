@@ -14,12 +14,10 @@ class CollectionParser {
         function parseXML() {
             var parsed;
             var parser = new xml2js.Parser();
-            fs.readFileSync(pathToCollection, function(err, data) {
-                parser.parseString(data, function (err, result) {
-                    parsed = result;
-                });
+            var result = fs.readFileSync(pathToCollection, "utf8");
+            parser.parseString(result, function (err, result) {
+                parsed = result;
             });
-
             return parsed.NML.COLLECTION[0].ENTRY;
         }
 
@@ -35,7 +33,7 @@ class CollectionParser {
         }
 
         ///Parse integer key from MUSICAL_KEY attribute in NML to Key.
-        function parseMusicalKey(k:number) : [number, Chord]{
+        function parseMusicalKey(k:Number) : [number, Chord]{
             switch(k) {
                 case 0: return [1, Chord.Major];
                 case 1: return [8, Chord.Major];
@@ -72,20 +70,20 @@ class CollectionParser {
             var a = entry.$.ARTIST;
             var mk = entry.MUSICAL_KEY;
             var ik = entry.INFO.KEY;
-            var id = entry.LOCATION.$.FILE;
+            var id = entry.LOCATION[0].$.FILE;
 
             if(te == undefined || id == undefined) {
                 return { BPM: 0.0, Title: "", Artist: "", Key: [0, Chord.Invalid], AudioId: "" }
             }
 
             return (mk != undefined) 
-                 ? { BPM: te.BPM, Title: ti, Artist: a, Key: parseMusicalKey(mk[0].$.VALUE), AudioId: id }
-                 : { BPM: te.BPM, Title: ti, Artist: a, Key: parseKey(ik), AudioId: id }
+                 ? { BPM: te[0].$.BPM, Title: ti, Artist: a, Key: parseMusicalKey(+mk[0].$.VALUE), AudioId: id }
+                 : { BPM: te[0].$.BPM, Title: ti, Artist: a, Key: parseKey(ik), AudioId: id }
         }
 
         var collection = parseXML();
         var songs = collection.map(parseToSong);
-        songs
+        return songs;
     }
 }
 
@@ -94,22 +92,21 @@ class Graph {
     ///Create a graph (represented as a Song * Edge list array) from  a Song list.
     buildGraph (list: Song[], numberOfEdges:Number) {
         ///Calculate the weight from a given Key to another Key.
-        function weightForKey (key, other) {
+        function weightForKey (key : [Number, Chord], other : [Number, Chord]) {
             var accountFor12 = (n:number) => n % 12 == 0 ? 12 : n % 12;
-            var plusOne = accountFor12 (key[0] + 1)            //One key up
-            var minusOne = accountFor12 (key[0] + 11)          //One key down.
-            var oneSemitone = accountFor12 (key[0] + 2)        //One semitone up.
-            var twoSemitones = accountFor12 (key[0] + 7)       //two semitones up.
-            var threeUpDown = () => {
-                switch (other[1]) {                        //If Chord.Minor, three keys UP, if Chord.Major three keys DOWN.
-                    case Chord.Minor: return accountFor12 (key[0] + 3);
-                    case Chord.Major: return accountFor12 (key[0] + 9);
-                    default:          return Number.MAX_VALUE;
-                }
+            var plusOne = accountFor12 (+key[0] + 1)            //One key up
+            var minusOne = accountFor12 (+key[0] + 11)          //One key down.
+            var oneSemitone = accountFor12 (+key[0] + 2)        //One semitone up.
+            var twoSemitones = accountFor12 (+key[0] + 7)       //two semitones up.
+            function threeUpDown(k) {
+                //If Chord.Minor, three keys UP, if Chord.Major three keys DOWN.
+                if (k == Chord.Minor) return accountFor12 (+key[0] + 3); 
+                else if (k == Chord.Major) return accountFor12 (+key[0] + 9);
+                return Number.MAX_VALUE;
             }
 
             //Create a list of all good key transitions.
-            var lst = [ plusOne, minusOne, oneSemitone, twoSemitones, threeUpDown() ]
+            var lst = [ plusOne, minusOne, oneSemitone, twoSemitones, threeUpDown(other[1]) ]
             //See if other key matches any of the good key transitions.
             let filtered = lst.filter (x => other[0] == x)
             //If there were any matches, then it's a nice key transition.
@@ -127,8 +124,8 @@ class Graph {
         function generateEdges (song:Song, songs:Song[]) {
             ///Take n elements from a given list until there are no more elements.
             function take (n:Number, list: any[]) {
-                var acc;
-                function takeAcc (n, list:any[]) : any[]{
+                var acc = [];
+                function takeAcc (n, list:any[]) : any[] {
                     if (list.length <= 0) { 
                         return acc;
                     } 
@@ -149,7 +146,7 @@ class Graph {
             var createEdgesFromSong = 
                 (songs) => {
                     var all = findOtherSongs(songs).map(s => calculateWeight(song, s)).sort((s1, s2) => +(s1.Weight > s2.Weight));
-                    return take(numberOfEdges, all);
+                    return take(numberOfEdges, all).reverse();
             }
 
             let result = createEdgesFromSong(songs);
@@ -162,7 +159,7 @@ class Graph {
 
     ///Create a Map<audioId:string, (Song * Edge list)> from a Song * Edge list array.
     asMap(graph : [Song, Edge[]][]) {
-        let mapped = graph.map((x) => ((x[0]).AudioId, x));
+        let mapped = graph.map(x => [x[0].AudioId, x]);
         return mapped;
     }
 }

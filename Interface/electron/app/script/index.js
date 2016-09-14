@@ -1,12 +1,11 @@
-"use strict";
-const electron = require('electron');
-const ipc = electron.ipcRenderer;
-const fs = require('fs');
-const remote = electron.remote;
-const dialog = remote.dialog;
-const app = remote.app;
-const Menu = remote.Menu;
-function setBodyDrag() {
+var electron = require('electron');
+var ipc = electron.ipcRenderer;
+var fs = require('fs');
+var remote = electron.remote;
+var dialog = remote.dialog;
+var remoteApp = remote.app;
+var Menu = remote.Menu;
+function setIndexBodyDrag() {
     var body = document.getElementsByTagName('body')[0];
     //Make the main window ignore drag-n-drop.
     body.addEventListener('dragover', (e) => {
@@ -27,7 +26,7 @@ function openFile() {
     dialog.showOpenDialog(remote.getCurrentWindow(), {
         filters: [{ name: 'Traktor Collection', extensions: ['nml'] }],
         properties: ['openFile'],
-        defaultPath: app.getPath('home') + '/Documents/Native Instruments/',
+        defaultPath: remoteApp.getPath('home') + '/Documents/Native Instruments/',
     }, fileNames => {
         if (fileNames == null)
             return;
@@ -127,5 +126,5 @@ function setMenu() {
     var menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
 }
-setBodyDrag();
+setIndexBodyDrag();
 setMenu();

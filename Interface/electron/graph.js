@@ -19,10 +19,10 @@ class CollectionParser {
         function parseXML() {
             var parsed;
             var parser = new xml2js.Parser();
-            var file = fs.readFileSync(pathToCollection);
-            parser.parseString(file, function (err, result) {
-                    parsed = result;
-                });
+            var result = fs.readFileSync(pathToCollection, "utf8");
+            parser.parseString(result, function (err, result) {
+                parsed = result;
+            });
             return parsed.NML.COLLECTION[0].ENTRY;
         }
         ///Parse string keys from KEY.INFO attribute in NML.
@@ -36,7 +36,7 @@ class CollectionParser {
         }
         ///Parse integer key from MUSICAL_KEY attribute in NML to Key.
         function parseMusicalKey(k) {
-            switch (+k) {
+            switch (k) {
                 case 0: return [1, Chord.Major];
                 case 1: return [8, Chord.Major];
                 case 2: return [3, Chord.Major];
@@ -71,17 +71,17 @@ class CollectionParser {
             var a = entry.$.ARTIST;
             var mk = entry.MUSICAL_KEY;
             var ik = entry.INFO.KEY;
-            var id = entry.LOCATION;
+            var id = entry.LOCATION[0].$.FILE;
             if (te == undefined || id == undefined) {
                 return { BPM: 0.0, Title: "", Artist: "", Key: [0, Chord.Invalid], AudioId: "" };
             }
             return (mk != undefined)
-                ? { BPM: te[0].$.BPM, Title: ti, Artist: a, Key: parseMusicalKey(mk[0].$.VALUE), AudioId: id[0].$.FILE }
-                : { BPM: te, Title: ti, Artist: a, Key: parseKey(ik), AudioId: id[0].$.FILE };
+                ? { BPM: te[0].$.BPM, Title: ti, Artist: a, Key: parseMusicalKey(+mk[0].$.VALUE), AudioId: id }
+                : { BPM: te[0].$.BPM, Title: ti, Artist: a, Key: parseKey(ik), AudioId: id };
         }
         var collection = parseXML();
-        var songs = collection.map(s => parseToSong(s));
-        songs;
+        var songs = collection.map(parseToSong);
+        return songs;
     }
 }
 class Graph {
@@ -91,19 +91,20 @@ class Graph {
         ///Calculate the weight from a given Key to another Key.
         function weightForKey(key, other) {
             var accountFor12 = (n) => n % 12 == 0 ? 12 : n % 12;
-            var plusOne = accountFor12(key[0] + 1); //One key up
-            var minusOne = accountFor12(key[0] + 11); //One key down.
-            var oneSemitone = accountFor12(key[0] + 2); //One semitone up.
-            var twoSemitones = accountFor12(key[0] + 7); //two semitones up.
-            var threeUpDown = () => {
-                switch (other[1]) {
-                    case Chord.Minor: return accountFor12(key[0] + 3);
-                    case Chord.Major: return accountFor12(key[0] + 9);
-                    default: return Number.MAX_VALUE;
-                }
-            };
+            var plusOne = accountFor12(+key[0] + 1); //One key up
+            var minusOne = accountFor12(+key[0] + 11); //One key down.
+            var oneSemitone = accountFor12(+key[0] + 2); //One semitone up.
+            var twoSemitones = accountFor12(+key[0] + 7); //two semitones up.
+            function threeUpDown(k) {
+                //If Chord.Minor, three keys UP, if Chord.Major three keys DOWN.
+                if (k == Chord.Minor)
+                    return accountFor12(+key[0] + 3);
+                else if (k == Chord.Major)
+                    return accountFor12(+key[0] + 9);
+                return Number.MAX_VALUE;
+            }
             //Create a list of all good key transitions.
-            var lst = [plusOne, minusOne, oneSemitone, twoSemitones, threeUpDown()];
+            var lst = [plusOne, minusOne, oneSemitone, twoSemitones, threeUpDown(other[1])];
             //See if other key matches any of the good key transitions.
             let filtered = lst.filter(x => other[0] == x);
             //If there were any matches, then it's a nice key transition.
@@ -118,7 +119,7 @@ class Graph {
         function generateEdges(song, songs) {
             ///Take n elements from a given list until there are no more elements.
             function take(n, list) {
-                var acc;
+                var acc = [];
                 function takeAcc(n, list) {
                     if (list.length <= 0) {
                         return acc;
@@ -138,7 +139,7 @@ class Graph {
             }
             var createEdgesFromSong = (songs) => {
                 var all = findOtherSongs(songs).map(s => calculateWeight(song, s)).sort((s1, s2) => +(s1.Weight > s2.Weight));
-                return take(numberOfEdges, all);
+                return take(numberOfEdges, all).reverse();
             };
             let result = createEdgesFromSong(songs);
             return [song, result];
@@ -148,7 +149,7 @@ class Graph {
     }
     ///Create a Map<audioId:string, (Song * Edge list)> from a Song * Edge list array.
     asMap(graph) {
-        let mapped = graph.map((x) => ((x[0]).AudioId, x));
+        let mapped = graph.map(x => [x[0].AudioId, x]);
         return mapped;
     }
 }

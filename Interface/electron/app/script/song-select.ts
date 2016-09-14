@@ -1,9 +1,9 @@
-import electron = require('electron');
-const ipcSongSelect = electron.ipcRenderer;
+var electron = require('electron');
+var ipcSongSelect = electron.ipcRenderer;
 
 var dropzone;
 
-function setDropzone() {
+function setSelectDropzone() {
     dropzone = document.getElementById('dropzone');
     
     dropzone.addEventListener('dragover', e => 
@@ -27,21 +27,17 @@ function setDropzone() {
         e.preventDefault();
         dropzone.className = 'dropzone';
         var file = e.dataTransfer.files[0];
-        var reader = new FileReader();
-        reader.onloadstart = e2 => 
-        {
-            ipcSongSelect.send('song-drop', file.name);
-        }
-        reader.readAsDataURL(file);
+        ipcSongSelect.send('song-drop', file.name);
     });
 }
 
 ipcSongSelect.on('receive-transitions', (event, arg) => 
 {
+    debugger;
     dropzone.style.height = '80px';
     dropzone.style.boxShadow = 'box-shadow:inset 0px 0px 0px 2px lightgrey;'
     document.getElementById('inner-dropzone').style.fontSize = '18px';
-    let received = JSON.parse(arg);
+    let received = arg;
     let song = received.song;
     let transitions = received.transitions;
 
@@ -132,4 +128,4 @@ function buildItem(elem) {
     return item;
 }
 
-setDropzone();
+setSelectDropzone();
