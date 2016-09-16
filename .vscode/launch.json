@@ -5,12 +5,12 @@
             "name": "Launch",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/Interface/electron/main.js",
+            "program": "${workspaceRoot}/electron/main.js",
             "stopOnEntry": false,
             "args": [],
-            "cwd": "${workspaceRoot}/Interface/electron",
+            "cwd": "${workspaceRoot}/electron",
             "preLaunchTask": null,
-            "runtimeExecutable": "${workspaceRoot}/Interface/electron/node_modules/.bin/electron",
+            "runtimeExecutable": "${workspaceRoot}/electron/node_modules/.bin/electron",
             "runtimeArgs": [
                 ".",
                 "--enable-logging"
