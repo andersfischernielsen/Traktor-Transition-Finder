@@ -1,16 +1,16 @@
 import fs = require("fs");
 import xml2js = require('xml2js');
 
-enum Chord { Major, Minor, Invalid }
-class Song { BPM : Number; Title : string; Artist : string; Key : [Number, Chord]; AudioId : string }
-class Edge { Weight : Number; From : Song; To : Song }
+type Chord = "Major" | "Minor" | "Invalid"
+export class Song { BPM : Number; Title : string; Artist : string; Key : [Number, Chord]; AudioId : string }
+export class Edge { Weight : Number; From : Song; To : Song }
 
 //The "punishment" for having a bad key transition.
 const BADKEYWEIGHT = 15.0
 
-class CollectionParser {
+export class CollectionParser {
     ///Parse a .nml collection into a Song list.
-    parseCollection (pathToCollection : string) {
+    public static parseCollection (pathToCollection : string) {
         function parseXML() {
             var parsed;
             var parser = new xml2js.Parser();
@@ -22,44 +22,44 @@ class CollectionParser {
         }
 
         ///Parse string keys from KEY.INFO attribute in NML.
-        function parseKey (s:string) : [number, Chord]{
+        function parseKey (s:string) : [number, Chord] {
             var regex = new RegExp("\d+");
             var result = regex.exec(s);
-            var key = s.indexOf("d") > 0 ? Chord.Major : Chord.Minor
+            var key : Chord = s.indexOf("d") > 0 ? "Major" : "Minor";
 
-            var num = Number(result[0])
-            num = isNaN(num) ? num = 0 : num 
-            return [num, key]
+            var num = Number(result[0]);
+            num = isNaN(num) ? num = 0 : num;
+            return [num, key];
         }
 
         ///Parse integer key from MUSICAL_KEY attribute in NML to Key.
         function parseMusicalKey(k:Number) : [number, Chord]{
             switch(k) {
-                case 0: return [1, Chord.Major];
-                case 1: return [8, Chord.Major];
-                case 2: return [3, Chord.Major];
-                case 3: return [10, Chord.Major];
-                case 4: return [5, Chord.Major];
-                case 5: return [12, Chord.Major];
-                case 6: return [7, Chord.Major];
-                case 7: return [2, Chord.Major];
-                case 8: return [9, Chord.Major];
-                case 9: return [4, Chord.Major];
-                case 10: return [11, Chord.Major];
-                case 11: return [6, Chord.Major];
-                case 12: return [10,Chord.Minor];
-                case 13: return [5, Chord.Minor];
-                case 14: return [12, Chord.Minor];
-                case 15: return [7, Chord.Minor];
-                case 16: return [2, Chord.Minor];
-                case 17: return [9, Chord.Minor];
-                case 18: return [4, Chord.Minor];
-                case 19: return [11, Chord.Minor];
-                case 20: return [6, Chord.Minor];
-                case 21: return [1, Chord.Minor];
-                case 22: return [8, Chord.Minor];
-                case 23: return [3, Chord.Minor];
-                default: return [0, Chord.Invalid];
+                case 0: return [1, "Major"];
+                case 1: return [8, "Major"];
+                case 2: return [3, "Major"];
+                case 3: return [10, "Major"];
+                case 4: return [5, "Major"];
+                case 5: return [12, "Major"];
+                case 6: return [7, "Major"];
+                case 7: return [2, "Major"];
+                case 8: return [9, "Major"];
+                case 9: return [4, "Major"];
+                case 10: return [11, "Major"];
+                case 11: return [6, "Major"];
+                case 12: return [10,"Minor"];
+                case 13: return [5, "Minor"];
+                case 14: return [12, "Minor"];
+                case 15: return [7, "Minor"];
+                case 16: return [2, "Minor"];
+                case 17: return [9, "Minor"];
+                case 18: return [4, "Minor"];
+                case 19: return [11, "Minor"];
+                case 20: return [6, "Minor"];
+                case 21: return [1, "Minor"];
+                case 22: return [8, "Minor"];
+                case 23: return [3, "Minor"];
+                default: return [0, "Invalid"];
             }
         }
 
@@ -73,12 +73,12 @@ class CollectionParser {
             var id = entry.LOCATION[0].$.FILE;
 
             if(te == undefined || id == undefined) {
-                return { BPM: 0.0, Title: "", Artist: "", Key: [0, Chord.Invalid], AudioId: "" }
+                return { BPM: 0.0, Title: "", Artist: "", Key: [0, "Invalid"], AudioId: "" }
             }
 
             return (mk != undefined) 
-                 ? { BPM: te[0].$.BPM, Title: ti, Artist: a, Key: parseMusicalKey(+mk[0].$.VALUE), AudioId: id }
-                 : { BPM: te[0].$.BPM, Title: ti, Artist: a, Key: parseKey(ik), AudioId: id }
+                 ? { BPM: te[0].$.BPM, Title: ti, Artist: a, Key: parseMusicalKey(+mk[0].$.VALUE), AudioId: id } as Song
+                 : { BPM: te[0].$.BPM, Title: ti, Artist: a, Key: parseKey(ik), AudioId: id } as Song
         }
 
         var collection = parseXML();
@@ -87,21 +87,21 @@ class CollectionParser {
     }
 }
 
-class Graph {
+export class Graph {
     ///Calculate weights for a (Song * Edge list) array.
     ///Create a graph (represented as a Song * Edge list array) from  a Song list.
-    buildGraph (list: Song[], numberOfEdges:Number) {
+    public static buildGraph (list: Song[], numberOfEdges:Number) {
         ///Calculate the weight from a given Key to another Key.
         function weightForKey (key : [Number, Chord], other : [Number, Chord]) {
             var accountFor12 = (n:number) => n % 12 == 0 ? 12 : n % 12;
-            var plusOne = accountFor12 (+key[0] + 1)            //One key up
-            var minusOne = accountFor12 (+key[0] + 11)          //One key down.
-            var oneSemitone = accountFor12 (+key[0] + 2)        //One semitone up.
-            var twoSemitones = accountFor12 (+key[0] + 7)       //two semitones up.
+            var plusOne = accountFor12 (+key[0] + 1);            //One key up
+            var minusOne = accountFor12 (+key[0] + 11);          //One key down.
+            var oneSemitone = accountFor12 (+key[0] + 2);        //One semitone up.
+            var twoSemitones = accountFor12 (+key[0] + 7);       //two semitones up.
             function threeUpDown(k) {
                 //If Chord.Minor, three keys UP, if Chord.Major three keys DOWN.
-                if (k == Chord.Minor) return accountFor12 (+key[0] + 3); 
-                else if (k == Chord.Major) return accountFor12 (+key[0] + 9);
+                if (k == "Minor") return accountFor12 (+key[0] + 3); 
+                else if (k == "Major") return accountFor12 (+key[0] + 9);
                 return Number.MAX_VALUE;
             }
 
@@ -113,7 +113,7 @@ class Graph {
             return filtered.length == 0 ? BADKEYWEIGHT : 0.0
         }
 
-        function calculateWeight (fromSong:Song, toSong:Song) : Edge {
+        function generateEdge (fromSong:Song, toSong:Song) : Edge {
             var bpmDifference = Math.abs(+fromSong.BPM - +toSong.BPM);
             var keyWeight = weightForKey(fromSong.Key, toSong.Key);
 
@@ -121,7 +121,7 @@ class Graph {
             return { Weight: weight, From: fromSong, To: toSong }
         }
 
-        function generateEdges (song:Song, songs:Song[]) {
+        function generateEdgesForSong (song:Song, songs:Song[]) : [Song, Edge[]] {
             ///Take n elements from a given list until there are no more elements.
             function take (n:Number, list: any[]) {
                 var acc = [];
@@ -140,32 +140,37 @@ class Graph {
                 return takeAcc(n, list);
             }
 
-            function findOtherSongs (array:Song[]) { 
-                return array.filter (s => (s != song));
-            }
-            var createEdgesFromSong = 
-                (songs) => {
-                    var all = findOtherSongs(songs).map(s => calculateWeight(song, s)).sort((s1, s2) => +(s1.Weight > s2.Weight));
-                    return take(numberOfEdges, all).reverse();
+            function createEdgesFromSong(songs : Song[])
+            {
+                function compare(first : Edge, second : Edge) {
+                    if (first.Weight < second.Weight) return -1
+                    if (first.Weight > second.Weight) return 1
+                    return 0;
+                }
+
+                var otherSongs = songs.filter (s => (s != song));
+                var withEdges = otherSongs.map(s => generateEdge(song, s));
+                var sorted = withEdges.sort((e1, e2) => compare(e1, e2));
+                return take(numberOfEdges, sorted) as Edge[];
             }
 
             let result = createEdgesFromSong(songs);
             return [song, result];
         }
 
-        var withEdges = list.map (entry => generateEdges(entry, list));
+        var withEdges = list.map (entry => generateEdgesForSong(entry, list));
         return withEdges;
     }
 
     ///Create a Map<audioId:string, (Song * Edge list)> from a Song * Edge list array.
-    asMap(graph : [Song, Edge[]][]) {
-        let mapped = graph.map(x => [x[0].AudioId, x]);
+    public static asMap(graph : [Song, Edge[]][]) {
+        var mapped = new Map<string, [Song, Edge[]]>();
+        let asTupleList = graph.forEach(x => mapped.set(x[0].AudioId, x));
         return mapped;
     }
 }
 
 module.exports = {
-    parseCollection: new CollectionParser().parseCollection,
-    buildGraph: new Graph().buildGraph,
-    asMap: new Graph().asMap
+    CollectionParser: CollectionParser,
+    Graph: Graph
 }

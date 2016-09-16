@@ -1,4 +1,5 @@
 import electron = require('electron');
+import * as graph from "./graph";
 
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
@@ -10,21 +11,20 @@ var fs = require('fs');
 var request = require('request');
 var {exec} = require('child_process');
 var configuration = require('./configuration');
-var graph = require('./graph.js');
 
 let mainWindow;
 let preferencesWindow;
 let collectionPath;
-let builtGraph;
+let builtGraph : Map<string, [graph.Song, graph.Edge[]]>;
 
 app.on('ready', () => {
 	setAppEvents();
 	setIpcEvents();
-	setUpMainWindow(true);
+	setUpMainWindow(false);
 
 	var collectionPath = configuration.readSettings('collectionPath');
 	if (collectionPath) {
-		mainWindow.webContents.on('did-finish-load', () => sendCollectionRequest(collectionPath))
+		mainWindow.webContents.on('did-finish-load', () => buildGraph(collectionPath))
 	}
 });
 
@@ -39,7 +39,7 @@ function setIpcEvents() {
 		if (collectionPath) event.sender.send('receive-collection-path', collectionPath);
 	});
 	ipc.on('collection-upload', (event, path) => {
-		sendCollectionRequest(path);
+		buildGraph(path);
 		collectionPath = path;
 	});
 }
@@ -59,21 +59,22 @@ function setUpMainWindow(devTools = false) {
 	if (devTools) mainWindow.webContents.openDevTools();
 }
 
-function sendCollectionRequest(path) {
+function buildGraph(path) {
 	var edges = configuration.readSettings('numberOfEdges');
 	var request = { collectionPath: path, numberOfEdges: edges };
 	
 	mainWindow.webContents.send('parsing-started');
-	var parsed = graph.parseCollection('/Users/Anders/Documents/Native Instruments/Traktor 2.10.2/collection.nml');
-	var builtGraph = graph.buildGraph(parsed, 5);
+	var parsed = graph.CollectionParser.parseCollection('/Users/Anders/Documents/Native Instruments/Traktor 2.10.2/collection.nml');
+	var result = graph.Graph.buildGraph(parsed, 5);
+	builtGraph = graph.Graph.asMap(result);
 	mainWindow.webContents.send('collection-uploaded');
 }
 
 function chooseSong(event, fileName) {
-	var transitions = configuration.readSettings('transitions');
-	if (typeof transitions === 'undefined') transitions = 8;
+	var numberOfTransitions = configuration.readSettings('transitions');
+	if (typeof numberOfTransitions === 'undefined') numberOfTransitions = 8;
 
-	var transitions = builtGraph[fileName];
+	var transitions = builtGraph.get(fileName);
 	event.sender.send('receive-transitions', transitions);
 }
 
