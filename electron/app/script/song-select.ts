@@ -34,7 +34,6 @@ function setSelectDropzone() {
 
 ipcSongSelect.on('receive-transitions', (event, received : [graph.Song, graph.Edge[]]) => 
 {
-    debugger;
     dropzone.style.height = '80px';
     dropzone.style.boxShadow = 'box-shadow:inset 0px 0px 0px 2px lightgrey;'
     document.getElementById('inner-dropzone').style.fontSize = '18px';
@@ -51,7 +50,6 @@ function setChosenSongInfo(song : graph.Song) {
     var chosenKey = document.getElementById('chosen-key');
     var chosenBpm = document.getElementById('chosen-bpm');
 
-    debugger;
     chosenTitle.innerHTML = song.Title;
     chosenArtist.innerHTML = song.Artist;
     chosenKey.innerHTML = song.Key[0].toString() + song.Key[1][0];
@@ -59,7 +57,6 @@ function setChosenSongInfo(song : graph.Song) {
 }
 
 function setTransitionInfo(transitions : graph.Edge[]) {
-    debugger;
     var list = document.getElementById('transition-list');
     setNoDrop(list);
 
@@ -78,7 +75,6 @@ function setTransitionInfo(transitions : graph.Edge[]) {
 }
 
 function setNoDrop(list) {
-    debugger;
 	//Make the main window ignore drag-n-drop.
 	list.addEventListener('dragover', e => {
 	    e.stopPropagation();
@@ -97,7 +93,6 @@ function setNoDrop(list) {
 }
 
 function buildItem(song: graph.Song) {
-    debugger;
     let item = document.createElement('div');
     let title = document.createElement('div');
     let artist = document.createElement('div');
@@ -126,7 +121,7 @@ function buildItem(song: graph.Song) {
 
     item.addEventListener('click', e =>  
     {
-        ipcSongSelect.send('song-drop', null, song.AudioId);
+        ipcSongSelect.send('song-drop', song.AudioId);
     });
 
     return item;
