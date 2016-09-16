@@ -1,9 +1,10 @@
-import electron = require('electron');
-const ipcSongSelect = electron.ipcRenderer;
+var electron = require('electron');
+import * as graph from "../../graph";
 
+var ipcSongSelect = electron.ipcRenderer;
 var dropzone;
 
-function setDropzone() {
+function setSelectDropzone() {
     dropzone = document.getElementById('dropzone');
     
     dropzone.addEventListener('dragover', e => 
@@ -27,41 +28,35 @@ function setDropzone() {
         e.preventDefault();
         dropzone.className = 'dropzone';
         var file = e.dataTransfer.files[0];
-        var reader = new FileReader();
-        reader.onloadstart = e2 => 
-        {
-            ipcSongSelect.send('song-drop', file.name);
-        }
-        reader.readAsDataURL(file);
+        ipcSongSelect.send('song-drop', file.name);
     });
 }
 
-ipcSongSelect.on('receive-transitions', (event, arg) => 
+ipcSongSelect.on('receive-transitions', (event, received : [graph.Song, graph.Edge[]]) => 
 {
     dropzone.style.height = '80px';
     dropzone.style.boxShadow = 'box-shadow:inset 0px 0px 0px 2px lightgrey;'
     document.getElementById('inner-dropzone').style.fontSize = '18px';
-    let received = JSON.parse(arg);
-    let song = received.song;
-    let transitions = received.transitions;
+    let song = received[0];
+    let transitions = received[1];
 
     setChosenSongInfo(song);
     setTransitionInfo(transitions);
 });
 
-function setChosenSongInfo(song) {
+function setChosenSongInfo(song : graph.Song) {
     var chosenTitle = document.getElementById('chosen-title');
     var chosenArtist = document.getElementById('chosen-artist');
     var chosenKey = document.getElementById('chosen-key');
     var chosenBpm = document.getElementById('chosen-bpm');
 
-    chosenTitle.innerHTML = song.title;
-    chosenArtist.innerHTML = song.artist;
-    chosenKey.innerHTML = song.key.item1 + song.key.item2.case[0];
-    chosenBpm.innerHTML = song.bpm;
+    chosenTitle.innerHTML = song.Title;
+    chosenArtist.innerHTML = song.Artist;
+    chosenKey.innerHTML = song.Key[0].toString() + song.Key[1][0];
+    chosenBpm.innerHTML = song.BPM.toString();
 }
 
-function setTransitionInfo(transitions) {
+function setTransitionInfo(transitions : graph.Edge[]) {
     var list = document.getElementById('transition-list');
     setNoDrop(list);
 
@@ -71,7 +66,7 @@ function setTransitionInfo(transitions) {
 
     transitions.forEach(elem => 
     {
-        var item = buildItem(elem);
+        var item = buildItem(elem.To);
         list.appendChild(item);
         item.style.opacity = '0';
         window.getComputedStyle(item).opacity;
@@ -97,7 +92,7 @@ function setNoDrop(list) {
 	});
 }
 
-function buildItem(elem) {
+function buildItem(song: graph.Song) {
     let item = document.createElement('div');
     let title = document.createElement('div');
     let artist = document.createElement('div');
@@ -112,10 +107,10 @@ function buildItem(elem) {
     bpm.className = 'list-item-bpm';
     key.className = 'list-item-key';
 
-    title.innerHTML = elem.title;
-    artist.innerHTML = elem.artist;
-    key.innerHTML = elem.key.item1 + elem.key.item2.case[0];
-    bpm.innerHTML = elem.bpm;
+    title.innerHTML = song.Title;
+    artist.innerHTML = song.Artist;
+    key.innerHTML = song.Key[0] + song.Key[1][0];
+    bpm.innerHTML = song.BPM.toString();
 
     keyBpm.appendChild(key);
     keyBpm.appendChild(bpm);
@@ -126,10 +121,10 @@ function buildItem(elem) {
 
     item.addEventListener('click', e =>  
     {
-        ipcSongSelect.send('song-drop', null, elem.audioId);
+        ipcSongSelect.send('song-drop', song.AudioId);
     });
 
     return item;
 }
 
-setDropzone();
+setSelectDropzone();

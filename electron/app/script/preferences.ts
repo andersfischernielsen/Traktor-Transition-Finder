@@ -6,7 +6,7 @@ var checkBox = document.getElementById('cacheCheck');
 var edgesField = <HTMLInputElement>document.getElementById('graph-edges-field');
 var transitionsField = <HTMLInputElement>document.getElementById('transition-number-field');
 
-function setBodyDrag() {
+function setPreferencesBodyDrag() {
 	var body = document.getElementsByTagName('body')[0];
 
 	//Make the main window ignore drag-n-drop.
@@ -54,5 +54,5 @@ window.onbeforeunload =
 		//configuration.saveSettings('cached', checkBox.checked);
 	};
 
-setBodyDrag();
+setPreferencesBodyDrag();
 retrieveSettings();
