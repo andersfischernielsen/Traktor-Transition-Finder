@@ -4,7 +4,7 @@
 __This project is currently not maintained. But please do fork, commit and send a pull request if you want to see it working again. :)__
 
 
-<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GFDKRJ7LCQFQS" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> if you think this project is awesome. 😄 </span>
+<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GFDKRJ7LCQFQS" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> if you think this project is awesome. </span>
 
 A small tool for automatically finding the next song to play when DJing using Traktor Pro 2.
 
@@ -29,6 +29,6 @@ The DJ can then pick a song from the list in Traktor Pro 2. The app merely funct
 
 
 ## Implementation
-The first version of the app consists of a F# backend handling parsing the Traktor 2 collection, and serving results via HTTP and JSON to the Electron frontend. 
+The first version of the app consists of a F# backend handling parsing the Traktor 2 collection and serving results as JSON to the Electron frontend. 
 
 The second (current) version of the app is fully implemented in TypeScript and Electron. 
