@@ -74,11 +74,11 @@ const setMenu = () => {
         {
           type: 'separator',
         },
-        {
-          label: 'Preferences...',
-          accelerator: 'Command+,',
-          click: () => ipc.send('preferences'),
-        },
+        // {
+        //   label: 'Preferences...',
+        //   accelerator: 'Command+,',
+        //   click: () => ipc.send('preferences'),
+        // },
         {
           type: 'separator',
         },

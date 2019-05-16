@@ -5,7 +5,7 @@ const ipc = ipcMain;
 import { readSettings } from './configuration';
 
 let mainWindow: BrowserWindow;
-let preferencesWindow: BrowserWindow;
+// let preferencesWindow: BrowserWindow;
 let collectionPath: string;
 let builtGraph: Map<string, [Song, Edge[]]>;
 
@@ -30,7 +30,7 @@ function setIpcEvents() {
   ipc.on('song-drop', (event: Event, fileName: string) =>
     chooseSong(event, fileName),
   );
-  ipc.on('preferences', (event: Event, arg: string) => spawnPreferences());
+  //   ipc.on('preferences', (event: Event, arg: string) => spawnPreferences());
   ipc.on('collection-path-request', (event: Event) => {
     if (collectionPath)
       event.sender.send('receive-collection-path', collectionPath);
@@ -54,10 +54,10 @@ function setUpMainWindow(devTools = false) {
   mainWindow.loadURL('file://' + __dirname + '/app/view/index.html');
 
   mainWindow.on('closed', () => {
-    if (preferencesWindow != null) {
-      preferencesWindow.close();
-    }
-    preferencesWindow = null;
+    // if (preferencesWindow != null) {
+    //   preferencesWindow.close();
+    // }
+    // preferencesWindow = null;
     mainWindow = null;
   });
 
@@ -65,7 +65,9 @@ function setUpMainWindow(devTools = false) {
 }
 
 function buildGraph(path: string) {
-  const edges = readSettings('numberOfEdges');
+  const edges = readSettings('numberOfEdges')
+    ? readSettings('numberOfEdges')
+    : 8;
   mainWindow.webContents.send('parsing-started');
   const parsed = CollectionParser.parseCollection(path);
   const result = Graph.buildGraph(parsed, edges);
@@ -76,24 +78,24 @@ function buildGraph(path: string) {
 function chooseSong(event: Event, fileName: string) {
   const numberOfTransitions =
     readSettings('transitions') === undefined ? 8 : readSettings('transitions');
-  const transitions = builtGraph.get(fileName).slice(0, numberOfTransitions);
+  const transitions = builtGraph[fileName];
   event.sender.send('receive-transitions', transitions);
 }
 
-function spawnPreferences() {
-  if (preferencesWindow) return;
+// function spawnPreferences() {
+//   if (preferencesWindow) return;
 
-  preferencesWindow = new BrowserWindow({
-    width: 530,
-    height: 270,
-    resizable: false,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  });
-  preferencesWindow.loadURL(
-    'file://' + __dirname + '/app/view/preferences.html',
-  );
+//   preferencesWindow = new BrowserWindow({
+//     width: 530,
+//     height: 270,
+//     resizable: false,
+//     webPreferences: {
+//       nodeIntegration: true,
+//     },
+//   });
+//   preferencesWindow.loadURL(
+//     'file://' + __dirname + '/app/view/preferences.html',
+//   );
 
-  preferencesWindow.on('closed', () => (preferencesWindow = null));
-}
+//   preferencesWindow.on('closed', () => (preferencesWindow = null));
+// }

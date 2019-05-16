@@ -226,8 +226,9 @@ export class Graph {
 
   ///Create a Map<audioId:string, (Song * Edge list)> from a Song * Edge list array.
   public static asMap(graph: [Song, Edge[]][]) {
-    const mapped = new Map<string, [Song, Edge[]]>();
-    return mapped;
+    const map = new Map<string, [Song, Edge[]]>();
+    graph.forEach((s) => (map[s[0].AudioId] = s));
+    return map;
   }
 }
 
