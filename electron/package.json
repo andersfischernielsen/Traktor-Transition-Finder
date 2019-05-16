@@ -1,7 +1,7 @@
 {
   "name": "traktor-transition-finder",
   "description": "A tool for automatically finding the next song to play when DJing using Traktor Pro 2.",
-  "version": "1.5.0",
+  "version": "1.3.5",
   "license": "CC-BY-NC-4.0",
   "repository": "https://github.com/andersfischernielsen/Traktor-Transition-Finder",
   "main": "main.js",

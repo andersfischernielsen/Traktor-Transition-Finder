@@ -1,6 +1,5 @@
 cd ../electron
 npm install
-typings install debug --save
 tsc
 
 cd ../build-scripts
