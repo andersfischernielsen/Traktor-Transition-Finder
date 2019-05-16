@@ -1,47 +1,55 @@
 <!DOCTYPE html>
 <html>
-	<head>
-	    <meta charset="UTF-8">
-	    <title>Traktor Transition Finder</title>
-	    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-	    <link rel="stylesheet" type="text/css" href="style.css">
-	</head>
 
-	<body>
-		<div class="container" id="collection-select" style="visibility: visible">
-			<div class="row buffer"></div>
-			<div class="row">
-		  		<div class="col-sm-2"></div>
-		  		<div class="col-sm-8">
-			    	<button class="btn btn-default btn-lg full-width" onclick="openFile()">Open 'collection.nml'</button>
-		    	</div>
-		  		<div class="col-sm-2"></div>
-		    </div>
-	    </div>
+<head>
+	<meta charset="UTF-8">
+	<title>Traktor Transition Finder</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script>
+		var exports = {};
+	</script>
+</head>
 
-		<div id="spinner"></div>
-
-		<div class="container" id="drop-song" style="visibility: hidden">
-			<div class="row buffer"></div>
-			<div class="row">
-		  		<div class="col-sm-12">
-			    	<div id="dropzone" class="dropzone full-width blue-color">
-						<div class="inner-dropzone blue-color" id="inner-dropzone">
-							Drop Song...
-						</div>
-					</div>
-		    	</div>
+<body>
+	<div class="container" id="collection-select" style="visibility: visible">
+		<div class="row buffer"></div>
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+				<button class="btn btn-default btn-lg full-width" onclick="index.openFile()">Open
+					'collection.nml'</button>
 			</div>
-			<div class="header">
-				<div class="header-title ellipsis-overflow" id="chosen-title"></div>
-				<div class="header-artist ellipsis overflow" id="chosen-artist"></div>
-				<div class="header-key blue-color" id="chosen-bpm"></div>
-				<div class="header-bpm blue-color" id="chosen-key"></div>
-		    </div>
-			<div class="row buffer"></div>
-			<div id="transition-list" class="transition-list"></div>
+			<div class="col-sm-2"></div>
 		</div>
-	    <script src="../script/index.js"></script>
-		<script src="../script/song-select.js"></script>
-	</body>
+	</div>
+
+	<div id="spinner"></div>
+
+	<div class="container" id="drop-song" style="visibility: hidden">
+		<div class="row buffer"></div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div id="dropzone" class="dropzone full-width blue-color">
+					<div class="inner-dropzone blue-color" id="inner-dropzone">
+						Drop Song...
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="header">
+			<div class="header-title ellipsis-overflow" id="chosen-title"></div>
+			<div class="header-artist ellipsis overflow" id="chosen-artist"></div>
+			<div class="header-key blue-color" id="chosen-bpm"></div>
+			<div class="header-bpm blue-color" id="chosen-key"></div>
+		</div>
+		<div class="row buffer"></div>
+		<div id="transition-list" class="transition-list"></div>
+	</div>
+	<script>
+		const index = require('../script/index.js')
+		const songSelect = require("../script/song-select.js")
+	</script>
+</body>
+
 </html>

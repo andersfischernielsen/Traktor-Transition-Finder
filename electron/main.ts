@@ -1,89 +1,99 @@
-import electron = require('electron');
-import * as graph from "./graph";
+import { app, ipcMain, BrowserWindow, Event } from 'electron';
+import { CollectionParser, Song, Edge, Graph } from './graph';
 
-var app = electron.app;
-var BrowserWindow = electron.BrowserWindow;
-var ipc = electron.ipcMain;
-var dialog = electron.dialog;
+const ipc = ipcMain;
+import { readSettings } from './configuration';
 
-var crypto = require('crypto');
-var fs = require('fs');
-var request = require('request');
-var {exec} = require('child_process');
-var configuration = require('./configuration');
-
-let mainWindow;
-let preferencesWindow;
-let collectionPath;
-let builtGraph : Map<string, [graph.Song, graph.Edge[]]>;
+let mainWindow: BrowserWindow;
+let preferencesWindow: BrowserWindow;
+let collectionPath: string;
+let builtGraph: Map<string, [Song, Edge[]]>;
 
 app.on('ready', () => {
-	setAppEvents();
-	setIpcEvents();
-	setUpMainWindow(false);
+  setAppEvents();
+  setIpcEvents();
+  setUpMainWindow(false);
 
-	var collectionPath = configuration.readSettings('collectionPath');
-	if (collectionPath) {
-		mainWindow.webContents.on('did-finish-load', () => buildGraph(collectionPath))
-	}
+  let collectionPath = readSettings('collectionPath');
+  if (collectionPath) {
+    mainWindow.webContents.on('did-finish-load', () =>
+      buildGraph(collectionPath),
+    );
+  }
 });
 
 function setAppEvents() {
-	app.on('window-all-closed', () => app.quit());
+  app.on('window-all-closed', () => app.quit());
 }
 
 function setIpcEvents() {
-	ipc.on('song-drop', (event, fileName) => chooseSong(event, fileName));
-	ipc.on('preferences', (event, arg) => spawnPreferences())
-	ipc.on('collection-path-request', (event) => {
-		if (collectionPath) event.sender.send('receive-collection-path', collectionPath);
-	});
-	ipc.on('collection-upload', (event, path) => {
-		buildGraph(path);
-		collectionPath = path;
-	});
+  ipc.on('song-drop', (event: Event, fileName: string) =>
+    chooseSong(event, fileName),
+  );
+  ipc.on('preferences', (event: Event, arg: string) => spawnPreferences());
+  ipc.on('collection-path-request', (event: Event) => {
+    if (collectionPath)
+      event.sender.send('receive-collection-path', collectionPath);
+  });
+  ipc.on('collection-upload', (event: Event, path: string) => {
+    buildGraph(path);
+    collectionPath = path;
+  });
 }
 
 function setUpMainWindow(devTools = false) {
-	mainWindow = new BrowserWindow({ minWidth: 350, width: 400, height: 600, resizable: true });
-	mainWindow.loadURL('file://' + __dirname + '/app/view/index.html');
+  mainWindow = new BrowserWindow({
+    minWidth: 350,
+    width: 400,
+    height: 600,
+    resizable: true,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+  mainWindow.loadURL('file://' + __dirname + '/app/view/index.html');
 
-	mainWindow.on('closed', () => {
-		if (preferencesWindow != null) {
-			preferencesWindow.close();
-		}
-		preferencesWindow = null;
-		mainWindow = null;
-	});
+  mainWindow.on('closed', () => {
+    if (preferencesWindow != null) {
+      preferencesWindow.close();
+    }
+    preferencesWindow = null;
+    mainWindow = null;
+  });
 
-	if (devTools) mainWindow.webContents.openDevTools();
+  if (devTools) mainWindow.webContents.openDevTools();
 }
 
-function buildGraph(path) {
-	var edges = configuration.readSettings('numberOfEdges');
-	var request = { collectionPath: path, numberOfEdges: edges };
-	
-	mainWindow.webContents.send('parsing-started');
-	var parsed = graph.CollectionParser.parseCollection('/Users/Anders/Documents/Native Instruments/Traktor 2.10.2/collection.nml');
-	var result = graph.Graph.buildGraph(parsed, 5);
-	builtGraph = graph.Graph.asMap(result);
-	mainWindow.webContents.send('collection-uploaded');
+function buildGraph(path: string) {
+  const edges = readSettings('numberOfEdges');
+  mainWindow.webContents.send('parsing-started');
+  const parsed = CollectionParser.parseCollection(path);
+  const result = Graph.buildGraph(parsed, edges);
+  builtGraph = Graph.asMap(result);
+  mainWindow.webContents.send('collection-uploaded');
 }
 
-function chooseSong(event, fileName) {
-	var numberOfTransitions = configuration.readSettings('transitions');
-	if (typeof numberOfTransitions === 'undefined') numberOfTransitions = 8;
-
-	var transitions = builtGraph.get(fileName);
-	event.sender.send('receive-transitions', transitions);
+function chooseSong(event: Event, fileName: string) {
+  const numberOfTransitions =
+    readSettings('transitions') === undefined ? 8 : readSettings('transitions');
+  const transitions = builtGraph.get(fileName).slice(0, numberOfTransitions);
+  event.sender.send('receive-transitions', transitions);
 }
 
 function spawnPreferences() {
-	if (preferencesWindow) return;
+  if (preferencesWindow) return;
 
-	preferencesWindow = new BrowserWindow({ width: 530, height: 270, resizable: false });
-	preferencesWindow.loadURL('file://' + __dirname + '/app/view/preferences.html');
-	//preferencesWindow.webContents.openDevTools();
+  preferencesWindow = new BrowserWindow({
+    width: 530,
+    height: 270,
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+  preferencesWindow.loadURL(
+    'file://' + __dirname + '/app/view/preferences.html',
+  );
 
-	preferencesWindow.on('closed', () => preferencesWindow = null)
+  preferencesWindow.on('closed', () => (preferencesWindow = null));
 }

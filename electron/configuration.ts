@@ -1,17 +1,24 @@
-const app = require('electron').app;
-const nconf = require('nconf').file({file: app.getPath('userData') + '/settings.json'});
+import { app } from 'electron';
+import * as nconf from 'nconf';
+import * as fs from 'fs';
 
-function saveSettings(settingKey, settingValue) {
-    nconf.set(settingKey, settingValue);
-    nconf.save();
-}
+const conf = nconf
+  .argv()
+  .env()
+  .file({
+    file: app.getPath('userData') + '/settings.json',
+  });
 
-function readSettings(settingKey) {
-    nconf.load();
-    return nconf.get(settingKey);
-}
+export const saveSettings = (settingKey: string, settingValue: string) => {
+  conf.set(settingKey, settingValue);
+  nconf.save(function(err: Error) {
+    fs.readFile(app.getPath('userData') + '/settings.json', (err, data) => {
+      console.dir(JSON.parse(data.toString()));
+    });
+  });
+};
 
-module.exports = {
-    saveSettings: saveSettings,
-    readSettings: readSettings
+export const readSettings = (settingKey: string) => {
+  conf.load();
+  return conf.get(settingKey);
 };
