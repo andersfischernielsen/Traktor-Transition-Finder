@@ -6,16 +6,16 @@
   "repository": "https://github.com/andersfischernielsen/Traktor-Transition-Finder",
   "main": "main.js",
   "dependencies": {
-    "@types/nconf": "^0.10.0"
+    "@types/nconf": "^0.10.0",
+    "node-expat": "github:sutoiku/node-expat#master",
+    "xml-stream": "^0.4.5"
   },
   "devDependencies": {
-    "@types/xmldom": "^0.1.29",
+    "electron": "^5.0.0",
     "electron-prebuilt": "^1.4.13",
+    "electron-rebuild": "^1.8.4",
     "express": "^4.16.4",
     "nconf": "^0.10.0",
-    "remote": "^0.2.6",
-    "xmldom": "^0.1.27",
-    "xpath": "0.0.27",
-    "electron": "^5.0.1"
+    "remote": "^0.2.6"
   }
 }

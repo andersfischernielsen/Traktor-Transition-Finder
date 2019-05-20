@@ -36,8 +36,9 @@ function setIpcEvents() {
       event.sender.send('receive-collection-path', collectionPath);
   });
   ipc.on('collection-upload', (event: Event, path: string) => {
-    buildGraph(path);
-    collectionPath = path;
+    buildGraph(path).then((p) => {
+      collectionPath = p;
+    });
   });
 }
 
@@ -64,20 +65,19 @@ function setUpMainWindow(devTools = false) {
   if (devTools) mainWindow.webContents.openDevTools();
 }
 
-function buildGraph(path: string) {
+const buildGraph = async (path: string) => {
   const edges = readSettings('numberOfEdges')
     ? readSettings('numberOfEdges')
     : 8;
   mainWindow.webContents.send('parsing-started');
-  const parsed = CollectionParser.parseCollection(path);
+  const parsed = await CollectionParser.parseCollection(path);
   const result = Graph.buildGraph(parsed, edges);
   builtGraph = Graph.asMap(result);
   mainWindow.webContents.send('collection-uploaded');
-}
+  return path;
+};
 
 function chooseSong(event: Event, fileName: string) {
-  const numberOfTransitions =
-    readSettings('transitions') === undefined ? 8 : readSettings('transitions');
   const transitions = builtGraph[fileName];
   event.sender.send('receive-transitions', transitions);
 }

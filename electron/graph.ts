@@ -1,34 +1,40 @@
 import * as fs from 'fs';
-import * as xpath from 'xpath';
-import { DOMParser } from 'xmldom';
+import * as xmlStream from 'xml-stream';
 
 type Chord = 'Major' | 'Minor' | 'Invalid';
 export class Song {
-  BPM: Number;
+  BPM: number;
   Title: string;
   Artist: string;
-  Key: [Number, Chord];
+  Key: [number, Chord];
   AudioId: string;
 }
 export class Edge {
-  Weight: Number;
+  Weight: number;
   From: Song;
   To: Song;
 }
+type Entry = {};
 
 //The "punishment" for having a bad key transition.
 const BADKEYWEIGHT = 15.0;
-const parser = new DOMParser();
 
 export class CollectionParser {
   ///Parse a .nml collection into a Song list.
-  public static parseCollection(pathToCollection: string) {
-    function parseXML() {
-      const result = fs.readFileSync(pathToCollection, 'utf8');
-      const parsed = parser.parseFromString(result);
-      const nodes = xpath.select('//ENTRY', parsed);
-      return nodes;
-    }
+  public static async parseCollection(pathToCollection: string) {
+    const parseXML = (): Promise<Object[]> => {
+      const stream = fs.createReadStream(pathToCollection);
+      var xml = new xmlStream(stream);
+      return new Promise((resolve, reject) => {
+        const entries: Object[] = [];
+        xml.on('endElement: ENTRY', (item: object) => {
+          entries.push(item);
+        });
+        xml.on('endElement: COLLECTION', () => {
+          resolve(entries);
+        });
+      });
+    };
 
     ///Parse string keys from KEY.INFO attribute in NML.
     function parseKey(s: string): [number, Chord] {
@@ -36,13 +42,13 @@ export class CollectionParser {
       const result = regex.exec(s);
       const key: Chord = s.indexOf('d') > 0 ? 'Major' : 'Minor';
 
-      let num = Number(result[0]);
-      num = isNaN(num) ? (num = 0) : num;
+      let num = +result[0];
+      num = isNaN(num) ? 0 : num;
       return [num, key];
     }
 
     ///Parse integer key from MUSICAL_KEY attribute in NML to Key.
-    function parseMusicalKey(k: Number): [number, Chord] {
+    function parseMusicalKey(k: number): [number, Chord] {
       switch (k) {
         case 0:
           return [1, 'Major'];
@@ -98,19 +104,19 @@ export class CollectionParser {
     }
 
     ///Parse a given NML Entry into a Song type.
-    function parseToSong(entry: xpath.SelectedValue): Song {
-      const getValue = (xp: string, s: xpath.SelectedValue) =>
-        xpath.select1(xp, asNode)
-          ? xpath.select1(xp, asNode)['value']
-          : undefined;
+    function parseToSong(entry: object): Song {
+      const get = function(obj: object, key: string) {
+        return key.split('.').reduce(function(o, x) {
+          return typeof o == 'undefined' || o === null ? o : o[x];
+        }, obj);
+      };
 
-      const asNode = parser.parseFromString(entry.toString());
-      const te = getValue('//TEMPO/@BPM', asNode);
-      const ti = getValue('//ENTRY/@TITLE', asNode);
-      const a = getValue('//ENTRY/@ARTIST', asNode);
-      const mk = getValue('//MUSICAL_KEY/@VALUE', asNode);
-      const ik = getValue('//INFO/@KEY', asNode);
-      const id = getValue('//LOCATION/@FILE', asNode);
+      const te = get(entry, 'TEMPO.$.BPM'); // xpath '//TEMPO/@BPM'
+      const ti = get(entry, '$.TITLE'); // xpath '//ENTRY/@TITLE'
+      const a = get(entry, '$.ARTIST'); // xpath '//ENTRY/@ARTIST'
+      const mk = get(entry, 'MUSICAL_KEY.$.VALUE'); // xpath '//MUSICAL_KEY/@VALUE'
+      const ik = get(entry, 'INFO.$.KEY'); // xpath '//INFO/@KEY'
+      const id = get(entry, 'LOCATION.$.FILE'); // xpath '//LOCATION/@FILE'
 
       if (te == undefined || id == undefined) {
         return {
@@ -139,8 +145,8 @@ export class CollectionParser {
           } as Song);
     }
 
-    const collection = parseXML();
-    const songs = collection.map(parseToSong);
+    const entries = await parseXML();
+    const songs = entries.map(parseToSong);
     return songs;
   }
 }
@@ -148,9 +154,9 @@ export class CollectionParser {
 export class Graph {
   ///Calculate weights for a (Song * Edge list) array.
   ///Create a graph (represented as a Song * Edge list array) from  a Song list.
-  public static buildGraph(list: Song[], numberOfEdges: Number) {
+  public static buildGraph(list: Song[], numberOfEdges: number) {
     ///Calculate the weight from a given Key to another Key.
-    function weightForKey(key: [Number, Chord], other: [Number, Chord]) {
+    function weightForKey(key: [number, Chord], other: [number, Chord]) {
       const accountFor12 = (n: number) => (n % 12 == 0 ? 12 : n % 12);
       const plusOne = accountFor12(+key[0] + 1); //One key up
       const minusOne = accountFor12(+key[0] + 11); //One key down.
@@ -187,7 +193,7 @@ export class Graph {
 
     function generateEdgesForSong(song: Song, songs: Song[]): [Song, Edge[]] {
       ///Take n elements from a given list until there are no more elements.
-      function take(n: Number, list: any[]) {
+      function take(n: number, list: any[]) {
         const acc = [];
         function takeAcc(n, list: any[]): any[] {
           if (list.length <= 0) {
