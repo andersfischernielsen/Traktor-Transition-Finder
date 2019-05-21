@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Traktor Transition Finder/DestinationView.swift"
-            timestampString = "580096987.883854"
+            timestampString = "580134789.636921"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "57"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Traktor Transition Finder/DestinationView.swift"
-            timestampString = "580096987.8841521"
+            timestampString = "580134789.636978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "13"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Traktor Transition Finder/DestinationView.swift"
-            timestampString = "580096987.884205"
+            timestampString = "580134789.6370161"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "12"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Traktor Transition Finder/DestinationView.swift"
-            timestampString = "580096987.8842469"
+            timestampString = "580134789.637051"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
@@ -74,13 +74,605 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Traktor Transition Finder/DestinationView.swift"
-            timestampString = "580096987.884286"
+            timestampString = "580134789.6370831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "59"
             endingLineNumber = "59"
             landmarkName = "DestinationView"
             landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/DragDropViewController.swift"
+            timestampString = "580134789.637118"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "collectionURL"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/DragDropViewController.swift"
+            timestampString = "580134789.63748"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "updateCollection(path:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/DragDropViewController.swift"
+            timestampString = "580134789.637733"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "selectCollection()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.637979"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
+            landmarkName = "generateEdgesForSong(song:songs:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638049"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "buildGraph(list:numberOfEdges:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Traktor_Transition_Finder.Graph.buildGraph(list: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;, numberOfEdges: Swift.Int) -&gt; Swift.Dictionary&lt;Swift.String, (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;)&gt;"
+                  moduleName = "Traktor Transition Finder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/fischer/Desktop/Traktor-Transition-Finder/swift/Traktor_Transition_Finder/Traktor%20Transition%20Finder/Graph.swift"
+                  timestampString = "580133215.009186"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "63">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Traktor_Transition_Finder.Song) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in static Traktor_Transition_Finder.Graph.buildGraph(list: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;, numberOfEdges: Swift.Int) -&gt; Swift.Dictionary&lt;Swift.String, (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;)&gt;"
+                  moduleName = "Traktor Transition Finder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/fischer/Desktop/Traktor-Transition-Finder/swift/Traktor_Transition_Finder/Traktor%20Transition%20Finder/Graph.swift"
+                  timestampString = "580133215.011577"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "65">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.63811"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
+            landmarkName = "buildGraph(list:numberOfEdges:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.6381691"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "createEdgesFromSong(songs:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "createEdgesFromSong #1 (songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in generateEdgesForSong #1 (song: Traktor_Transition_Finder.Song, songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in static Traktor_Transition_Finder.Graph.buildGraph(list: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;, numberOfEdges: Swift.Int) -&gt; Swift.Dictionary&lt;Swift.String, (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;)&gt;"
+                  moduleName = "Traktor Transition Finder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/fischer/Desktop/Traktor-Transition-Finder/swift/Traktor_Transition_Finder/Traktor%20Transition%20Finder/Graph.swift"
+                  timestampString = "580130675.258141"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "191"
+                  endingLineNumber = "191"
+                  offsetFromSymbolStart = "319">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Traktor_Transition_Finder.Song) -&gt; Swift.Bool in createEdgesFromSong #1 (songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in generateEdgesForSong #1 (song: Traktor_Transition_Finder.Song, songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in static Traktor_Transition_Finder.Graph.buildGraph(list: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;, numberOfEdges: Swift.Int) -&gt; Swift.Dictionary&lt;Swift.String, (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;)&gt;"
+                  moduleName = "Traktor Transition Finder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/fischer/Desktop/Traktor-Transition-Finder/swift/Traktor_Transition_Finder/Traktor%20Transition%20Finder/Graph.swift"
+                  timestampString = "580130675.260637"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "191"
+                  endingLineNumber = "191"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638226"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "createEdgesFromSong(songs:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "createEdgesFromSong #1 (songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in generateEdgesForSong #1 (song: Traktor_Transition_Finder.Song, songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in static Traktor_Transition_Finder.Graph.buildGraph(list: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;, numberOfEdges: Swift.Int) -&gt; Swift.Dictionary&lt;Swift.String, (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;)&gt;"
+                  moduleName = "Traktor Transition Finder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/fischer/Desktop/Traktor-Transition-Finder/swift/Traktor_Transition_Finder/Traktor%20Transition%20Finder/Graph.swift"
+                  timestampString = "580133175.695256"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "229"
+                  endingLineNumber = "229"
+                  offsetFromSymbolStart = "308">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Traktor_Transition_Finder.Song) -&gt; Traktor_Transition_Finder.Edge in createEdgesFromSong #1 (songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in generateEdgesForSong #1 (song: Traktor_Transition_Finder.Song, songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in static Traktor_Transition_Finder.Graph.buildGraph(list: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;, numberOfEdges: Swift.Int) -&gt; Swift.Dictionary&lt;Swift.String, (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;)&gt;"
+                  moduleName = "Traktor Transition Finder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/fischer/Desktop/Traktor-Transition-Finder/swift/Traktor_Transition_Finder/Traktor%20Transition%20Finder/Graph.swift"
+                  timestampString = "580133175.697699"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "229"
+                  endingLineNumber = "229"
+                  offsetFromSymbolStart = "73">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638281"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "createEdgesFromSong(songs:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "createEdgesFromSong #1 (songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in generateEdgesForSong #1 (song: Traktor_Transition_Finder.Song, songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in static Traktor_Transition_Finder.Graph.buildGraph(list: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;, numberOfEdges: Swift.Int) -&gt; Swift.Dictionary&lt;Swift.String, (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;)&gt;"
+                  moduleName = "Traktor Transition Finder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/fischer/Desktop/Traktor-Transition-Finder/swift/Traktor_Transition_Finder/Traktor%20Transition%20Finder/Graph.swift"
+                  timestampString = "580133190.341992"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "230"
+                  endingLineNumber = "230"
+                  offsetFromSymbolStart = "801">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Traktor_Transition_Finder.Edge, Traktor_Transition_Finder.Edge) -&gt; Swift.Bool in createEdgesFromSong #1 (songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in generateEdgesForSong #1 (song: Traktor_Transition_Finder.Song, songs: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;) -&gt; (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;) in static Traktor_Transition_Finder.Graph.buildGraph(list: Swift.Array&lt;Traktor_Transition_Finder.Song&gt;, numberOfEdges: Swift.Int) -&gt; Swift.Dictionary&lt;Swift.String, (Traktor_Transition_Finder.Song, Swift.Array&lt;Traktor_Transition_Finder.Edge&gt;)&gt;"
+                  moduleName = "Traktor Transition Finder"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/fischer/Desktop/Traktor-Transition-Finder/swift/Traktor_Transition_Finder/Traktor%20Transition%20Finder/Graph.swift"
+                  timestampString = "580133190.344631"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "230"
+                  endingLineNumber = "230"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638337"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "!=(_:_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638393"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638468"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638544"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638617"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638692"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638769"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638819"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638868"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.6389149"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.638963"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/DragDropViewController.swift"
+            timestampString = "580134789.63902"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "updateCollection(path:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/DragDropViewController.swift"
+            timestampString = "580134789.639351"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "updateCollection(path:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/DragDropViewController.swift"
+            timestampString = "580134789.639622"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "updateCollection(path:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.639963"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "createEdgesFromSong(songs:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.6400369"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "buildGraph(list:numberOfEdges:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/DragDropViewController.swift"
+            timestampString = "580134789.640101"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "processFileURLs(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.6404361"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.640488"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Traktor Transition Finder/Graph.swift"
+            timestampString = "580134789.640529"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "parseXML(path:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

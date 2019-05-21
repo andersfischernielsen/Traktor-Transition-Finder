@@ -699,7 +699,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="227" y="246"/>
         </scene>
         <!--Drag Drop View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -761,7 +761,7 @@
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="fZH-UP-OaZ">
                                                                     <rect key="frame" x="0.0" y="0.0" width="223" height="17"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zp8-XO-b6a">
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" placeholderString="Song" id="zp8-XO-b6a">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -807,6 +807,7 @@
                         </constraints>
                     </customView>
                     <connections>
+                        <outlet property="dropTextField" destination="O8B-oD-sCH" id="PNJ-KN-0jg"/>
                         <outlet property="dropZone" destination="WHt-0p-IUr" id="aeY-i1-XjW"/>
                         <outlet property="transitionsTableView" destination="evx-aF-Ywe" id="Jc2-Q1-tbM"/>
                     </connections>

@@ -1,3 +1,5 @@
+Carthage/
+
 .DS_Store
 Electron.app
 TraktorTransitionFinder.app
