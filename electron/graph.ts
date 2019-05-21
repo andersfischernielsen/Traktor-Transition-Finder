@@ -38,8 +38,10 @@ export class CollectionParser {
 
     ///Parse string keys from KEY.INFO attribute in NML.
     function parseKey(s: string): [number, Chord] {
+      if (!s) return [0, 'Invalid'];
       const regex = new RegExp('d+');
       const result = regex.exec(s);
+      if (!result) return [0, 'Invalid'];
       const key: Chord = s.indexOf('d') > 0 ? 'Major' : 'Minor';
 
       let num = +result[0];
