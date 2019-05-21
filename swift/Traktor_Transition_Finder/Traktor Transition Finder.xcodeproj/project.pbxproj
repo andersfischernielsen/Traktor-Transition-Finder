@@ -7,16 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7109DFD82293C94900C998A2 /* Ji.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7109DFD62293C94900C998A2 /* Ji.framework */; };
+		7109DFD92293C94900C998A2 /* Ji.framework.dSYM in Frameworks */ = {isa = PBXBuildFile; fileRef = 7109DFD72293C94900C998A2 /* Ji.framework.dSYM */; };
 		CD6B90EFCAA4E56D348456B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B9923D82C029077AA100C /* AppDelegate.swift */; };
 		CD6B948F24D57ED2B7D43976 /* DragDropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B97E49566A2DA258C0941 /* DragDropViewController.swift */; };
 		CD6B9961DE5B7764D6B254D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD6B942A864A42F178FC7F83 /* Main.storyboard */; };
 		CD6B9B58712D2D4761E92BF5 /* DestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B9AAAA81A665A3762A67B /* DestinationView.swift */; };
+		CD6B9CC4A254B1BC8375B68C /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */; };
 		CD6B9DA39F4320844A2F04BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD6B94819ACC73EBC06BEAAF /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7109DFD62293C94900C998A2 /* Ji.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ji.framework; path = Carthage/Build/Mac/Ji.framework; sourceTree = "<group>"; };
+		7109DFD72293C94900C998A2 /* Ji.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Ji.framework.dSYM; path = Carthage/Build/Mac/Ji.framework.dSYM; sourceTree = "<group>"; };
 		CD6B94819ACC73EBC06BEAAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD6B97E49566A2DA258C0941 /* DragDropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragDropViewController.swift; sourceTree = "<group>"; };
+		CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		CD6B9923D82C029077AA100C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD6B99D5AE2041330513B25B /* Traktor Transition Finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Traktor Transition Finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD6B99F17BA9CBB6D8A488FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
@@ -30,12 +36,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7109DFD82293C94900C998A2 /* Ji.framework in Frameworks */,
+				7109DFD92293C94900C998A2 /* Ji.framework.dSYM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		71B978982293B9F800DF411D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7109DFD62293C94900C998A2 /* Ji.framework */,
+				7109DFD72293C94900C998A2 /* Ji.framework.dSYM */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CD6B91E9FDDE968464BFCE60 /* Traktor Transition Finder */ = {
 			isa = PBXGroup;
 			children = (
@@ -46,6 +63,7 @@
 				CD6B942A864A42F178FC7F83 /* Main.storyboard */,
 				CD6B97E49566A2DA258C0941 /* DragDropViewController.swift */,
 				CD6B9AAAA81A665A3762A67B /* DestinationView.swift */,
+				CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */,
 			);
 			path = "Traktor Transition Finder";
 			sourceTree = "<group>";
@@ -55,6 +73,7 @@
 			children = (
 				CD6B9EDF21C90B0DD1A2ECA2 /* Products */,
 				CD6B91E9FDDE968464BFCE60 /* Traktor Transition Finder */,
+				71B978982293B9F800DF411D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,9 +92,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD6B9753BB9D2E25F553D9D5 /* Build configuration list for PBXNativeTarget "Traktor Transition Finder" */;
 			buildPhases = (
+				F8CC480997496A760D88A3B6 /* [CP] Check Pods Manifest.lock */,
 				CD6B9B4859627A6FD54FC7ED /* Sources */,
 				CD6B9199D18E47BF189926CC /* Frameworks */,
 				CD6B966EBEA10BD6C0B99396 /* Resources */,
+				91156253F064E42DE0DFB8D5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,6 +147,53 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		91156253F064E42DE0DFB8D5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Traktor Transition Finder/Pods-Traktor Transition Finder-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Fuzi/Fuzi.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fuzi.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Traktor Transition Finder/Pods-Traktor Transition Finder-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8CC480997496A760D88A3B6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Traktor Transition Finder-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CD6B9B4859627A6FD54FC7ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -134,6 +202,7 @@
 				CD6B90EFCAA4E56D348456B1 /* AppDelegate.swift in Sources */,
 				CD6B948F24D57ED2B7D43976 /* DragDropViewController.swift in Sources */,
 				CD6B9B58712D2D4761E92BF5 /* DestinationView.swift in Sources */,
+				CD6B9CC4A254B1BC8375B68C /* Graph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +288,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Traktor Transition Finder/Traktor_Transition_Finder.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = "Traktor Transition Finder/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.andersfischernielsen.Traktor-Transition-Finder";
@@ -287,6 +360,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Traktor Transition Finder/Traktor_Transition_Finder.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = "Traktor Transition Finder/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.andersfischernielsen.Traktor-Transition-Finder";
