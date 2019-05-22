@@ -22,7 +22,6 @@ struct Song {
 
 struct Edge {
     let Weight: Double
-    let From: Song
     let To: Song
 }
 struct XMLEntry {
@@ -199,7 +198,7 @@ class Graph {
                     let keyWeight = weightForKey(key: fromSong.Key, other: toSong.Key)
                     
                     let weight = bpmDifference + keyWeight
-                    return Edge (Weight: weight, From: fromSong, To: toSong)
+                    return Edge (Weight: weight, To: toSong)
                 }
                 
                 //let otherSongs = songs.filter({ (element) -> Bool in element != song })
