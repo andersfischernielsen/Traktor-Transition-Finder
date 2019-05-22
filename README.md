@@ -15,16 +15,18 @@ The DJ can then pick a song from the list in Traktor Pro 2. The app merely funct
 
 #### [Download](https://github.com/andersfischernielsen/Traktor-Transition-Finder/releases/latest)
 
-![Screenshot](readme/screenshot.png) 
+![Screenshot](readme/readme.png) 
 
 ## How to Use
 - Open the app and click the button to find your Traktor collection. 
-- Browse to the location of your collection.nml file. ![Screenshot](readme/readme-1.png) 
+- Browse to the location of your collection.nml file.
 - Let the app analyse the collection.
-- Drag a file from the song list in Traktor into the app to get a list of possible transitions from the song. ![Screenshot](readme/readme-2.png) 
+- Drag a file from the song list in Traktor into the app to get a list of possible transitions from the song.
 
 
 ## Implementation
 The first version of the app consists of a F# backend handling parsing the Traktor 2 collection and serving results as JSON to the Electron frontend. 
 
-The second (current) version of the app is fully implemented in TypeScript and Electron. 
+The second version of the app is fully implemented in TypeScript and Electron. 
+
+The third (current) version of the app is implemented in Swift, available for macOS. 
