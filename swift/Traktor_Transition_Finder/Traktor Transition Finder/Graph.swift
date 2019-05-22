@@ -7,7 +7,7 @@ import Foundation
 import SWXMLHash
 
 enum Chord { case Major,  Minor, Invalid }
-struct Song {
+class Song {
     let BPM: Double
     let Title: String
     let Artist: String
@@ -20,12 +20,12 @@ struct Song {
     }
 }
 
-struct Edge {
+class Edge {
     let Weight: Double
     let From: Song
     let To: Song
 }
-struct XMLEntry {
+class XMLEntry {
     let BPM: String?
     let Title: String?
     let Artist: String?
