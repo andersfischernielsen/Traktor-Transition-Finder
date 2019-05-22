@@ -191,9 +191,8 @@ class Graph {
                         ]
                         
                         //See if other key matches any of the good key transitions.
-                        let filtered = lst.filter({(x: Int) -> Bool in other.0 == x})
                         //If there were any matches, then it's a nice key transition.
-                        return filtered.count == 0 ? BADKEYWEIGHT : 0.0
+                        return lst.contains(other.0) ? 0.0 : BADKEYWEIGHT
                     }
                     
                     let bpmDifference = abs(fromSong.BPM - toSong.BPM)
