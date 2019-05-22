@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71AF50E92295519400062ACB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71AF50E82295519400062ACB /* Images.xcassets */; };
 		71C26FCE2295336F00F39F6B /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71C26FCC2295336F00F39F6B /* SWXMLHash.framework */; };
 		71C26FCF2295336F00F39F6B /* SWXMLHash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 71C26FCC2295336F00F39F6B /* SWXMLHash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71E83F3B2295141500E79900 /* TransitionTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E83F3A2295141500E79900 /* TransitionTableCellView.swift */; };
@@ -15,7 +16,6 @@
 		CD6B9961DE5B7764D6B254D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD6B942A864A42F178FC7F83 /* Main.storyboard */; };
 		CD6B9B58712D2D4761E92BF5 /* DestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B9AAAA81A665A3762A67B /* DestinationView.swift */; };
 		CD6B9CC4A254B1BC8375B68C /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */; };
-		CD6B9DA39F4320844A2F04BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD6B94819ACC73EBC06BEAAF /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,10 +33,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		71AF50E82295519400062ACB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		71C26FCC2295336F00F39F6B /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SWXMLHash.framework; path = Carthage/Build/Mac/SWXMLHash.framework; sourceTree = "<group>"; };
 		71C26FCD2295336F00F39F6B /* SWXMLHash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SWXMLHash.framework.dSYM; path = Carthage/Build/Mac/SWXMLHash.framework.dSYM; sourceTree = "<group>"; };
 		71E83F3A2295141500E79900 /* TransitionTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionTableCellView.swift; sourceTree = "<group>"; };
-		CD6B94819ACC73EBC06BEAAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD6B97E49566A2DA258C0941 /* DragDropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragDropViewController.swift; sourceTree = "<group>"; };
 		CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		CD6B9923D82C029077AA100C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,7 +70,6 @@
 			isa = PBXGroup;
 			children = (
 				CD6B99F17BA9CBB6D8A488FA /* Info.plist */,
-				CD6B94819ACC73EBC06BEAAF /* Assets.xcassets */,
 				CD6B9F550FE276A90A203CE4 /* Traktor_Transition_Finder.entitlements */,
 				CD6B9923D82C029077AA100C /* AppDelegate.swift */,
 				CD6B942A864A42F178FC7F83 /* Main.storyboard */,
@@ -78,6 +77,7 @@
 				CD6B9AAAA81A665A3762A67B /* DestinationView.swift */,
 				CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */,
 				71E83F3A2295141500E79900 /* TransitionTableCellView.swift */,
+				71AF50E82295519400062ACB /* Images.xcassets */,
 			);
 			path = "Traktor Transition Finder";
 			sourceTree = "<group>";
@@ -155,8 +155,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD6B9DA39F4320844A2F04BE /* Assets.xcassets in Resources */,
 				CD6B9961DE5B7764D6B254D8 /* Main.storyboard in Resources */,
+				71AF50E92295519400062ACB /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

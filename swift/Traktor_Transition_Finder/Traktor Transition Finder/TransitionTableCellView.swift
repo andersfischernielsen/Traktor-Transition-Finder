@@ -13,6 +13,7 @@ class TransitionTableCellView: NSTableCellView {
     @IBOutlet var artist: NSTextField!
     @IBOutlet var key: NSTextField!
     @IBOutlet var tempo: NSTextField!
+    var index: String = ""
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
