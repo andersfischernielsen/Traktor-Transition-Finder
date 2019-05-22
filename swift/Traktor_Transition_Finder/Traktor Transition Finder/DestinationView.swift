@@ -2,7 +2,7 @@ import Cocoa
 import AppKit.NSPasteboard
 
 protocol DestinationViewDelegate {
-  func processFileURLs(_ urls: [URL])
+  func processFileURLs(_ urls: [URL]) -> Bool
 }
 
 class DestinationView: NSView {
@@ -66,10 +66,10 @@ class DestinationView: NSView {
     isReceivingDrag = false
     let pasteBoard = draggingInfo.draggingPasteboard
     if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options:filteringOptions) as? [URL], urls.count > 0 {
-      delegate?.processFileURLs(urls)
-      return true
+        if let result = delegate?.processFileURLs(urls) {
+            return result
+        }
     }
     return false
-
   }
 }
