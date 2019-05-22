@@ -1,0 +1,368 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		71AF50E92295519400062ACB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71AF50E82295519400062ACB /* Images.xcassets */; };
+		71C26FCE2295336F00F39F6B /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71C26FCC2295336F00F39F6B /* SWXMLHash.framework */; };
+		71C26FCF2295336F00F39F6B /* SWXMLHash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 71C26FCC2295336F00F39F6B /* SWXMLHash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		71E83F3B2295141500E79900 /* TransitionTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E83F3A2295141500E79900 /* TransitionTableCellView.swift */; };
+		CD6B90EFCAA4E56D348456B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B9923D82C029077AA100C /* AppDelegate.swift */; };
+		CD6B948F24D57ED2B7D43976 /* DragDropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B97E49566A2DA258C0941 /* DragDropViewController.swift */; };
+		CD6B9961DE5B7764D6B254D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD6B942A864A42F178FC7F83 /* Main.storyboard */; };
+		CD6B9B58712D2D4761E92BF5 /* DestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B9AAAA81A665A3762A67B /* DestinationView.swift */; };
+		CD6B9CC4A254B1BC8375B68C /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7168FC5D2293F42C00853F8E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				71C26FCF2295336F00F39F6B /* SWXMLHash.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		71AF50E82295519400062ACB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		71C26FCC2295336F00F39F6B /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SWXMLHash.framework; path = Carthage/Build/Mac/SWXMLHash.framework; sourceTree = "<group>"; };
+		71C26FCD2295336F00F39F6B /* SWXMLHash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SWXMLHash.framework.dSYM; path = Carthage/Build/Mac/SWXMLHash.framework.dSYM; sourceTree = "<group>"; };
+		71E83F3A2295141500E79900 /* TransitionTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionTableCellView.swift; sourceTree = "<group>"; };
+		CD6B97E49566A2DA258C0941 /* DragDropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragDropViewController.swift; sourceTree = "<group>"; };
+		CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
+		CD6B9923D82C029077AA100C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CD6B99D5AE2041330513B25B /* Traktor Transition Finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Traktor Transition Finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD6B99F17BA9CBB6D8A488FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		CD6B9AAAA81A665A3762A67B /* DestinationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationView.swift; sourceTree = "<group>"; };
+		CD6B9E4C54E658B16EB52A52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CD6B9F550FE276A90A203CE4 /* Traktor_Transition_Finder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Traktor_Transition_Finder.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CD6B9199D18E47BF189926CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71C26FCE2295336F00F39F6B /* SWXMLHash.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		71B978982293B9F800DF411D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CD6B91E9FDDE968464BFCE60 /* Traktor Transition Finder */ = {
+			isa = PBXGroup;
+			children = (
+				CD6B99F17BA9CBB6D8A488FA /* Info.plist */,
+				CD6B9F550FE276A90A203CE4 /* Traktor_Transition_Finder.entitlements */,
+				CD6B9923D82C029077AA100C /* AppDelegate.swift */,
+				CD6B942A864A42F178FC7F83 /* Main.storyboard */,
+				CD6B97E49566A2DA258C0941 /* DragDropViewController.swift */,
+				CD6B9AAAA81A665A3762A67B /* DestinationView.swift */,
+				CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */,
+				71E83F3A2295141500E79900 /* TransitionTableCellView.swift */,
+				71AF50E82295519400062ACB /* Images.xcassets */,
+			);
+			path = "Traktor Transition Finder";
+			sourceTree = "<group>";
+		};
+		CD6B96B6F8EC0A4903C2BBE5 = {
+			isa = PBXGroup;
+			children = (
+				71C26FCC2295336F00F39F6B /* SWXMLHash.framework */,
+				71C26FCD2295336F00F39F6B /* SWXMLHash.framework.dSYM */,
+				CD6B9EDF21C90B0DD1A2ECA2 /* Products */,
+				CD6B91E9FDDE968464BFCE60 /* Traktor Transition Finder */,
+				71B978982293B9F800DF411D /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CD6B9EDF21C90B0DD1A2ECA2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CD6B99D5AE2041330513B25B /* Traktor Transition Finder.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CD6B9F72111B0A7DD8F5735D /* Traktor Transition Finder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD6B9753BB9D2E25F553D9D5 /* Build configuration list for PBXNativeTarget "Traktor Transition Finder" */;
+			buildPhases = (
+				CD6B9B4859627A6FD54FC7ED /* Sources */,
+				CD6B9199D18E47BF189926CC /* Frameworks */,
+				CD6B966EBEA10BD6C0B99396 /* Resources */,
+				7168FC5D2293F42C00853F8E /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Traktor Transition Finder";
+			productName = "Traktor Transition Finder";
+			productReference = CD6B99D5AE2041330513B25B /* Traktor Transition Finder.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CD6B906283E2B16C1875989C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = "___FULLUSERNAME___";
+			};
+			buildConfigurationList = CD6B9487BAC72AB0154CB3BF /* Build configuration list for PBXProject "Traktor Transition Finder" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+				Base,
+			);
+			mainGroup = CD6B96B6F8EC0A4903C2BBE5;
+			productRefGroup = CD6B9EDF21C90B0DD1A2ECA2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CD6B9F72111B0A7DD8F5735D /* Traktor Transition Finder */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CD6B966EBEA10BD6C0B99396 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD6B9961DE5B7764D6B254D8 /* Main.storyboard in Resources */,
+				71AF50E92295519400062ACB /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CD6B9B4859627A6FD54FC7ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD6B90EFCAA4E56D348456B1 /* AppDelegate.swift in Sources */,
+				CD6B948F24D57ED2B7D43976 /* DragDropViewController.swift in Sources */,
+				CD6B9B58712D2D4761E92BF5 /* DestinationView.swift in Sources */,
+				71E83F3B2295141500E79900 /* TransitionTableCellView.swift in Sources */,
+				CD6B9CC4A254B1BC8375B68C /* Graph.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CD6B942A864A42F178FC7F83 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD6B9E4C54E658B16EB52A52 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CD6B95E38D54EBA296251262 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CD6B97AEAB56EB6A8517050B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Traktor Transition Finder/Traktor_Transition_Finder.entitlements";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = "Traktor Transition Finder/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.andersfischernielsen.Traktor-Transition-Finder";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CD6B9D0A3BEBB10BC793BB7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		CD6B9FD0DACF9E255ABE5CEB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Traktor Transition Finder/Traktor_Transition_Finder.entitlements";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = "Traktor Transition Finder/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.andersfischernielsen.Traktor-Transition-Finder";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CD6B9487BAC72AB0154CB3BF /* Build configuration list for PBXProject "Traktor Transition Finder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD6B95E38D54EBA296251262 /* Debug */,
+				CD6B9D0A3BEBB10BC793BB7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD6B9753BB9D2E25F553D9D5 /* Build configuration list for PBXNativeTarget "Traktor Transition Finder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD6B97AEAB56EB6A8517050B /* Debug */,
+				CD6B9FD0DACF9E255ABE5CEB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CD6B906283E2B16C1875989C /* Project object */;
+}
