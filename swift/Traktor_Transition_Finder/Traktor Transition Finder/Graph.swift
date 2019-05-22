@@ -54,9 +54,8 @@ class CollectionParser {
                         te = child.value(ofAttribute: "BPM") ?? te
                         mk = child.value(ofAttribute:"VALUE") ?? mk
                         ik = child.value(ofAttribute: "KEY") ?? ik
-                        if let d: String = child.value(ofAttribute: "DIR"),
-                           let f: String = child.value(ofAttribute: "FILE") {
-                            id = (d + f).replacingOccurrences(of: ":", with: "")
+                        if let f = child.value(ofAttribute: "FILE") as String? {
+                            id = f.replacingOccurrences(of: " ", with: "%20")
                         }
                     }
                     return XMLEntry(BPM: te, Title: ti, Artist: ar, MusicalKey: mk, InfoKey: ik, AudioId: id)
@@ -83,7 +82,10 @@ class CollectionParser {
                 }
             }
             
-            let regex = matches(for: "+d", in: s)
+            let regex = matches(for: #"\d"#, in: s)
+            if regex.count == 0 {
+                return (0, Chord.Invalid)
+            }
             let num = Int(regex[0]) ?? 0
             let key: Chord = s.contains("d") ? Chord.Major : Chord.Minor
             return (num, key)
@@ -122,7 +124,7 @@ class CollectionParser {
         
         ///Parse a given NML Entry into a Song type.
         func parseToSong(entry: XMLEntry) -> Song {
-            if (entry.BPM == nil || entry.AudioId == nil) {
+            if (entry.BPM == nil || entry.AudioId == nil || (entry.MusicalKey == nil && entry.InfoKey == nil)) {
                 return Song(BPM: 0, Title: "", Artist: "", Key: (0, Chord.Invalid), AudioId: "")
             }
             
@@ -131,8 +133,8 @@ class CollectionParser {
             let ti = entry.Title ?? ""
             let ar = entry.Artist ?? ""
             
-            if entry.MusicalKey != nil {
-                let key = Int(entry.MusicalKey!)!
+            if let k = entry.MusicalKey {
+                let key = Int(k)!
                 return Song(BPM: te, Title: ti, Artist: ar, Key: parseMusicalKey(k: key), AudioId: id)
             } else {
                 let key = entry.InfoKey!
@@ -140,12 +142,9 @@ class CollectionParser {
             }
         }
         
-        var songs: [Song] = []
         let xmlEntries = parseXML(path: pathToCollection)
-        for entry in xmlEntries {
-            songs.append(parseToSong(entry: entry))
-        }
-        return songs
+        let songs = xmlEntries.map { parseToSong(entry: $0) }
+        return songs.filter({ $0.Key.1 != .Invalid })
     }
 }
 
