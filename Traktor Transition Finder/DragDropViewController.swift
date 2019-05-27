@@ -2,6 +2,11 @@ import Foundation
 import Cocoa
 
 class DragDropViewController: NSViewController {
+    @IBOutlet var currentlySelectedTitle: NSTextField!
+    @IBOutlet var currentlySelectedArtist: NSTextField!
+    @IBOutlet var currentlySelectedKeyView: NSTextField!
+    @IBOutlet var currentlySelectedTempoView: NSTextField!
+    
     @IBOutlet var dropZone: DestinationView!
     @IBOutlet weak var transitionsTableView: NSTableView!
     @IBOutlet weak var dropTextField: NSTextField!
@@ -45,13 +50,22 @@ class DragDropViewController: NSViewController {
         transitionsTableView.delegate = self
         transitionsTableView.dataSource = self
         transitionsTableView.target = self
-        transitionsTableView.action = #selector(tableViewClick(_:))
+        transitionsTableView.doubleAction = #selector(tableViewDoubleClick(_:))
+    }
+    
+    func setCurrentlySelected(song: Song) {
+        currentlySelectedTitle.stringValue = song.title
+        currentlySelectedArtist.stringValue = song.artist
+        let scale = song.key.1 == .Major ? "D" : "M"
+        currentlySelectedKeyView.stringValue = "\(String(song.key.0))\(scale)"
+        currentlySelectedTempoView.stringValue = String(format: "%.2f", song.bpm)
     }
 
-    @objc func tableViewClick(_ sender: AnyObject) {
+    @objc func tableViewDoubleClick(_ sender: AnyObject) {
         if let item = transitions?[transitionsTableView.selectedRow] {
             transitions = (graph[item.to.audioId]?.1.map { edge in return edge })
             currentTransitions = transitions?.map { $0.to }
+            setCurrentlySelected(song: item.to)
         }
     }
 
@@ -95,6 +109,12 @@ extension DragDropViewController: DestinationViewDelegate {
             .components(separatedBy: "/").last {
             transitions = (graph[key]?.1.map { edge in return edge })
             currentTransitions = transitions?.map { $0.to }
+            
+            if (transitions != nil) {
+                if let result = graph[key] {
+                    setCurrentlySelected(song: result.0)
+                }
+            }
             return transitions != nil
         }
         return false
