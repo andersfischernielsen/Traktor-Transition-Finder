@@ -22,7 +22,6 @@ struct Song {
 
 struct Edge {
     let Weight: Double
-    let From: Song
     let To: Song
 }
 struct XMLEntry {
@@ -190,16 +189,15 @@ class Graph {
                         ]
                         
                         //See if other key matches any of the good key transitions.
-                        let filtered = lst.filter({(x: Int) -> Bool in other.0 == x})
                         //If there were any matches, then it's a nice key transition.
-                        return filtered.count == 0 ? BADKEYWEIGHT : 0.0
+                        return lst.contains(other.0) ? 0.0 : BADKEYWEIGHT
                     }
                     
                     let bpmDifference = abs(fromSong.BPM - toSong.BPM)
                     let keyWeight = weightForKey(key: fromSong.Key, other: toSong.Key)
                     
                     let weight = bpmDifference + keyWeight
-                    return Edge (Weight: weight, From: fromSong, To: toSong)
+                    return Edge (Weight: weight, To: toSong)
                 }
                 
                 //let otherSongs = songs.filter({ (element) -> Bool in element != song })
