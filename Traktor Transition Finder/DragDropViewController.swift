@@ -50,8 +50,8 @@ class DragDropViewController: NSViewController {
 
     @objc func tableViewClick(_ sender: AnyObject) {
         if let item = transitions?[transitionsTableView.selectedRow] {
-            transitions = (graph[item.To.AudioId]?.1.map { e in return e })
-            currentTransitions = transitions?.map { $0.To }
+            transitions = (graph[item.to.audioId]?.1.map { edge in return edge })
+            currentTransitions = transitions?.map { $0.to }
         }
     }
 
@@ -93,8 +93,8 @@ extension DragDropViewController: DestinationViewDelegate {
         if let key = urls.first!.absoluteString
             .replacingOccurrences(of: " ", with: "%20")
             .components(separatedBy: "/").last {
-            transitions = (graph[key]?.1.map { e in return e })
-            currentTransitions = transitions?.map { $0.To }
+            transitions = (graph[key]?.1.map { edge in return edge })
+            currentTransitions = transitions?.map { $0.to }
             return transitions != nil
         }
         return false
@@ -111,12 +111,12 @@ extension DragDropViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if let item = transitions?[row],
            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "TransitionTableCell"), owner: nil) as? TransitionTableCellView {
-            cell.title.stringValue = item.To.Title
-            cell.artist.stringValue = item.To.Artist
-            cell.tempo.stringValue = String(format: "%.2f", item.To.BPM)
-            let scale = item.To.Key.1 == .Major ? "D" : "M"
-            cell.key.stringValue = "\(String(item.To.Key.0))\(scale)"
-            cell.index = item.To.AudioId
+            cell.title.stringValue = item.to.title
+            cell.artist.stringValue = item.to.artist
+            cell.tempo.stringValue = String(format: "%.2f", item.to.bpm)
+            let scale = item.to.key.1 == .Major ? "D" : "M"
+            cell.key.stringValue = "\(String(item.to.key.0))\(scale)"
+            cell.index = item.to.audioId
             return cell
         }
         return nil

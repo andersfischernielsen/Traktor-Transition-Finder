@@ -8,28 +8,28 @@ import SWXMLHash
 
 enum Chord { case Major, Minor, Invalid }
 struct Song {
-    let BPM: Double
-    let Title: String
-    let Artist: String
-    let Key: (Int, Chord)
-    let AudioId: String
+    let bpm: Double
+    let title: String
+    let artist: String
+    let key: (Int, Chord)
+    let audioId: String
 
     static func != (s1: Song, s2: Song) -> Bool {
-        return (s1.BPM != s2.BPM && s1.Title != s2.Title && s1.Artist != s2.Artist && s1.AudioId != s2.AudioId)
+        return (s1.bpm != s2.bpm && s1.title != s2.title && s1.artist != s2.artist && s1.audioId != s2.audioId)
     }
 }
 
 struct Edge {
-    let Weight: Double
-    let To: Song
+    let weight: Double
+    let to: Song
 }
 struct XMLEntry {
-    let BPM: String?
-    let Title: String?
-    let Artist: String?
-    let MusicalKey: String?
-    let InfoKey: String?
-    let AudioId: String?
+    let bpm: String?
+    let title: String?
+    let artist: String?
+    let musicalKey: String?
+    let infoKey: String?
+    let audioId: String?
 }
 
 class CollectionParser {
@@ -56,7 +56,7 @@ class CollectionParser {
                             id = f.replacingOccurrences(of: " ", with: "%20")
                         }
                     }
-                    return XMLEntry(BPM: te, Title: ti, Artist: ar, MusicalKey: mk, InfoKey: ik, AudioId: id)
+                    return XMLEntry(bpm: te, title: ti, artist: ar, musicalKey: mk, infoKey: ik, audioId: id)
                 }
             } catch let error {
                 print(error)
@@ -90,8 +90,8 @@ class CollectionParser {
         }
 
         ///Parse integer key from MUSICAL_KEY attribute in NML to Key.
-        func parseMusicalKey(k: Int) -> (Int, Chord) {
-            switch k {
+        func parseMusicalKey(key: Int) -> (Int, Chord) {
+            switch key {
                 case 0: return (1, Chord.Major)
                 case 1: return (8, Chord.Major)
                 case 2: return (3, Chord.Major)
@@ -122,27 +122,27 @@ class CollectionParser {
 
         ///Parse a given NML Entry into a Song type.
         func parseToSong(entry: XMLEntry) -> Song {
-            if (entry.BPM == nil || entry.AudioId == nil || (entry.MusicalKey == nil && entry.InfoKey == nil)) {
-                return Song(BPM: 0, Title: "", Artist: "", Key: (0, Chord.Invalid), AudioId: "")
+            if (entry.bpm == nil || entry.audioId == nil || (entry.musicalKey == nil && entry.infoKey == nil)) {
+                return Song(bpm: 0, title: "", artist: "", key: (0, Chord.Invalid), audioId: "")
             }
 
-            let te = Double(entry.BPM!)!
-            let id = entry.AudioId!
-            let ti = entry.Title ?? ""
-            let ar = entry.Artist ?? ""
+            let te = Double(entry.bpm!)!
+            let id = entry.audioId!
+            let ti = entry.title ?? ""
+            let ar = entry.artist ?? ""
 
-            if let k = entry.MusicalKey {
+            if let k = entry.musicalKey {
                 let key = Int(k)!
-                return Song(BPM: te, Title: ti, Artist: ar, Key: parseMusicalKey(k: key), AudioId: id)
+                return Song(bpm: te, title: ti, artist: ar, key: parseMusicalKey(key: key), audioId: id)
             } else {
-                let key = entry.InfoKey!
-                return Song(BPM: te, Title: ti, Artist: ar, Key: parseKey(s: key), AudioId: id)
+                let key = entry.infoKey!
+                return Song(bpm: te, title: ti, artist: ar, key: parseKey(s: key), audioId: id)
             }
         }
 
         let xmlEntries = parseXML(path: pathToCollection)
         let songs = xmlEntries.map { parseToSong(entry: $0) }
-        return songs.filter({ $0.Key.1 != .Invalid })
+        return songs.filter({ $0.key.1 != .Invalid })
     }
 }
 
@@ -191,16 +191,16 @@ class Graph {
                         return lst.contains(other.0) ? 0.0 : BADKEYWEIGHT
                     }
 
-                    let bpmDifference = abs(fromSong.BPM - toSong.BPM)
-                    let keyWeight = weightForKey(key: fromSong.Key, other: toSong.Key)
-                    let canMixHalfTempo = bpmDifference == toSong.BPM
+                    let bpmDifference = abs(fromSong.bpm - toSong.bpm)
+                    let keyWeight = weightForKey(key: fromSong.key, other: toSong.key)
+                    let canMixHalfTempo = bpmDifference == toSong.bpm
                     let weight = canMixHalfTempo ? keyWeight + HALFTEMPO : keyWeight + bpmDifference
-                    return Edge (Weight: weight, To: toSong)
+                    return Edge (weight: weight, to: toSong)
                 }
 
                 //let otherSongs = songs.filter({ (element) -> Bool in element != song })
                 let withEdges = songs.map({ generateEdge(fromSong: song, toSong: $0) })
-                let sorted = withEdges.sorted(by: { $0.Weight < $1.Weight })
+                let sorted = withEdges.sorted(by: { $0.weight < $1.weight })
                 return (song, Array(sorted.prefix(numberOfEdges)))
             }
 
@@ -210,7 +210,7 @@ class Graph {
         ///Create a Map<audioId:string, (Song * Edge list)> from a Song * Edge list array.
         func asMap(graph: [(Song, [Edge])]) -> [String: (Song, [Edge])] {
             var m: [String: (Song, [Edge])] = [:]
-            graph.forEach({ m[$0.0.AudioId] = $0 })
+            graph.forEach({ m[$0.0.audioId] = $0 })
             return m
         }
 
