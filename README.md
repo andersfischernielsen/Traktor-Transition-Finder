@@ -19,8 +19,6 @@ When a song is dropped into the app the best transitions from that song are disp
 
 
 ## Implementation
-The first version of the app consists of a F# backend handling parsing the Traktor 2 collection and serving results as JSON to the Electron frontend. 
-
-The second version of the app is fully implemented in TypeScript and Electron. 
-
-The third (current) version of the app is implemented in Swift, available for macOS. 
+* The first version of the app consisted of a F# backend handling parsing the Traktor 2 collection and serving results as JSON to the Electron frontend. 
+* The second version of the app was implemented in TypeScript and Electron. 
+* The third (current) version of the app is implemented in Swift, available for macOS. 
