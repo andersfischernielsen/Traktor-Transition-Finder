@@ -197,7 +197,7 @@ class Graph {
                     let bpmDifference = abs(fromSong.BPM - toSong.BPM)
                     let keyWeight = weightForKey(key: fromSong.Key, other: toSong.Key)
                     let canMixHalfTempo = bpmDifference == toSong.BPM
-                    let weight = canMixHalfTempo ? bpmDifference + HALFTEMPO : keyWeight + bpmDifference
+                    let weight = canMixHalfTempo ? keyWeight + HALFTEMPO : keyWeight + bpmDifference
                     return Edge (Weight: weight, To: toSong)
                 }
                 
