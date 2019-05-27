@@ -51,8 +51,14 @@ class DragDropViewController: NSViewController {
         dropZone.delegate = self
         transitionsTableView.delegate = self
         transitionsTableView.dataSource = self
-        if (collectionURL == nil) {
-            //selectCollection()
+        transitionsTableView.target = self
+        transitionsTableView.action = #selector(tableViewClick(_:))
+    }
+    
+    @objc func tableViewClick(_ sender:AnyObject) {
+        if let item = transitions?[transitionsTableView.selectedRow] {
+            transitions = (graph[item.To.AudioId]?.1.map { e in return e })
+            currentTransitions = transitions?.map { $0.To }
         }
     }
     
