@@ -16,6 +16,7 @@ When a song is dropped into the app the best transitions from that song are disp
 - Open the app and select `File` -> `Open Collection...` and select your Traktor collection. 
 - Let the app analyse the collection and the available transitions.
 - Drag a file from the song list in Traktor or from Finder into the app to get a list of possible transitions from the song.
+- Click transitions in the transition list to explore continuous transitions.
 
 
 ## Implementation
