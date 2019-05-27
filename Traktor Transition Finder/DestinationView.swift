@@ -7,8 +7,8 @@ protocol DestinationViewDelegate {
 
 class DestinationView: NSView {
     var userInteractionEnabled: Bool = false
-    
-  let filteringOptions = [NSPasteboard.ReadingOptionKey.urlReadingContentsConformToTypes:NSSound.soundUnfilteredTypes]
+
+  let filteringOptions = [NSPasteboard.ReadingOptionKey.urlReadingContentsConformToTypes: NSSound.soundUnfilteredTypes]
   func shouldAllowDrag(_ draggingInfo: NSDraggingInfo) -> Bool {
     let pasteBoard = draggingInfo.draggingPasteboard
     return pasteBoard.canReadObject(forClasses: [NSURL.self], options: filteringOptions)
@@ -17,28 +17,28 @@ class DestinationView: NSView {
   enum Appearance {
     static let lineWidth: CGFloat = 10.0
   }
-  
+
   var delegate: DestinationViewDelegate?
     var acceptableTypes: Set<NSPasteboard.PasteboardType> { return [NSPasteboard.PasteboardType(kUTTypeURL as String)] }
 
   override func awakeFromNib() {
     setup()
   }
-  
+
   func setup() {
     registerForDraggedTypes(Array(acceptableTypes))
   }
-  
+
   override func draw(_ dirtyRect: NSRect) {
     if isReceivingDrag {
       NSColor.selectedControlColor.set()
 
-      let path = NSBezierPath(rect:bounds)
+      let path = NSBezierPath(rect: bounds)
       path.lineWidth = Appearance.lineWidth
       path.stroke()
     }
   }
-  
+
   override func hitTest(_ aPoint: NSPoint) -> NSView? {
     return userInteractionEnabled ? self : nil
   }
@@ -67,7 +67,7 @@ class DestinationView: NSView {
   override func performDragOperation(_ draggingInfo: NSDraggingInfo) -> Bool {
     isReceivingDrag = false
     let pasteBoard = draggingInfo.draggingPasteboard
-    if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options:filteringOptions) as? [URL], urls.count > 0 {
+    if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options: filteringOptions) as? [URL], urls.count > 0 {
         if let result = delegate?.processFileURLs(urls) {
             return result
         }

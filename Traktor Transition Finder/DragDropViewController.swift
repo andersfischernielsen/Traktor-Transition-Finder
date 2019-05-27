@@ -1,7 +1,6 @@
 import Foundation
 import Cocoa
 
-
 class DragDropViewController: NSViewController {
     @IBOutlet var dropZone: DestinationView!
     @IBOutlet weak var transitionsTableView: NSTableView!
@@ -22,12 +21,7 @@ class DragDropViewController: NSViewController {
         }
     }
     var currentTransitions: [Song]?
-    
-    enum Appearance {
-        static let shadowOpacity: Float =  0.4
-        static let shadowOffset: CGFloat = 4
-    }
-    
+
     @IBAction func openDocument(_ sender: Any?) {
         let openPanel = NSOpenPanel()
         openPanel.allowsMultipleSelection = false
@@ -39,8 +33,7 @@ class DragDropViewController: NSViewController {
         openPanel.begin { (result) -> Void in
             if result == .OK {
                 self.collectionURL = openPanel.url
-            }
-            else if self.collectionURL == nil {
+            } else if self.collectionURL == nil {
                 NSApplication.shared.terminate(self)
             }
         }
@@ -54,14 +47,14 @@ class DragDropViewController: NSViewController {
         transitionsTableView.target = self
         transitionsTableView.action = #selector(tableViewClick(_:))
     }
-    
-    @objc func tableViewClick(_ sender:AnyObject) {
+
+    @objc func tableViewClick(_ sender: AnyObject) {
         if let item = transitions?[transitionsTableView.selectedRow] {
             transitions = (graph[item.To.AudioId]?.1.map { e in return e })
             currentTransitions = transitions?.map { $0.To }
         }
     }
-    
+
     func updateCollection(path: URL?) {
         DispatchQueue.global(qos: .background).async {
             DispatchQueue.main.async {
@@ -73,15 +66,18 @@ class DragDropViewController: NSViewController {
             }
             let graph = Graph.buildGraph(list: parsed, numberOfEdges: 15)
             self.graph = graph
-            
+
             DispatchQueue.main.async {
                 self.dropTextField.stringValue = "Drop Songs Here"
             }
         }
-        
-        
     }
-  
+
+    enum Appearance {
+        static let shadowOpacity: Float =  0.4
+        static let shadowOffset: CGFloat = 4
+    }
+
     func configureShadow(_ view: NSView) {
         if let layer = view.layer {
           layer.shadowColor = NSColor.black.cgColor
@@ -117,7 +113,7 @@ extension DragDropViewController: NSTableViewDelegate {
            let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "TransitionTableCell"), owner: nil) as? TransitionTableCellView {
             cell.title.stringValue = item.To.Title
             cell.artist.stringValue = item.To.Artist
-            cell.tempo.stringValue = String(format:"%.2f", item.To.BPM)
+            cell.tempo.stringValue = String(format: "%.2f", item.To.BPM)
             let scale = item.To.Key.1 == .Major ? "D" : "M"
             cell.key.stringValue = "\(String(item.To.Key.0))\(scale)"
             cell.index = item.To.AudioId
@@ -125,16 +121,8 @@ extension DragDropViewController: NSTableViewDelegate {
         }
         return nil
     }
-    
+
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return 55 as CGFloat
     }
-    
-//TODO: Implement proper selection logic
-//    func tableViewSelectionDidChange(_ notification: Notification) {
-//        let row = transitionsTableView.selectedRow
-//        if let selected = currentTransitions?[row] {
-//            transitions = (graph[selected.AudioId]?.1.map { e in return e })
-//        }
-//    }
 }

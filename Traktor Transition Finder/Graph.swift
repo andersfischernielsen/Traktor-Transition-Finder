@@ -6,16 +6,15 @@
 import Foundation
 import SWXMLHash
 
-enum Chord { case Major,  Minor, Invalid }
+enum Chord { case Major, Minor, Invalid }
 struct Song {
     let BPM: Double
     let Title: String
     let Artist: String
     let Key: (Int, Chord)
     let AudioId: String
-    
-    static func != (s1:Song,s2:Song) -> Bool
-    {
+
+    static func != (s1: Song, s2: Song) -> Bool {
         return (s1.BPM != s2.BPM && s1.Title != s2.Title && s1.Artist != s2.Artist && s1.AudioId != s2.AudioId)
     }
 }
@@ -51,7 +50,7 @@ class CollectionParser {
                     var ik: String?
                     for child in entry.children {
                         te = child.value(ofAttribute: "BPM") ?? te
-                        mk = child.value(ofAttribute:"VALUE") ?? mk
+                        mk = child.value(ofAttribute: "VALUE") ?? mk
                         ik = child.value(ofAttribute: "KEY") ?? ik
                         if let f = child.value(ofAttribute: "FILE") as String? {
                             id = f.replacingOccurrences(of: " ", with: "%20")
@@ -64,7 +63,7 @@ class CollectionParser {
             }
             return []
         }
-        
+
         ///Parse string keys from KEY.INFO attribute in NML.
         func parseKey(s: String) -> (Int, Chord) {
             func matches(for regex: String, in text: String) -> [String] {
@@ -80,7 +79,7 @@ class CollectionParser {
                     return []
                 }
             }
-            
+
             let regex = matches(for: #"\d"#, in: s)
             if regex.count == 0 {
                 return (0, Chord.Invalid)
@@ -89,7 +88,7 @@ class CollectionParser {
             let key: Chord = s.contains("d") ? Chord.Major : Chord.Minor
             return (num, key)
         }
-        
+
         ///Parse integer key from MUSICAL_KEY attribute in NML to Key.
         func parseMusicalKey(k: Int) -> (Int, Chord) {
             switch k {
@@ -120,18 +119,18 @@ class CollectionParser {
                 default: return (0, Chord.Invalid)
             }
         }
-        
+
         ///Parse a given NML Entry into a Song type.
         func parseToSong(entry: XMLEntry) -> Song {
             if (entry.BPM == nil || entry.AudioId == nil || (entry.MusicalKey == nil && entry.InfoKey == nil)) {
                 return Song(BPM: 0, Title: "", Artist: "", Key: (0, Chord.Invalid), AudioId: "")
             }
-            
+
             let te = Double(entry.BPM!)!
             let id = entry.AudioId!
             let ti = entry.Title ?? ""
             let ar = entry.Artist ?? ""
-            
+
             if let k = entry.MusicalKey {
                 let key = Int(k)!
                 return Song(BPM: te, Title: ti, Artist: ar, Key: parseMusicalKey(k: key), AudioId: id)
@@ -140,7 +139,7 @@ class CollectionParser {
                 return Song(BPM: te, Title: ti, Artist: ar, Key: parseKey(s: key), AudioId: id)
             }
         }
-        
+
         let xmlEntries = parseXML(path: pathToCollection)
         let songs = xmlEntries.map { parseToSong(entry: $0) }
         return songs.filter({ $0.Key.1 != .Invalid })
@@ -154,7 +153,7 @@ class Graph {
         //The "punishment" for having a bad key transition/being a harder transition.
         let BADKEYWEIGHT: Double = 15.0
         let HALFTEMPO: Double = 8.0
-        
+
         func generateEdgesForSong(song: Song, songs: [Song]) -> (Song, [Edge]) {
             func createEdgesFromSong(songs: [Song]) -> (Song, [Edge]) {
                 func generateEdge(fromSong: Song, toSong: Song) -> Edge {
@@ -171,15 +170,13 @@ class Graph {
                             //If Chord.Minor, three keys UP, if Chord.Major three keys DOWN.
                             if k == Chord.Minor {
                                 return accountFor12(n: key.0 + 3)
-                            }
-                            else if k == Chord.Major {
+                            } else if k == Chord.Major {
                                 return accountFor12(n: key.0 + 9)
-                            }
-                            else {
+                            } else {
                                 return Int.max
                             }
                         }
-                        
+
                         //Create a list of all good key transitions.
                         let lst = [
                             plusOne,
@@ -188,35 +185,35 @@ class Graph {
                             twoSemitones,
                             threeUpDown(k: other.1)
                         ]
-                        
+
                         //See if other key matches any of the good key transitions.
                         //If there were any matches, then it's a nice key transition.
                         return lst.contains(other.0) ? 0.0 : BADKEYWEIGHT
                     }
-                    
+
                     let bpmDifference = abs(fromSong.BPM - toSong.BPM)
                     let keyWeight = weightForKey(key: fromSong.Key, other: toSong.Key)
                     let canMixHalfTempo = bpmDifference == toSong.BPM
                     let weight = canMixHalfTempo ? keyWeight + HALFTEMPO : keyWeight + bpmDifference
                     return Edge (Weight: weight, To: toSong)
                 }
-                
+
                 //let otherSongs = songs.filter({ (element) -> Bool in element != song })
-                let withEdges = songs.map( { generateEdge(fromSong: song, toSong: $0) })
+                let withEdges = songs.map({ generateEdge(fromSong: song, toSong: $0) })
                 let sorted = withEdges.sorted(by: { $0.Weight < $1.Weight })
                 return (song, Array(sorted.prefix(numberOfEdges)))
             }
-            
+
             return createEdgesFromSong(songs: songs)
         }
-        
+
         ///Create a Map<audioId:string, (Song * Edge list)> from a Song * Edge list array.
         func asMap(graph: [(Song, [Edge])]) -> [String: (Song, [Edge])] {
             var m: [String: (Song, [Edge])] = [:]
             graph.forEach({ m[$0.0.AudioId] = $0 })
             return m
         }
-        
+
         let result = list.map({ generateEdgesForSong(song: $0, songs: list) })
         let graph = asMap(graph: result)
         return graph
