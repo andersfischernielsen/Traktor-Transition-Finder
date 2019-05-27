@@ -10,6 +10,10 @@ class DragDropViewController: NSViewController {
         didSet {
             transitionsTableView.reloadData()
         }
+        willSet(value) {
+            dropZone.userInteractionEnabled = value != nil
+            transitionsTableView.isEnabled = value != nil
+        }
     }
     var graph: [String: (Song, [Edge])] = [:]
     var collectionURL: URL? {
@@ -23,6 +27,24 @@ class DragDropViewController: NSViewController {
         static let shadowOpacity: Float =  0.4
         static let shadowOffset: CGFloat = 4
     }
+    
+    @IBAction func openDocument(_ sender: Any?) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = false
+        openPanel.canCreateDirectories = false
+        openPanel.canChooseFiles = true
+        openPanel.allowedFileTypes = ["nml"]
+        openPanel.level = NSWindow.Level.init(rawValue: 1)
+        openPanel.begin { (result) -> Void in
+            if result == .OK {
+                self.collectionURL = openPanel.url
+            }
+            else if self.collectionURL == nil {
+                NSApplication.shared.terminate(self)
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +52,7 @@ class DragDropViewController: NSViewController {
         transitionsTableView.delegate = self
         transitionsTableView.dataSource = self
         if (collectionURL == nil) {
-            selectCollection()
+            //selectCollection()
         }
     }
     
@@ -53,25 +75,6 @@ class DragDropViewController: NSViewController {
         
         
     }
-
-    func selectCollection() {
-        let openPanel = NSOpenPanel()
-        openPanel.allowsMultipleSelection = false
-        openPanel.canChooseDirectories = false
-        openPanel.canCreateDirectories = false
-        openPanel.canChooseFiles = true
-        openPanel.allowedFileTypes = ["nml"]
-        openPanel.level = NSWindow.Level.init(rawValue: 1)
-        openPanel.begin { (result) -> Void in
-            if result == .OK {
-                self.collectionURL = openPanel.url
-            }
-            else if self.collectionURL == nil {
-                NSApplication.shared.terminate(self)
-            }
-        }
-    }
-  
   
     func configureShadow(_ view: NSView) {
         if let layer = view.layer {

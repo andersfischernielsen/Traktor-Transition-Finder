@@ -6,6 +6,8 @@ protocol DestinationViewDelegate {
 }
 
 class DestinationView: NSView {
+    var userInteractionEnabled: Bool = false
+    
   let filteringOptions = [NSPasteboard.ReadingOptionKey.urlReadingContentsConformToTypes:NSSound.soundUnfilteredTypes]
   func shouldAllowDrag(_ draggingInfo: NSDraggingInfo) -> Bool {
     let pasteBoard = draggingInfo.draggingPasteboard
@@ -38,7 +40,7 @@ class DestinationView: NSView {
   }
   
   override func hitTest(_ aPoint: NSPoint) -> NSView? {
-    return nil
+    return userInteractionEnabled ? self : nil
   }
 
   var isReceivingDrag = false {
