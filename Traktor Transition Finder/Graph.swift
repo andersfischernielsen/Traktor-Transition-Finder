@@ -1,6 +1,6 @@
 //
 // Created by Anders Fischer-Nielsen on 2019-05-21.
-// Copyright (c) 2019 ___FULLUSERNAME___. All rights reserved.
+// Copyright (c) 2019 Anders Fischer-Nielsen. All rights reserved.
 //
 
 import Foundation
