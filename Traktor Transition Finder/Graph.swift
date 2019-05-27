@@ -151,8 +151,9 @@ class Graph {
     ///Calculate weights for a (Song * Edge list) array.
     ///Create a graph (represented as a Song * Edge list array) from  a Song list.
     static func buildGraph(list: [Song], numberOfEdges: Int) -> [String: (Song, [Edge])] {
-        //The "punishment" for having a bad key transition.
+        //The "punishment" for having a bad key transition/being a harder transition.
         let BADKEYWEIGHT: Double = 15.0
+        let HALFTEMPO: Double = 8.0
         
         func generateEdgesForSong(song: Song, songs: [Song]) -> (Song, [Edge]) {
             func createEdgesFromSong(songs: [Song]) -> (Song, [Edge]) {
@@ -195,8 +196,8 @@ class Graph {
                     
                     let bpmDifference = abs(fromSong.BPM - toSong.BPM)
                     let keyWeight = weightForKey(key: fromSong.Key, other: toSong.Key)
-                    
-                    let weight = bpmDifference + keyWeight
+                    let canMixHalfTempo = bpmDifference == toSong.BPM
+                    let weight = canMixHalfTempo ? bpmDifference + HALFTEMPO : keyWeight + bpmDifference
                     return Edge (Weight: weight, To: toSong)
                 }
                 
