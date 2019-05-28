@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -285,7 +286,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="334" id="Ms3-hj-w1m"/>
                                                                     </constraints>
-                                                                    <textFieldCell key="cell" lineBreakMode="clipping" usesSingleLineMode="YES" id="J5o-fW-G3f">
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" usesSingleLineMode="YES" id="J5o-fW-G3f">
                                                                         <font key="font" metaFont="system" size="16"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -296,7 +297,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="334" id="Ze9-8L-dkO"/>
                                                                     </constraints>
-                                                                    <textFieldCell key="cell" lineBreakMode="clipping" usesSingleLineMode="YES" id="Y1v-z8-xoF">
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" usesSingleLineMode="YES" id="Y1v-z8-xoF">
                                                                         <font key="font" metaFont="system" size="16"/>
                                                                         <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -356,8 +357,8 @@
                                     </subviews>
                                     <nil key="backgroundColor"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="u3y-B3-rfJ">
-                                    <rect key="frame" x="0.0" y="476" width="400" height="16"/>
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="u3y-B3-rfJ">
+                                    <rect key="frame" x="0.0" y="476" width="405" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="22S-0R-v16">
@@ -382,9 +383,9 @@
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="klV-Q8-9FR">
                                                 <rect key="frame" x="8" y="7" width="338" height="19"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="334" id="O1k-oy-rSc"/>
+                                                    <constraint firstAttribute="width" constant="334" id="O1k-oy-rSc"/>
                                                 </constraints>
-                                                <textFieldCell key="cell" lineBreakMode="clipping" usesSingleLineMode="YES" id="ddf-Ij-FK0">
+                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" usesSingleLineMode="YES" id="ddf-Ij-FK0">
                                                     <font key="font" metaFont="system" size="16"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -393,7 +394,7 @@
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uNt-a8-dLZ">
                                                 <rect key="frame" x="345" y="7" width="52" height="19"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="48" id="PHT-sM-mZO"/>
+                                                    <constraint firstAttribute="width" constant="48" id="PHT-sM-mZO"/>
                                                 </constraints>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" id="Whj-6p-MCw">
                                                     <font key="font" metaFont="system" size="16"/>
@@ -419,6 +420,7 @@
                                             <constraint firstItem="IQd-jR-GAe" firstAttribute="top" secondItem="dsj-lm-A7Y" secondAttribute="top" constant="7" id="6r5-jx-2D1"/>
                                             <constraint firstAttribute="bottom" secondItem="uNt-a8-dLZ" secondAttribute="bottom" constant="7" id="9VS-p1-mx1"/>
                                             <constraint firstAttribute="bottom" secondItem="klV-Q8-9FR" secondAttribute="bottom" constant="7" id="AWm-wB-hH6"/>
+                                            <constraint firstItem="klV-Q8-9FR" firstAttribute="bottom" secondItem="uNt-a8-dLZ" secondAttribute="bottom" id="Ahe-9Y-gNw"/>
                                             <constraint firstAttribute="height" constant="60" id="CDd-K4-wjI"/>
                                             <constraint firstItem="tq7-lB-kre" firstAttribute="leading" secondItem="IQd-jR-GAe" secondAttribute="trailing" constant="3" id="CKJ-LW-jOH"/>
                                             <constraint firstItem="uNt-a8-dLZ" firstAttribute="leading" secondItem="klV-Q8-9FR" secondAttribute="trailing" constant="3" id="JMb-Fy-Euo"/>
@@ -428,7 +430,10 @@
                                             <constraint firstItem="uNt-a8-dLZ" firstAttribute="leading" secondItem="klV-Q8-9FR" secondAttribute="trailing" constant="3" id="PYl-rz-Olc"/>
                                             <constraint firstItem="IQd-jR-GAe" firstAttribute="leading" secondItem="dsj-lm-A7Y" secondAttribute="leading" constant="10" id="Vhn-bu-g3n"/>
                                             <constraint firstAttribute="trailing" secondItem="tq7-lB-kre" secondAttribute="trailing" constant="10" id="W4H-y3-sON"/>
+                                            <constraint firstItem="tq7-lB-kre" firstAttribute="leading" secondItem="IQd-jR-GAe" secondAttribute="trailing" constant="3" id="aZG-2H-0Xy"/>
+                                            <constraint firstItem="IQd-jR-GAe" firstAttribute="top" secondItem="tq7-lB-kre" secondAttribute="top" id="aax-jR-i0F"/>
                                             <constraint firstItem="klV-Q8-9FR" firstAttribute="leading" secondItem="dsj-lm-A7Y" secondAttribute="leading" constant="10" id="hjd-Nk-RuV"/>
+                                            <constraint firstItem="IQd-jR-GAe" firstAttribute="centerY" secondItem="tq7-lB-kre" secondAttribute="centerY" id="rep-mw-5M7"/>
                                         </constraints>
                                     </visualEffectView>
                                 </subviews>
