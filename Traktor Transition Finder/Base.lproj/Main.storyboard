@@ -357,7 +357,7 @@
                                     </subviews>
                                     <nil key="backgroundColor"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="u3y-B3-rfJ">
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="u3y-B3-rfJ">
                                     <rect key="frame" x="0.0" y="476" width="405" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -369,7 +369,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="nmn-MQ-83j">
                                 <rect key="frame" x="0.0" y="0.0" width="405" height="60"/>
                                 <subviews>
-                                    <visualEffectView appearanceType="inheritedVibrantLight" blendingMode="withinWindow" material="HUDWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="dsj-lm-A7Y">
+                                    <visualEffectView appearanceType="inheritedVibrantLight" blendingMode="withinWindow" material="headerView" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="dsj-lm-A7Y">
                                         <rect key="frame" x="0.0" y="0.0" width="405" height="60"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IQd-jR-GAe">
