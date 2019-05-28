@@ -8,7 +8,7 @@ The tool creates a weighted digraph of every song in a Traktor collection of son
 
 When a song is dropped into the app the best transitions from that song are displayed. The DJ can then pick a song from the list in Traktor. The app just functions as a suggestion list.
 
-<p align="center"><a href=https://github.com/andersfischernielsen/Traktor-Transition-Finder/releases/latest">Download</a></p>
+<p align="center"><a href="https://github.com/andersfischernielsen/Traktor-Transition-Finder/releases/latest">Download</a></p>
 
 ![Screenshot](readme/readme.png) 
 
