@@ -15,4 +15,10 @@ class BreadCrumb: NSCollectionViewItem {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func mouseDown(with theEvent: NSEvent) {
+        if theEvent.clickCount == 2 {
+            NSApplication.shared.sendAction(#selector(DragDropViewController.breadCrumbClicked), to: nil, from: self)
+        }
+    }
 }

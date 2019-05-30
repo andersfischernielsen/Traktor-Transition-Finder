@@ -10,7 +10,4 @@ import Foundation
 import Cocoa
 
 class CurrentlySelectedView : NSView {
-    override func hitTest(_ point: NSPoint) -> NSView? {
-        return nil
-    }
 }

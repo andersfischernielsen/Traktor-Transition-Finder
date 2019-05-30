@@ -58,12 +58,32 @@ class DragDropViewController: NSViewController {
         transitionsTableView.doubleAction = #selector(tableViewDoubleClick(_:))
     }
     
+    @objc func breadCrumbClicked(sender: Any?) {
+        guard sender is BreadCrumb else { return }
+        let breadCrumb = sender as! BreadCrumb
+        if let selected = breadCrumb.selectedSong {
+            selectSong(audioID: selected.audioId)
+        }
+    }
+    
+    
     func appendBreadCrumb(song: Song) {
         if breadCrumbs.count > 3 {
             breadCrumbs.remove(at: 0)
         }
         breadCrumbs.append(song)
         breadCrumbView.reloadData()
+    }
+    
+    func selectSong(audioID: String) {
+        transitions = (graph[audioID]?.1.map { edge in return edge })
+        currentTransitions = transitions?.map { $0.to }
+        
+        if (transitions != nil) {
+            if let result = graph[audioID] {
+                setCurrentlySelected(song: result.0)
+            }
+        }
     }
     
     func setCurrentlySelected(song: Song) {
@@ -77,9 +97,7 @@ class DragDropViewController: NSViewController {
 
     @objc func tableViewDoubleClick(_ sender: AnyObject) {
         if let item = transitions?[transitionsTableView.selectedRow] {
-            transitions = (graph[item.to.audioId]?.1.map { edge in return edge })
-            currentTransitions = transitions?.map { $0.to }
-            setCurrentlySelected(song: item.to)
+            selectSong(audioID: item.to.audioId)
         }
     }
 
@@ -141,14 +159,7 @@ extension DragDropViewController: DestinationViewDelegate {
         if let key = urls.first!.absoluteString
             .replacingOccurrences(of: " ", with: "%20")
             .components(separatedBy: "/").last {
-            transitions = (graph[key]?.1.map { edge in return edge })
-            currentTransitions = transitions?.map { $0.to }
-            
-            if (transitions != nil) {
-                if let result = graph[key] {
-                    setCurrentlySelected(song: result.0)
-                }
-            }
+            selectSong(audioID: key)
             return transitions != nil
         }
         return false
