@@ -1,5 +1,8 @@
 # Traktor Transition Finder
 
+![Screenshot](readme/readme.png) 
+
+
 <span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GFDKRJ7LCQFQS" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> if you think this project is awesome. </span>
 
 A small tool for automatically finding the next song to play when DJing using Traktor written in Swift.
@@ -10,7 +13,7 @@ When a song is dropped into the app the best transitions from that song are disp
 
 <p align="center"><a href="https://github.com/andersfischernielsen/Traktor-Transition-Finder/releases/latest">Download</a></p>
 
-![Screenshot](readme/readme.png) 
+
 
 ## How to Use
 - Open the app and select `File` -> `Open Collection...` and select your Traktor collection. 
