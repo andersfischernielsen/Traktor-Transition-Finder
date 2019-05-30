@@ -205,12 +205,11 @@
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="Traktor Transition Finder" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="405" height="550"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-                        <value key="maxSize" type="size" width="405" height="800"/>
+                        <value key="minSize" type="size" width="405" height="550"/>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
                         </connections>
@@ -236,8 +235,8 @@
                                 <rect key="frame" x="0.0" y="500" width="405" height="92"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="O8B-oD-sCH">
-                                        <rect key="frame" x="114" y="36" width="177" height="21"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="No Collection Opened" id="abN-BT-s5X">
+                                        <rect key="frame" x="116" y="36" width="173" height="21"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="No Collection Loaded" id="abN-BT-s5X">
                                             <font key="font" metaFont="system" size="17"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -256,7 +255,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="405" height="500"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" id="evx-aF-Ywe">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="55" viewBased="YES" id="evx-aF-Ywe">
                                             <rect key="frame" x="0.0" y="0.0" width="405" height="500"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -471,6 +470,7 @@
                             </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="nmn-MQ-83j" firstAttribute="width" secondItem="evx-aF-Ywe" secondAttribute="width" id="4hb-VB-2JD"/>
                             <constraint firstItem="WHt-0p-IUr" firstAttribute="trailing" secondItem="Npt-mX-B1C" secondAttribute="trailing" id="7b4-gs-P9M"/>
                             <constraint firstItem="Npt-mX-B1C" firstAttribute="top" secondItem="WHt-0p-IUr" secondAttribute="bottom" id="7eh-SF-YLW"/>
                             <constraint firstItem="WHt-0p-IUr" firstAttribute="leading" secondItem="Npt-mX-B1C" secondAttribute="leading" id="99E-aN-OLs"/>

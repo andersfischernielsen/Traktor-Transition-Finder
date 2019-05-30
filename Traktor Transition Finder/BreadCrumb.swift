@@ -8,7 +8,10 @@
 
 import Foundation
 import Cocoa
+
 class BreadCrumb: NSCollectionViewItem {
+    var selectedSong: Song?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

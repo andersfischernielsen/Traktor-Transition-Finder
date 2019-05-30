@@ -29,7 +29,7 @@ class DragDropViewController: NSViewController {
         }
     }
     var currentTransitions: [Song]?
-    var breadCrumbs: [String] = []
+    var breadCrumbs: [Song] = []
     
     @IBAction func openDocument(_ sender: Any?) {
         let openPanel = NSOpenPanel()
@@ -58,11 +58,11 @@ class DragDropViewController: NSViewController {
         transitionsTableView.doubleAction = #selector(tableViewDoubleClick(_:))
     }
     
-    func appendBreadCrumb(title: String) {
-        if breadCrumbs.count > 4 {
+    func appendBreadCrumb(song: Song) {
+        if breadCrumbs.count > 3 {
             breadCrumbs.remove(at: 0)
         }
-        breadCrumbs.append(title)
+        breadCrumbs.append(song)
         breadCrumbView.reloadData()
     }
     
@@ -72,7 +72,7 @@ class DragDropViewController: NSViewController {
         let scale = song.key.1 == .Major ? "D" : "M"
         currentlySelectedKeyView.stringValue = "\(String(song.key.0))\(scale)"
         currentlySelectedTempoView.stringValue = String(format: "%.2f", song.bpm)
-        appendBreadCrumb(title: song.title)
+        appendBreadCrumb(song: song)
     }
 
     @objc func tableViewDoubleClick(_ sender: AnyObject) {
@@ -124,7 +124,10 @@ extension DragDropViewController: NSCollectionViewDataSource {
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "BreadCrumb"), for: indexPath)
         guard item is BreadCrumb else { return item }
-        item.textField?.stringValue = breadCrumbs[indexPath.item]
+        let breadCrumb = item as! BreadCrumb
+        let song = breadCrumbs[indexPath.item]
+        breadCrumb.textField?.stringValue = song.title
+        breadCrumb.selectedSong = song
         return item
     }
     
@@ -154,7 +157,7 @@ extension DragDropViewController: DestinationViewDelegate {
 
 extension DragDropViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return transitions?.count ?? 10
+        return transitions?.count ?? 0
     }
 }
 
@@ -171,9 +174,5 @@ extension DragDropViewController: NSTableViewDelegate {
             return cell
         }
         return nil
-    }
-
-    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 55 as CGFloat
     }
 }
