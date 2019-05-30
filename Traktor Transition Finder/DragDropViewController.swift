@@ -6,10 +6,13 @@ class DragDropViewController: NSViewController {
     @IBOutlet var currentlySelectedArtist: NSTextField!
     @IBOutlet var currentlySelectedKeyView: NSTextField!
     @IBOutlet var currentlySelectedTempoView: NSTextField!
+    @IBOutlet var currentlySelectedView: CurrentlySelectedView!
     
     @IBOutlet var dropZone: DestinationView!
     @IBOutlet weak var transitionsTableView: NSTableView!
     @IBOutlet weak var dropTextField: NSTextField!
+    @IBOutlet var breadCrumbView: NSCollectionView!
+    
     var transitions: [Edge]? {
         didSet {
             transitionsTableView.reloadData()
@@ -26,7 +29,8 @@ class DragDropViewController: NSViewController {
         }
     }
     var currentTransitions: [Song]?
-
+    var breadCrumbs: [String] = []
+    
     @IBAction func openDocument(_ sender: Any?) {
         let openPanel = NSOpenPanel()
         openPanel.allowsMultipleSelection = false
@@ -47,10 +51,19 @@ class DragDropViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         dropZone.delegate = self
+        breadCrumbView.dataSource = self
         transitionsTableView.delegate = self
         transitionsTableView.dataSource = self
         transitionsTableView.target = self
         transitionsTableView.doubleAction = #selector(tableViewDoubleClick(_:))
+    }
+    
+    func appendBreadCrumb(title: String) {
+        if breadCrumbs.count > 4 {
+            breadCrumbs.remove(at: 0)
+        }
+        breadCrumbs.append(title)
+        breadCrumbView.reloadData()
     }
     
     func setCurrentlySelected(song: Song) {
@@ -59,6 +72,7 @@ class DragDropViewController: NSViewController {
         let scale = song.key.1 == .Major ? "D" : "M"
         currentlySelectedKeyView.stringValue = "\(String(song.key.0))\(scale)"
         currentlySelectedTempoView.stringValue = String(format: "%.2f", song.bpm)
+        appendBreadCrumb(title: song.title)
     }
 
     @objc func tableViewDoubleClick(_ sender: AnyObject) {
@@ -78,7 +92,7 @@ class DragDropViewController: NSViewController {
             DispatchQueue.main.async {
                 self.dropTextField.stringValue = "Building Transitions..."
             }
-            let graph = Graph.buildGraph(list: parsed, numberOfEdges: 15)
+            let graph = Graph.buildGraph(list: parsed, numberOfEdges: 30)
             self.graph = graph
 
             DispatchQueue.main.async {
@@ -99,6 +113,23 @@ class DragDropViewController: NSViewController {
           layer.shadowOffset = CGSize(width: Appearance.shadowOffset, height: -Appearance.shadowOffset)
           layer.masksToBounds = false
         }
+    }
+}
+
+extension DragDropViewController: NSCollectionViewDataSource {
+    func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
+        return breadCrumbs.count
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+        let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "BreadCrumb"), for: indexPath)
+        guard item is BreadCrumb else { return item }
+        item.textField?.stringValue = breadCrumbs[indexPath.item]
+        return item
+    }
+    
+    func numberOfSections(in collectionView: NSCollectionView) -> Int {
+        return 1
     }
 }
 
@@ -123,7 +154,7 @@ extension DragDropViewController: DestinationViewDelegate {
 
 extension DragDropViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return transitions?.count ?? 0
+        return transitions?.count ?? 10
     }
 }
 

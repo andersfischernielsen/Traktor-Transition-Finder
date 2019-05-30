@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="140" height="30"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oCi-HO-LMU">
+                    <rect key="frame" x="121" y="7" width="16" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="12" id="Jjk-CS-J78"/>
+                        <constraint firstAttribute="height" constant="17" id="qDT-S0-FhT"/>
+                    </constraints>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="→" id="MME-02-YIu">
+                        <font key="font" metaFont="systemBold"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Xj-Rs-MGT">
+                    <rect key="frame" x="8" y="7" width="114" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="110" id="Cy0-h3-GXt"/>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="110" id="p4n-Px-jP3"/>
+                    </constraints>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" alignment="justified" title="Label" usesSingleLineMode="YES" id="v1J-J6-xia">
+                        <font key="font" usesAppearanceFont="YES"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="click:" target="8AQ-vc-oJQ" id="HuP-L5-LfW"/>
+                    </connections>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="oCi-HO-LMU" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="8TP-N6-kbH"/>
+                <constraint firstItem="1Xj-Rs-MGT" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="HUE-0v-3PX"/>
+                <constraint firstItem="1Xj-Rs-MGT" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="hg8-og-YK0"/>
+                <constraint firstAttribute="trailing" secondItem="oCi-HO-LMU" secondAttribute="trailing" constant="5" id="pMQ-h1-QML"/>
+                <constraint firstAttribute="trailing" secondItem="1Xj-Rs-MGT" secondAttribute="trailing" constant="20" id="vCU-Ee-TF6"/>
+                <constraint firstItem="oCi-HO-LMU" firstAttribute="leading" secondItem="1Xj-Rs-MGT" secondAttribute="trailing" constant="3" id="wiq-YB-9Bs"/>
+            </constraints>
+            <point key="canvasLocation" x="179" y="164"/>
+        </customView>
+        <collectionViewItem id="8AQ-vc-oJQ" customClass="BreadCrumb" customModule="Traktor_Transition_Finder" customModuleProvider="target">
+            <connections>
+                <outlet property="textField" destination="1Xj-Rs-MGT" id="Nx3-Dj-i2B"/>
+                <outlet property="view" destination="c22-O7-iKe" id="nOc-e8-tG7"/>
+            </connections>
+        </collectionViewItem>
+    </objects>
+</document>
