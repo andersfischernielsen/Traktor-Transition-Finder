@@ -368,7 +368,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="nmn-MQ-83j" customClass="CurrentlySelectedView" customModule="Traktor_Transition_Finder" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="405" height="90"/>
                                 <subviews>
-                                    <visualEffectView appearanceType="inheritedVibrantLight" blendingMode="withinWindow" material="HUDWindow" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="dsj-lm-A7Y">
+                                    <visualEffectView appearanceType="inheritedVibrantLight" blendingMode="withinWindow" material="sheet" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="dsj-lm-A7Y">
                                         <rect key="frame" x="0.0" y="0.0" width="405" height="90"/>
                                         <subviews>
                                             <scrollView wantsLayer="YES" fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="0.0" verticalPageScroll="0.0" hasVerticalScroller="NO" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="23e-0F-kWY">
@@ -381,7 +381,7 @@
                                                         <collectionView ambiguous="YES" allowsEmptySelection="NO" id="2d9-Wz-Khn">
                                                             <rect key="frame" x="0.0" y="0.0" width="405" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                                            <collectionViewGridLayout key="collectionViewLayout" maximumNumberOfColumns="10" id="zLw-Zx-lgb">
+                                                            <collectionViewGridLayout key="collectionViewLayout" id="zLw-Zx-lgb">
                                                                 <size key="minimumItemSize" width="30" height="0.0"/>
                                                                 <size key="maximumItemSize" width="140" height="0.0"/>
                                                             </collectionViewGridLayout>
