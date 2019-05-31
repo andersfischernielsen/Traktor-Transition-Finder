@@ -94,7 +94,7 @@ class SongToSongViewController: NSViewController {
                 self.buildingStarted()
                 self.to?.buildingStarted()
             }
-            Graph.shared.graph = Graph.buildGraph(list: parsed, numberOfEdges: 30)
+            Graph.shared.graph = Graph.buildGraph(list: parsed, numberOfEdges: nil)
             DispatchQueue.main.async {
                 self.buildingFinished()
                 self.to?.buildingFinished()
