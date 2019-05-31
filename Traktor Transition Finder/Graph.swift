@@ -151,8 +151,8 @@ class Graph {
     ///Create a graph (represented as a Song * Edge list array) from  a Song list.
     static func buildGraph(list: [Song], numberOfEdges: Int?) -> [String: (Song, [Edge])] {
         //The "punishment" for having a bad key transition/being a harder transition.
-        let BADKEYWEIGHT: Double = 12.0
-        let HALFTEMPO: Double = 10.0
+        let BADKEYWEIGHT: Double = 25.0
+        let HALFTEMPO: Double = 6.0
 
         func generateEdgesForSong(song: Song, songs: [Song]) -> (Song, [Edge]) {
             func createEdgesFromSong(songs: [Song]) -> (Song, [Edge]) {
@@ -229,12 +229,23 @@ class Graph {
 
 class PathFinder {
     static func findPathBetween(_ from: Song, to: Song, in graph: [String: (Song, [Edge])]) -> [Song] {
+        func findPath(for to: Song, paths: [String:String]) -> [Song] {
+            var path: [Song] = [to]
+            var toCheck = to.audioId
+            while let current = paths[toCheck] {
+                if let (node, _) = graph[current] {
+                    path.append(node)
+                    toCheck = node.audioId
+                }
+            }
+            return path.reversed()
+        }
+        
         var currentSongs = Set<String>.init(graph.keys)
         var distances:[String: Double] = [:]
-        var paths: [String:[Song]] = [:]
-        for song in graph.values {
-            distances[song.0.audioId] = Double.greatestFiniteMagnitude
-            paths[song.0.audioId] = [song.0]
+        var paths: [String:String] = [:]
+        for (song, _) in graph.values {
+            distances[song.audioId] = Double.greatestFiniteMagnitude
         }
         
         distances[from.audioId] = 0
@@ -248,8 +259,7 @@ class PathFinder {
                 let possibleBetterWeight = distances[vertex]! + weight
                 if possibleBetterWeight < distances[neighborSong.audioId]! {
                     distances[neighborSong.audioId] = possibleBetterWeight
-                    let newPath = paths[vertex]! + [neighborSong]
-                    paths[neighborSong.audioId] = newPath
+                    paths[neighborSong.audioId] = currentSong
                     if (currentSong == to.audioId) {
                         break
                     }
@@ -260,7 +270,9 @@ class PathFinder {
                 }
                 currentSong = currentSongs.min { distances[$0]! < distances[$1]! }
             }
-            return paths[to.audioId]!
+            
+            return findPath(for: to, paths: paths)
         }
     }
 }
+

@@ -12,5 +12,5 @@ protocol ParsingEventReceiver {
     var to: ParsingEventReceiver? { get set }
     func parsingStarted() -> Void
     func buildingStarted() -> Void
-    func buildingFinished() -> Void
+    func finished() -> Void
 }

@@ -8,7 +8,6 @@ class SongToSongViewController: NSViewController {
     @IBOutlet weak var dropTextFieldTo: NSTextField!
     
     @IBOutlet weak var transitionsTableView: NSTableView!
-    @IBOutlet var breadCrumbView: NSCollectionView!
     
     var breadCrumbs: [Song?] = []
     var firstSong: Song?
@@ -42,27 +41,29 @@ class SongToSongViewController: NSViewController {
         transitionsTableView.delegate = self
         transitionsTableView.dataSource = self
         transitionsTableView.target = self
-        breadCrumbView.dataSource = self
         if (graph != nil) {
-            buildingFinished()
+            self.finished()
         }
     }
     
     func selectSong(audioID: String, index: Int) {
         guard index < 2 else { return }
         if let song = graph?[audioID]?.0 {
-            if (breadCrumbs.count == 0 || breadCrumbs.count < index) {
-                breadCrumbs.append(nil)
-                breadCrumbs.append(nil)
-            }
-            breadCrumbs[index] = song
-            breadCrumbView.reloadData()
             if index == 0 { firstSong = song }
             else { secondSong = song }
         }
         
         if let first = firstSong, let second = secondSong, let g = graph {
-            transitions = PathFinder.findPathBetween(first, to: second, in: g)
+            DispatchQueue.global(qos: .background).async {
+                DispatchQueue.main.async {
+                    self.findingTransitions()
+                }
+                let path = PathFinder.findPathBetween(first, to: second, in: g)
+                DispatchQueue.main.async {
+                    self.transitions = path
+                    self.finished()
+                }
+            }
         }
     }
     
@@ -96,32 +97,12 @@ class SongToSongViewController: NSViewController {
             }
             Graph.shared.graph = Graph.buildGraph(list: parsed, numberOfEdges: nil)
             DispatchQueue.main.async {
-                self.buildingFinished()
-                self.to?.buildingFinished()
+                self.finished()
+                self.to?.finished()
             }
         }
     }
     
-}
-
-extension SongToSongViewController: NSCollectionViewDataSource {
-    func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        return breadCrumbs.count
-    }
-    
-    func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-        let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "BreadCrumb"), for: indexPath)
-        let song = breadCrumbs[indexPath.item]
-        guard item is BreadCrumb && song != nil else { return item }
-        let breadCrumb = item as! BreadCrumb
-        breadCrumb.textField?.stringValue = song!.title
-        breadCrumb.selectedSong = song
-        return item
-    }
-    
-    func numberOfSections(in collectionView: NSCollectionView) -> Int {
-        return 1
-    }
 }
 
 extension SongToSongViewController: DestinationViewDelegate {
@@ -169,8 +150,13 @@ extension SongToSongViewController: ParsingEventReceiver {
         self.dropTextFieldTo.stringValue = "Building Transitions..."
     }
     
-    func buildingFinished() {
+    func finished() {
         self.dropTextFieldFrom.stringValue = "Drop Songs Here"
         self.dropTextFieldTo.stringValue = "Drop Songs Here"
+    }
+    
+    func findingTransitions() {
+        self.dropTextFieldFrom.stringValue = "Finding Transitions..."
+        self.dropTextFieldTo.stringValue = "Finding Transitions..."
     }
 }

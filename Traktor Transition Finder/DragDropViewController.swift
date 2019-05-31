@@ -141,10 +141,10 @@ class DragDropViewController: NSViewController {
                 self.buildingStarted()
                 self.to?.buildingStarted()
             }
-            Graph.shared.graph = Graph.buildGraph(list: parsed, numberOfEdges: 90)
+            Graph.shared.graph = Graph.buildGraph(list: parsed, numberOfEdges: nil)
             DispatchQueue.main.async {
-                self.buildingFinished()
-                self.to?.buildingFinished()
+                self.finished()
+                self.to?.finished()
             }
         }
     }
@@ -213,7 +213,7 @@ extension DragDropViewController:  ParsingEventReceiver {
         self.dropTextField.stringValue = "Building Transitions..."
     }
     
-    func buildingFinished() {
+    func finished() {
         self.dropTextField.stringValue = "Drop Songs Here"
     }
 }

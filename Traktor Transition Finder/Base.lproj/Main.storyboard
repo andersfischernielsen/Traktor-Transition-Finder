@@ -709,58 +709,8 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="4qD-Qt-WSb">
-                                <rect key="frame" x="0.0" y="0.0" width="405" height="30"/>
-                                <subviews>
-                                    <visualEffectView appearanceType="inheritedVibrantLight" blendingMode="withinWindow" material="sheet" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="RLs-Xb-D8q">
-                                        <rect key="frame" x="0.0" y="0.0" width="406" height="30"/>
-                                        <subviews>
-                                            <scrollView wantsLayer="YES" fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="0.0" verticalPageScroll="0.0" hasVerticalScroller="NO" verticalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="Kh9-45-q4M">
-                                                <rect key="frame" x="0.0" y="0.0" width="405" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="Nfs-mK-6qa">
-                                                    <rect key="frame" x="0.0" y="0.0" width="405" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <subviews>
-                                                        <collectionView ambiguous="YES" allowsEmptySelection="NO" id="qCk-0J-Tbt">
-                                                            <rect key="frame" x="0.0" y="0.0" width="405" height="30"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                                            <collectionViewGridLayout key="collectionViewLayout" id="JgH-M2-Bmq">
-                                                                <size key="minimumItemSize" width="30" height="0.0"/>
-                                                                <size key="maximumItemSize" width="140" height="0.0"/>
-                                                            </collectionViewGridLayout>
-                                                            <color key="primaryBackgroundColor" red="0.1176470588" green="0.1176470588" blue="0.1176470588" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </collectionView>
-                                                    </subviews>
-                                                </clipView>
-                                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="vyz-PR-6xq">
-                                                    <rect key="frame" x="-100" y="-100" width="403" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </scroller>
-                                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Nlt-51-YGa">
-                                                    <rect key="frame" x="-100" y="-100" width="16" height="28"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </scroller>
-                                            </scrollView>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="406" id="raG-bW-pPe"/>
-                                            <constraint firstAttribute="height" constant="30" id="xER-Gw-Nvz"/>
-                                        </constraints>
-                                    </visualEffectView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="RLs-Xb-D8q" firstAttribute="leading" secondItem="4qD-Qt-WSb" secondAttribute="leading" id="Cfg-GC-qjv"/>
-                                    <constraint firstItem="RLs-Xb-D8q" firstAttribute="top" secondItem="4qD-Qt-WSb" secondAttribute="top" id="Ijo-IS-cku"/>
-                                    <constraint firstAttribute="trailing" secondItem="RLs-Xb-D8q" secondAttribute="trailing" constant="-1" id="TEr-XW-9If"/>
-                                    <constraint firstAttribute="height" constant="30" id="dX7-nd-Wc8"/>
-                                    <constraint firstAttribute="bottom" secondItem="RLs-Xb-D8q" secondAttribute="bottom" id="nEr-Xg-uYu"/>
-                                </constraints>
-                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="4qD-Qt-WSb" firstAttribute="leading" secondItem="7KT-5q-Nv0" secondAttribute="leading" id="1lu-9Y-rL4"/>
-                            <constraint firstAttribute="bottom" secondItem="4qD-Qt-WSb" secondAttribute="bottom" id="1pt-pT-qSh"/>
                             <constraint firstItem="oes-cI-vhd" firstAttribute="centerX" secondItem="7KT-5q-Nv0" secondAttribute="centerX" id="4hq-xc-uWe"/>
                             <constraint firstAttribute="trailing" secondItem="oes-cI-vhd" secondAttribute="trailing" id="7rw-tz-R4M"/>
                             <constraint firstItem="fZf-Ao-Bfs" firstAttribute="top" secondItem="7KT-5q-Nv0" secondAttribute="top" id="9ue-Hk-Iiq"/>
@@ -773,7 +723,6 @@
                             <constraint firstItem="fZf-Ao-Bfs" firstAttribute="trailing" secondItem="oes-cI-vhd" secondAttribute="trailing" id="XIk-cx-cx9"/>
                             <constraint firstItem="fZf-Ao-Bfs" firstAttribute="leading" secondItem="Sch-GU-1fC" secondAttribute="trailing" constant="32" id="eVD-oh-PCr"/>
                             <constraint firstItem="oes-cI-vhd" firstAttribute="top" secondItem="Sch-GU-1fC" secondAttribute="bottom" id="jPA-bh-WMm"/>
-                            <constraint firstAttribute="trailing" secondItem="4qD-Qt-WSb" secondAttribute="trailing" id="mgQ-YV-r5T"/>
                             <constraint firstItem="zsu-av-TP5" firstAttribute="top" secondItem="Rnt-dW-m8H" secondAttribute="bottom" constant="32" id="n9E-Ra-2EZ"/>
                             <constraint firstAttribute="trailing" secondItem="Sch-GU-1fC" secondAttribute="trailing" constant="220" id="oJX-QY-46W"/>
                             <constraint firstItem="Rnt-dW-m8H" firstAttribute="leading" secondItem="Sch-GU-1fC" secondAttribute="trailing" constant="4" id="qMS-60-pUa"/>
@@ -783,7 +732,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="breadCrumbView" destination="qCk-0J-Tbt" id="VYN-Fm-08j"/>
                         <outlet property="dropTextFieldFrom" destination="ke2-wY-40P" id="FWu-dz-A5e"/>
                         <outlet property="dropTextFieldTo" destination="wxX-vN-vEU" id="ofU-m2-bcm"/>
                         <outlet property="dropZoneFrom" destination="Sch-GU-1fC" id="Y5A-wY-IF4"/>
