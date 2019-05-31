@@ -151,8 +151,8 @@ class Graph {
     ///Create a graph (represented as a Song * Edge list array) from  a Song list.
     static func buildGraph(list: [Song], numberOfEdges: Int?) -> [String: (Song, [Edge])] {
         //The "punishment" for having a bad key transition/being a harder transition.
-        let BADKEYWEIGHT: Double = 10.0
-        let HALFTEMPO: Double = 9.0
+        let BADKEYWEIGHT: Double = 12.0
+        let HALFTEMPO: Double = 10.0
 
         func generateEdgesForSong(song: Song, songs: [Song]) -> (Song, [Edge]) {
             func createEdgesFromSong(songs: [Song]) -> (Song, [Edge]) {
@@ -193,7 +193,7 @@ class Graph {
 
                     let bpmDifference = abs(fromSong.bpm - toSong.bpm)
                     let keyWeight = weightForKey(key: fromSong.key, other: toSong.key)
-                    let canMixHalfTempo = bpmDifference == toSong.bpm
+                    let canMixHalfTempo = toSong.bpm-2 ... toSong.bpm+2 ~= bpmDifference
                     let weight = canMixHalfTempo ? keyWeight + HALFTEMPO : keyWeight + bpmDifference
                     return Edge (weight: weight, to: toSong)
                 }
@@ -231,15 +231,13 @@ class PathFinder {
     static func findPathBetween(_ from: Song, to: Song, in graph: [String: (Song, [Edge])]) -> [Song] {
         var currentSongs = Set<String>.init(graph.keys)
         var distances:[String: Double] = [:]
-        var pathFromStart: [Song] = []
-        
+        var paths: [String:[Song]] = [:]
         for song in graph.values {
             distances[song.0.audioId] = Double.greatestFiniteMagnitude
+            paths[song.0.audioId] = [song.0]
         }
         
         distances[from.audioId] = 0
-        pathFromStart.append(from)
-        
         var currentSong: String? = from.audioId
         while let vertex = currentSong {
             currentSongs.remove(vertex)
@@ -248,19 +246,21 @@ class PathFinder {
                 let neighborSong = neighbor.to
                 let weight = neighbor.weight
                 let possibleBetterWeight = distances[vertex]! + weight
-                let neighbourDistance = distances[neighborSong.audioId]
-                if possibleBetterWeight < neighbourDistance! {
+                if possibleBetterWeight < distances[neighborSong.audioId]! {
                     distances[neighborSong.audioId] = possibleBetterWeight
-                    pathFromStart.append(neighborSong)
+                    let newPath = paths[vertex]! + [neighborSong]
+                    paths[neighborSong.audioId] = newPath
+                    if (currentSong == to.audioId) {
+                        break
+                    }
                 }
+                if currentSongs.isEmpty {
+                    currentSong = nil
+                    break
+                }
+                currentSong = currentSongs.min { distances[$0]! < distances[$1]! }
             }
-            if currentSongs.isEmpty || currentSong == to.audioId {
-                pathFromStart.append(to)
-                currentSong = nil
-                break
-            }
-            currentSong = currentSongs.min { distances[$0]! < distances[$1]! }
+            return paths[to.audioId]!
         }
-        return pathFromStart
     }
 }
