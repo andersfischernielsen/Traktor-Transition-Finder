@@ -226,42 +226,38 @@ class Graph {
 }
 
 class PathFinder {
-    static func findPathBetween(_ from: Song, to: Song, in graph: [String: (Song, [Edge])]) -> [Song]{
-        func findShortestPaths(from start: Song, to toFind: Song, in graph: [String: (Song, [Edge])]) -> [Song] {
-            var currentSongs = Set<String>.init(graph.keys)
-            var distances:[String: Double] = [:]
-            var pathFromStart: [Song] = []
-            
-            for song in graph.values {
-                distances[song.0.audioId] = Double.infinity
-            }
-            
-            distances[start.audioId] = 0
-            pathFromStart.append(start)
-            
-            var currentSong: String? = start.audioId
-            while let vertex = currentSong {
-                currentSongs.remove(vertex)
-                let neighborEdges = graph[vertex]!.1.filter{ currentSongs.contains($0.to.audioId) }
-                for neighbor in neighborEdges {
-                    let neighborSong = neighbor.from
-                    let weight = neighbor.weight
-                    let possibleBetterWeight = distances[vertex]! + weight
-                    if possibleBetterWeight < distances[neighborSong.audioId]! {
-                        distances[neighborSong.audioId] = possibleBetterWeight
-                        pathFromStart.append(neighborSong)
-                    }
-                }
-                if currentSongs.isEmpty || currentSong == toFind.audioId {
-                    currentSong = nil
-                    break
-                }
-                currentSong = currentSongs.min { distances[$0]! < distances[$1]! }
-            }
-            return pathFromStart
+    static func findPathBetween(_ from: Song, to: Song, in graph: [String: (Song, [Edge])]) -> [Song] {
+        var currentSongs = Set<String>.init(graph.keys)
+        var distances:[String: Double] = [:]
+        var pathFromStart: [Song] = []
+        
+        for song in graph.values {
+            distances[song.0.audioId] = Double.infinity
         }
-    
-        let songs = findShortestPaths(from: from, to: to, in: graph)
-        return songs
+        
+        distances[from.audioId] = 0
+        pathFromStart.append(from)
+        
+        var currentSong: String? = from.audioId
+        while let vertex = currentSong {
+            currentSongs.remove(vertex)
+            let neighborEdges = graph[vertex]!.1.filter{ currentSongs.contains($0.to.audioId) }
+            for neighbor in neighborEdges {
+                let neighborSong = neighbor.from
+                let weight = neighbor.weight
+                let possibleBetterWeight = distances[vertex]! + weight
+                if possibleBetterWeight < distances[neighborSong.audioId]! {
+                    distances[neighborSong.audioId] = possibleBetterWeight
+                    pathFromStart.append(neighborSong)
+                }
+            }
+            if currentSongs.isEmpty || currentSong == to.audioId {
+                pathFromStart.append(to)
+                currentSong = nil
+                break
+            }
+            currentSong = currentSongs.min { distances[$0]! < distances[$1]! }
+        }
+        return pathFromStart
     }
 }

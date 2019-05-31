@@ -783,7 +783,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="breadCrumbView" destination="qCk-0J-Tbt" id="Zu8-TG-33q"/>
+                        <outlet property="breadCrumbView" destination="qCk-0J-Tbt" id="VYN-Fm-08j"/>
                         <outlet property="dropTextFieldFrom" destination="ke2-wY-40P" id="FWu-dz-A5e"/>
                         <outlet property="dropTextFieldTo" destination="wxX-vN-vEU" id="ofU-m2-bcm"/>
                         <outlet property="dropZoneFrom" destination="Sch-GU-1fC" id="Y5A-wY-IF4"/>

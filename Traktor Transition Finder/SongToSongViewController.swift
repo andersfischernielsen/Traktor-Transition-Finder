@@ -9,7 +9,8 @@ class SongToSongViewController: NSViewController {
     
     @IBOutlet weak var transitionsTableView: NSTableView!
     @IBOutlet var breadCrumbView: NSCollectionView!
-    var breadCrumbs: [Song] = []
+    
+    var breadCrumbs: [Song?] = []
     var firstSong: Song?
     var secondSong: Song?
     
@@ -41,6 +42,7 @@ class SongToSongViewController: NSViewController {
         transitionsTableView.delegate = self
         transitionsTableView.dataSource = self
         transitionsTableView.target = self
+        breadCrumbView.dataSource = self
         if (graph != nil) {
             buildingFinished()
         }
@@ -49,14 +51,14 @@ class SongToSongViewController: NSViewController {
     func selectSong(audioID: String, index: Int) {
         guard index < 2 else { return }
         if let song = graph?[audioID]?.0 {
-            breadCrumbs.insert(song, at: index)
+            if (breadCrumbs.count == 0 || breadCrumbs.count < index) {
+                breadCrumbs.append(nil)
+                breadCrumbs.append(nil)
+            }
+            breadCrumbs[index] = song
             breadCrumbView.reloadData()
-            if index == 0 {
-                firstSong = song
-            }
-            else {
-                secondSong = song
-            }
+            if index == 0 { firstSong = song }
+            else { secondSong = song }
         }
         
         if let first = firstSong, let second = secondSong, let g = graph {
@@ -109,10 +111,10 @@ extension SongToSongViewController: NSCollectionViewDataSource {
     
     func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "BreadCrumb"), for: indexPath)
-        guard item is BreadCrumb else { return item }
-        let breadCrumb = item as! BreadCrumb
         let song = breadCrumbs[indexPath.item]
-        breadCrumb.textField?.stringValue = song.title
+        guard item is BreadCrumb && song != nil else { return item }
+        let breadCrumb = item as! BreadCrumb
+        breadCrumb.textField?.stringValue = song!.title
         breadCrumb.selectedSong = song
         return item
     }

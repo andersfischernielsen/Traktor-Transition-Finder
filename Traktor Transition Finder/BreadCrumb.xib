@@ -31,7 +31,7 @@
                         <constraint firstAttribute="width" constant="110" id="Cy0-h3-GXt"/>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="110" id="p4n-Px-jP3"/>
                     </constraints>
-                    <textFieldCell key="cell" lineBreakMode="truncatingTail" alignment="justified" title="Label" usesSingleLineMode="YES" id="v1J-J6-xia">
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" alignment="justified" usesSingleLineMode="YES" id="v1J-J6-xia">
                         <font key="font" usesAppearanceFont="YES"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
