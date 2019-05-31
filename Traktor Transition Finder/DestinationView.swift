@@ -2,11 +2,12 @@ import Cocoa
 import AppKit.NSPasteboard
 
 protocol DestinationViewDelegate {
-  func processFileURLs(_ urls: [URL]) -> Bool
+    func processFileURLs(_ urls: [URL], index: Int?) -> Bool
 }
 
 class DestinationView: NSView {
     var userInteractionEnabled: Bool = false
+    var index: Int?
 
   let filteringOptions = [NSPasteboard.ReadingOptionKey.urlReadingContentsConformToTypes: NSSound.soundUnfilteredTypes]
   func shouldAllowDrag(_ draggingInfo: NSDraggingInfo) -> Bool {
@@ -68,7 +69,7 @@ class DestinationView: NSView {
     isReceivingDrag = false
     let pasteBoard = draggingInfo.draggingPasteboard
     if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options: filteringOptions) as? [URL], urls.count > 0 {
-        if let result = delegate?.processFileURLs(urls) {
+        if let result = delegate?.processFileURLs(urls, index: index) {
             return result
         }
     }

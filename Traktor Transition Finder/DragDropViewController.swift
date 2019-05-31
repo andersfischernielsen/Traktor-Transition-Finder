@@ -13,6 +13,8 @@ class DragDropViewController: NSViewController {
     @IBOutlet weak var dropTextField: NSTextField!
     @IBOutlet var breadCrumbView: NSCollectionView!
     
+    var songToSongWindow: NSWindowController?
+    
     var transitions: [Edge]? {
         didSet {
             transitionsTableView.reloadData()
@@ -22,14 +24,15 @@ class DragDropViewController: NSViewController {
             transitionsTableView.isEnabled = value != nil
         }
     }
-    var graph: [String: (Song, [Edge])] = [:]
-    var collectionURL: URL? {
-        didSet {
-            updateCollection(path: collectionURL)
+    
+    var graph: [String: (Song, [Edge])]? {
+        get {
+            return Graph.shared.graph
         }
     }
-    var currentTransitions: [Song]?
+    
     var breadCrumbs: [Song] = []
+    var to: ParsingEventReceiver?
     
     @IBAction func openDocument(_ sender: Any?) {
         let openPanel = NSOpenPanel()
@@ -41,9 +44,9 @@ class DragDropViewController: NSViewController {
         openPanel.level = NSWindow.Level.init(rawValue: 1)
         openPanel.begin { (result) -> Void in
             if result == .OK {
-                self.collectionURL = openPanel.url
-            } else if self.collectionURL == nil {
-                NSApplication.shared.terminate(self)
+                if let url = openPanel.url {
+                    self.updateSharedCollection(path: url)
+                }
             }
         }
     }
@@ -66,7 +69,6 @@ class DragDropViewController: NSViewController {
         }
     }
     
-    
     func appendBreadCrumb(song: Song) {
         if breadCrumbs.count > 3 {
             breadCrumbs.remove(at: 0)
@@ -76,11 +78,10 @@ class DragDropViewController: NSViewController {
     }
     
     func selectSong(audioID: String) {
-        transitions = (graph[audioID]?.1.map { edge in return edge })
-        currentTransitions = transitions?.map { $0.to }
+        transitions = (graph?[audioID]?.1.map { edge in return edge })
         
         if (transitions != nil) {
-            if let result = graph[audioID] {
+            if let result = graph?[audioID] {
                 setCurrentlySelected(song: result.0)
             }
         }
@@ -101,24 +102,6 @@ class DragDropViewController: NSViewController {
         }
     }
 
-    func updateCollection(path: URL?) {
-        DispatchQueue.global(qos: .background).async {
-            DispatchQueue.main.async {
-                self.dropTextField.stringValue = "Parsing Traktor Collection..."
-            }
-            let parsed = CollectionParser.parseCollection(pathToCollection: self.collectionURL!)
-            DispatchQueue.main.async {
-                self.dropTextField.stringValue = "Building Transitions..."
-            }
-            let graph = Graph.buildGraph(list: parsed, numberOfEdges: 30)
-            self.graph = graph
-
-            DispatchQueue.main.async {
-                self.dropTextField.stringValue = "Drop Songs Here"
-            }
-        }
-    }
-
     enum Appearance {
         static let shadowOpacity: Float =  0.4
         static let shadowOffset: CGFloat = 4
@@ -130,6 +113,39 @@ class DragDropViewController: NSViewController {
           layer.shadowOpacity = Appearance.shadowOpacity
           layer.shadowOffset = CGSize(width: Appearance.shadowOffset, height: -Appearance.shadowOffset)
           layer.masksToBounds = false
+        }
+    }
+    
+    @IBAction func showSongToSong(_ sender: Any?) {
+        if let window = songToSongWindow {
+            window.showWindow(self)
+            return
+        }
+        if let songToSongWindow = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "SongToSongWindowController") as? NSWindowController,
+            let viewController = songToSongWindow.window!.contentViewController as? ParsingEventReceiver {
+                self.songToSongWindow = songToSongWindow
+                to = viewController
+                to?.to = self
+                songToSongWindow.showWindow(self)
+        }
+    }
+    
+    func updateSharedCollection(path: URL) {
+        DispatchQueue.global(qos: .background).async {
+            DispatchQueue.main.async {
+                self.parsingStarted()
+                self.to?.parsingStarted()
+            }
+            let parsed = CollectionParser.parseCollection(pathToCollection: path)
+            DispatchQueue.main.async {
+                self.buildingStarted()
+                self.to?.buildingStarted()
+            }
+            Graph.shared.graph = Graph.buildGraph(list: parsed, numberOfEdges: 30)
+            DispatchQueue.main.async {
+                self.buildingFinished()
+                self.to?.buildingFinished()
+            }
         }
     }
 }
@@ -155,7 +171,7 @@ extension DragDropViewController: NSCollectionViewDataSource {
 }
 
 extension DragDropViewController: DestinationViewDelegate {
-    func processFileURLs(_ urls: [URL]) -> Bool {
+    func processFileURLs(_ urls: [URL], index: Int?) -> Bool {
         if let key = urls.first!.absoluteString
             .replacingOccurrences(of: " ", with: "%20")
             .components(separatedBy: "/").last {
@@ -185,5 +201,19 @@ extension DragDropViewController: NSTableViewDelegate {
             return cell
         }
         return nil
+    }
+}
+
+extension DragDropViewController:  ParsingEventReceiver {
+    func parsingStarted() {
+        self.dropTextField.stringValue = "Parsing Collection..."
+    }
+    
+    func buildingStarted() {
+        self.dropTextField.stringValue = "Building Transitions..."
+    }
+    
+    func buildingFinished() {
+        self.dropTextField.stringValue = "Drop Songs Here"
     }
 }

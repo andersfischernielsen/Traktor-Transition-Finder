@@ -22,6 +22,7 @@ struct Song {
 struct Edge {
     let weight: Double
     let to: Song
+    let from: Song
 }
 struct XMLEntry {
     let bpm: String?
@@ -195,7 +196,7 @@ class Graph {
                     let keyWeight = weightForKey(key: fromSong.key, other: toSong.key)
                     let canMixHalfTempo = bpmDifference == toSong.bpm
                     let weight = canMixHalfTempo ? keyWeight + HALFTEMPO : keyWeight + bpmDifference
-                    return Edge (weight: weight, to: toSong)
+                    return Edge (weight: weight, to: toSong, from: fromSong)
                 }
 
                 //let otherSongs = songs.filter({ (element) -> Bool in element != song })
@@ -217,5 +218,50 @@ class Graph {
         let result = list.map({ generateEdgesForSong(song: $0, songs: list) })
         let graph = asMap(graph: result)
         return graph
+    }
+    
+    static let shared = Graph()
+    var graph: [String: (Song, [Edge])]?
+    private init(){}
+}
+
+class PathFinder {
+    static func findPathBetween(_ from: Song, to: Song, in graph: [String: (Song, [Edge])]) -> [Song]{
+        func findShortestPaths(from start: Song, to toFind: Song, in graph: [String: (Song, [Edge])]) -> [Song] {
+            var currentSongs = Set<String>.init(graph.keys)
+            var distances:[String: Double] = [:]
+            var pathFromStart: [Song] = []
+            
+            for song in graph.values {
+                distances[song.0.audioId] = Double.infinity
+            }
+            
+            distances[start.audioId] = 0
+            pathFromStart.append(start)
+            
+            var currentSong: String? = start.audioId
+            while let vertex = currentSong {
+                currentSongs.remove(vertex)
+                let neighborEdges = graph[vertex]!.1.filter{ currentSongs.contains($0.to.audioId) }
+                for neighbor in neighborEdges {
+                    let neighborSong = neighbor.from
+                    let weight = neighbor.weight
+                    let possibleBetterWeight = distances[vertex]! + weight
+                    if possibleBetterWeight < distances[neighborSong.audioId]! {
+                        distances[neighborSong.audioId] = possibleBetterWeight
+                        pathFromStart.append(neighborSong)
+                    }
+                }
+                if currentSongs.isEmpty || currentSong == toFind.audioId {
+                    currentSong = nil
+                    break
+                }
+                currentSong = currentSongs.min { distances[$0]! < distances[$1]! }
+            }
+            return pathFromStart
+        }
+    
+        let songs = findShortestPaths(from: from, to: to, in: graph)
+        return songs
     }
 }
