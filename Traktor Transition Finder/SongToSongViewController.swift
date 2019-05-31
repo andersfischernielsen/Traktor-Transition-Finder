@@ -110,6 +110,7 @@ extension SongToSongViewController: DestinationViewDelegate {
         if let key = urls.first!.absoluteString
             .replacingOccurrences(of: " ", with: "%20")
             .components(separatedBy: "/").last {
+            guard graph?[key] != nil else { return false }
             selectSong(audioID: key, index: index!)
             return firstSong != nil || secondSong != nil || transitions != nil
         }
