@@ -19,8 +19,8 @@
                         <constraint firstAttribute="width" constant="12" id="Jjk-CS-J78"/>
                         <constraint firstAttribute="height" constant="17" id="qDT-S0-FhT"/>
                     </constraints>
-                    <textFieldCell key="cell" lineBreakMode="clipping" title="→" id="MME-02-YIu">
-                        <font key="font" metaFont="systemBold"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="〉" id="MME-02-YIu">
+                        <font key="font" size="12" name=".PingFangSC-Medium"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>

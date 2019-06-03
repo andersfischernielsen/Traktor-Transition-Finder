@@ -176,8 +176,9 @@ extension DragDropViewController: DestinationViewDelegate {
         if let key = urls.first!.absoluteString
             .replacingOccurrences(of: " ", with: "%20")
             .components(separatedBy: "/").last {
-            selectSong(audioID: key)
-            return transitions != nil
+                breadCrumbs = []
+                selectSong(audioID: key)
+                return transitions != nil
         }
         return false
     }
