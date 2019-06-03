@@ -221,10 +221,6 @@ class Graph {
         let graph = asMap(graph: result)
         return graph
     }
-    
-    static let shared = Graph()
-    var graph: [String: (Song, [Edge])]?
-    private init(){}
 }
 
 class PathFinder {

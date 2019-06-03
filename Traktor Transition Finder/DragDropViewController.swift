@@ -14,6 +14,14 @@ class DragDropViewController: NSViewController {
     @IBOutlet var breadCrumbView: NSCollectionView!
     
     var songToSongWindow: NSWindowController?
+    var graph: [String: (Song, [Edge])]? {
+        get {
+            return stateController?.graph
+        }
+        set (value) {
+            stateController?.graph = value
+        }
+    }
     
     var transitions: [Edge]? {
         didSet {
@@ -25,14 +33,8 @@ class DragDropViewController: NSViewController {
         }
     }
     
-    var graph: [String: (Song, [Edge])]? {
-        get {
-            return Graph.shared.graph
-        }
-    }
-    
     var breadCrumbs: [Song] = []
-    var to: ParsingEventReceiver?
+    var stateController: StateController?
     
     @IBAction func openDocument(_ sender: Any?) {
         let openPanel = NSOpenPanel()
@@ -53,6 +55,8 @@ class DragDropViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.stateController = StateController()
+        self.stateController?.addListener(self)
         dropZone.delegate = self
         breadCrumbView.dataSource = self
         transitionsTableView.delegate = self
@@ -122,10 +126,10 @@ class DragDropViewController: NSViewController {
             return
         }
         if let songToSongWindow = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "SongToSongWindowController") as? NSWindowController,
-            let viewController = songToSongWindow.window!.contentViewController as? ParsingEventReceiver {
+            let viewController = songToSongWindow.window!.contentViewController as? SongToSongViewController {
                 self.songToSongWindow = songToSongWindow
-                to = viewController
-                to?.to = self
+                viewController.stateController = self.stateController
+                viewController.stateController?.addListener(viewController)
                 songToSongWindow.showWindow(self)
         }
     }
@@ -133,18 +137,15 @@ class DragDropViewController: NSViewController {
     func updateSharedCollection(path: URL) {
         DispatchQueue.global(qos: .background).async {
             DispatchQueue.main.async {
-                self.parsingStarted()
-                self.to?.parsingStarted()
+                self.stateController?.state = .ParsingCollectionStarted
             }
             let parsed = CollectionParser.parseCollection(pathToCollection: path)
             DispatchQueue.main.async {
-                self.buildingStarted()
-                self.to?.buildingStarted()
+                self.stateController?.state = .BuildingTransitionsStarted
             }
-            Graph.shared.graph = Graph.buildGraph(list: parsed, numberOfEdges: nil)
+            self.stateController?.graph = Graph.buildGraph(list: parsed, numberOfEdges: nil)
             DispatchQueue.main.async {
-                self.finished()
-                self.to?.finished()
+                self.stateController?.state = .Ready
             }
         }
     }
@@ -204,16 +205,20 @@ extension DragDropViewController: NSTableViewDelegate {
     }
 }
 
-extension DragDropViewController:  ParsingEventReceiver {
-    func parsingStarted() {
-        self.dropTextField.stringValue = "Parsing Collection..."
-    }
-    
-    func buildingStarted() {
-        self.dropTextField.stringValue = "Building Transitions..."
-    }
-    
-    func finished() {
-        self.dropTextField.stringValue = "Drop Songs Here"
+extension DragDropViewController: StateSubscriber {
+    func stateChanged(_ state: State) {
+        switch state {
+        case .ParsingCollectionStarted:
+            self.dropTextField.stringValue = "Parsing Collection..."
+            return
+        case .BuildingTransitionsStarted:
+            self.dropTextField.stringValue = "Building Transitions..."
+            return
+        case .Ready:
+            self.dropTextField.stringValue = "Drop Songs Here"
+            return
+        default:
+            return
+        }
     }
 }

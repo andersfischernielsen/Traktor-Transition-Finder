@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		711BA07D22A093820010597F /* SongToSongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711BA07C22A093820010597F /* SongToSongViewController.swift */; };
-		711BA07F22A0B6900010597F /* ParsingEventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711BA07E22A0B6900010597F /* ParsingEventReceiver.swift */; };
+		714B125B22A4F9AE00113453 /* StateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714B125A22A4F9AE00113453 /* StateController.swift */; };
 		715382D2229B736200DA997B /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715382D0229B736200DA997B /* SWXMLHash.framework */; };
 		715382D3229B736200DA997B /* SWXMLHash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 715382D0229B736200DA997B /* SWXMLHash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71720D3A229F95FB00BBCD14 /* BreadCrumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71720D38229F95FB00BBCD14 /* BreadCrumb.swift */; };
@@ -39,7 +39,7 @@
 
 /* Begin PBXFileReference section */
 		711BA07C22A093820010597F /* SongToSongViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongToSongViewController.swift; sourceTree = "<group>"; };
-		711BA07E22A0B6900010597F /* ParsingEventReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingEventReceiver.swift; sourceTree = "<group>"; };
+		714B125A22A4F9AE00113453 /* StateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateController.swift; sourceTree = "<group>"; };
 		715382D0229B736200DA997B /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SWXMLHash.framework; path = Carthage/Build/Mac/SWXMLHash.framework; sourceTree = "<group>"; };
 		715382D1229B736200DA997B /* SWXMLHash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SWXMLHash.framework.dSYM; path = Carthage/Build/Mac/SWXMLHash.framework.dSYM; sourceTree = "<group>"; };
 		71720D38229F95FB00BBCD14 /* BreadCrumb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreadCrumb.swift; sourceTree = "<group>"; };
@@ -92,7 +92,7 @@
 				CD6B98CA9D4FFD7B26A64B18 /* Graph.swift */,
 				71E83F3A2295141500E79900 /* TransitionTableCellView.swift */,
 				71AF50E82295519400062ACB /* Images.xcassets */,
-				711BA07E22A0B6900010597F /* ParsingEventReceiver.swift */,
+				714B125A22A4F9AE00113453 /* StateController.swift */,
 			);
 			path = "Traktor Transition Finder";
 			sourceTree = "<group>";
@@ -185,13 +185,13 @@
 			files = (
 				CD6B90EFCAA4E56D348456B1 /* AppDelegate.swift in Sources */,
 				CD6B948F24D57ED2B7D43976 /* DragDropViewController.swift in Sources */,
-				711BA07F22A0B6900010597F /* ParsingEventReceiver.swift in Sources */,
 				CD6B9B58712D2D4761E92BF5 /* DestinationView.swift in Sources */,
 				711BA07D22A093820010597F /* SongToSongViewController.swift in Sources */,
 				71E83F3B2295141500E79900 /* TransitionTableCellView.swift in Sources */,
 				71720D3D229FA15600BBCD14 /* CurrentlySelectedView.swift in Sources */,
 				71720D3A229F95FB00BBCD14 /* BreadCrumb.swift in Sources */,
 				CD6B9CC4A254B1BC8375B68C /* Graph.swift in Sources */,
+				714B125B22A4F9AE00113453 /* StateController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

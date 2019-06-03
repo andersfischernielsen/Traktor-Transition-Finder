@@ -26,11 +26,14 @@ class SongToSongViewController: NSViewController {
     
     var graph: [String: (Song, [Edge])]? {
         get {
-            return Graph.shared.graph
+            return stateController?.graph
+        }
+        set (value) {
+            self.stateController?.graph = value
         }
     }
     
-    var to: ParsingEventReceiver?
+    var stateController: StateController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +44,6 @@ class SongToSongViewController: NSViewController {
         transitionsTableView.delegate = self
         transitionsTableView.dataSource = self
         transitionsTableView.target = self
-        if (graph != nil) {
-            self.finished()
-        }
     }
     
     func selectSong(audioID: String, index: Int) {
@@ -87,22 +87,18 @@ class SongToSongViewController: NSViewController {
     func updateSharedCollection(path: URL) {
         DispatchQueue.global(qos: .background).async {
             DispatchQueue.main.async {
-                self.parsingStarted()
-                self.to?.parsingStarted()
+                self.stateController?.state = .ParsingCollectionStarted
             }
             let parsed = CollectionParser.parseCollection(pathToCollection: path)
             DispatchQueue.main.async {
-                self.buildingStarted()
-                self.to?.buildingStarted()
+                self.stateController?.state = .BuildingTransitionsStarted
             }
-            Graph.shared.graph = Graph.buildGraph(list: parsed, numberOfEdges: nil)
+            self.graph = Graph.buildGraph(list: parsed, numberOfEdges: nil)
             DispatchQueue.main.async {
-                self.finished()
-                self.to?.finished()
+                self.stateController?.state = .Ready
             }
         }
     }
-    
 }
 
 extension SongToSongViewController: DestinationViewDelegate {
@@ -140,15 +136,23 @@ extension SongToSongViewController: NSTableViewDelegate {
     }
 }
 
-extension SongToSongViewController: ParsingEventReceiver {
-    func parsingStarted() {
-        self.dropTextFieldFrom.stringValue = "Parsing Collection..."
-        self.dropTextFieldTo.stringValue = "Parsing Collection..."
-    }
-    
-    func buildingStarted() {
-        self.dropTextFieldFrom.stringValue = "Building Transitions..."
-        self.dropTextFieldTo.stringValue = "Building Transitions..."
+extension SongToSongViewController: StateSubscriber {
+    func stateChanged(_ state: State) {
+        switch state {
+        case .ParsingCollectionStarted:
+            self.dropTextFieldFrom.stringValue = "Parsing Collection..."
+            self.dropTextFieldTo.stringValue = "Parsing Collection..."
+            return
+        case .BuildingTransitionsStarted:
+            self.dropTextFieldFrom.stringValue = "Building Transitions..."
+            self.dropTextFieldTo.stringValue = "Building Transitions..."
+            return
+        case .Ready:
+            self.finished()
+            return
+        default:
+            return
+        }
     }
     
     func finished() {
