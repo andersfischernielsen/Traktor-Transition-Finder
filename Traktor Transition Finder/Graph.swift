@@ -150,9 +150,11 @@ class Graph {
     ///Calculate weights for a (Song * Edge list) array.
     ///Create a graph (represented as a Song * Edge list array) from  a Song list.
     static func buildGraph(list: [Song], numberOfEdges: Int?) -> [String: (Song, [Edge])] {
+        let badKeyUserPreference = UserDefaults.standard.double(forKey: "badKeyPunishment")
+        let halfTempoUserPreference = UserDefaults.standard.double(forKey: "halfTempoPunishment")
         //The "punishment" for having a bad key transition/being a harder transition.
-        let BADKEYWEIGHT: Double = 25.0
-        let HALFTEMPO: Double = 6.0
+        let BADKEYWEIGHT = badKeyUserPreference == 0 ? 25.0 : badKeyUserPreference
+        let HALFTEMPO = halfTempoUserPreference == 0 ? 6.0 : halfTempoUserPreference
 
         func generateEdgesForSong(song: Song, songs: [Song]) -> (Song, [Edge]) {
             func createEdgesFromSong(songs: [Song]) -> (Song, [Edge]) {
