@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		710B625D22B370E8004A018D /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710B625C22B370E8004A018D /* PreferencesViewController.swift */; };
 		711BA07D22A093820010597F /* SongToSongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711BA07C22A093820010597F /* SongToSongViewController.swift */; };
 		714B125B22A4F9AE00113453 /* StateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714B125A22A4F9AE00113453 /* StateController.swift */; };
 		715382D2229B736200DA997B /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715382D0229B736200DA997B /* SWXMLHash.framework */; };
@@ -38,6 +39,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		710B625C22B370E8004A018D /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		711BA07C22A093820010597F /* SongToSongViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongToSongViewController.swift; sourceTree = "<group>"; };
 		714B125A22A4F9AE00113453 /* StateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateController.swift; sourceTree = "<group>"; };
 		715382D0229B736200DA997B /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SWXMLHash.framework; path = Carthage/Build/Mac/SWXMLHash.framework; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				CD6B9F550FE276A90A203CE4 /* Traktor_Transition_Finder.entitlements */,
 				CD6B9923D82C029077AA100C /* AppDelegate.swift */,
 				CD6B942A864A42F178FC7F83 /* Main.storyboard */,
+				710B625C22B370E8004A018D /* PreferencesViewController.swift */,
 				CD6B97E49566A2DA258C0941 /* DragDropViewController.swift */,
 				711BA07C22A093820010597F /* SongToSongViewController.swift */,
 				71720D3C229FA15600BBCD14 /* CurrentlySelectedView.swift */,
@@ -188,6 +191,7 @@
 				CD6B9B58712D2D4761E92BF5 /* DestinationView.swift in Sources */,
 				711BA07D22A093820010597F /* SongToSongViewController.swift in Sources */,
 				71E83F3B2295141500E79900 /* TransitionTableCellView.swift in Sources */,
+				710B625D22B370E8004A018D /* PreferencesViewController.swift in Sources */,
 				71720D3D229FA15600BBCD14 /* CurrentlySelectedView.swift in Sources */,
 				71720D3A229F95FB00BBCD14 /* BreadCrumb.swift in Sources */,
 				CD6B9CC4A254B1BC8375B68C /* Graph.swift in Sources */,
