@@ -47,6 +47,7 @@ class SongToSongViewController: NSViewController {
     }
     
     func selectSong(audioID: String, index: Int) {
+        stateController?.incrementSelectedSongs()
         guard index < 2 else { return }
         if let song = graph?[audioID]?.0 {
             if index == 0 { firstSong = song }

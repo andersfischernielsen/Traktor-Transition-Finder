@@ -16,6 +16,11 @@ enum State {
     case Ready
 }
 
+enum DonationState {
+    case Donated
+    case Ignored
+}
+
 protocol StateSubscriber {
     func stateChanged(_ state: State) -> Void
 }
@@ -36,5 +41,44 @@ class StateController {
     
     func addListener(_ listener: StateSubscriber) {
         listeners.append(listener)
+    }
+    
+    func incrementSelectedSongs() {
+        let before = UserDefaults.standard.integer(forKey: "selectedSongs")
+        UserDefaults.standard.set(before + 1, forKey: "selectedSongs")
+        checkDonationStatus()
+    }
+    
+    private func checkDonationStatus() {
+        func openDonateURL() {
+            let url = URL(string: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ME8E22EZTC5G4&source=url")
+            NSWorkspace.shared.open(url!)
+        }
+        
+        let songCount = UserDefaults.standard.integer(forKey: "selectedSongs")
+        let donated = UserDefaults.standard.bool(forKey: "alreadyDonated")
+        if (songCount % 10 == 0 && !donated) {
+            let alert = NSAlert()
+            alert.messageText = "Please consider supporting the development of Traktor Transition Finder"
+            alert.informativeText = "Developing software takes time and ressources. \nPlease consider donating to support the development and improvement of Traktor Transition Finder."
+            alert.alertStyle = .informational
+            let alreadyDonatedButton = alert.addButton(withTitle: "I Have Already Donated")
+            let ignoreButton = alert.addButton(withTitle: "Ignore")
+            let donateButton = alert.addButton(withTitle: "Donate")
+            alreadyDonatedButton.keyEquivalent = ""
+            ignoreButton.keyEquivalent = "\033"
+            donateButton.keyEquivalent = "\r"
+            let response = alert.runModal()
+            if response == .alertThirdButtonReturn {
+                UserDefaults.standard.set(false, forKey: "alreadyDonated")
+                openDonateURL()
+            }
+            else if (response == .alertFirstButtonReturn) {
+                UserDefaults.standard.set(true, forKey: "alreadyDonated")
+            }
+            else {
+                UserDefaults.standard.set(false, forKey: "alreadyDonated")
+            }
+        }
     }
 }
