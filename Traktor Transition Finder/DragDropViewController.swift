@@ -82,7 +82,7 @@ class DragDropViewController: NSViewController {
     }
     
     func selectSong(audioID: String) {
-        stateController?.incrementSelectedSongs()
+        stateController?.checkDonationStatus()
         transitions = (graph?[audioID]?.1.map { edge in return edge })
         
         if (transitions != nil) {

@@ -32,6 +32,7 @@ class StateController {
         }
     }
     var graph: [String: (Song, [Edge])]?
+    private var openedDialogLast = Date()
     private var listeners: [StateSubscriber]
     
     init() {
@@ -43,21 +44,15 @@ class StateController {
         listeners.append(listener)
     }
     
-    func incrementSelectedSongs() {
-        let before = UserDefaults.standard.integer(forKey: "selectedSongs")
-        UserDefaults.standard.set(before + 1, forKey: "selectedSongs")
-        checkDonationStatus()
-    }
-    
-    private func checkDonationStatus() {
+    func checkDonationStatus() {
         func openDonateURL() {
             let url = URL(string: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ME8E22EZTC5G4&source=url")
             NSWorkspace.shared.open(url!)
         }
         
-        let songCount = UserDefaults.standard.integer(forKey: "selectedSongs")
         let donated = UserDefaults.standard.bool(forKey: "alreadyDonated")
-        if (songCount % 10 == 0 && !donated) {
+        let interval = DateInterval(start: self.openedDialogLast, end: Date())
+        if (!donated && interval.duration/60 > 5) {
             let alert = NSAlert()
             alert.messageText = "Please consider supporting the development of Traktor Transition Finder"
             alert.informativeText = "Developing software takes time and ressources. \nPlease consider donating to support the development and improvement of Traktor Transition Finder."
@@ -79,6 +74,7 @@ class StateController {
             else {
                 UserDefaults.standard.set(false, forKey: "alreadyDonated")
             }
+            self.openedDialogLast = Date()
         }
     }
 }

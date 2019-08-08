@@ -151,10 +151,9 @@
 			};
 			buildConfigurationList = CD6B9487BAC72AB0154CB3BF /* Build configuration list for PBXProject "Traktor Transition Finder" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
