@@ -46,6 +46,12 @@ class SongToSongViewController: NSViewController {
         transitionsTableView.target = self
     }
     
+    override func viewWillAppear() {
+        if let state = self.stateController?.state {
+            self.stateChanged(state)
+        }
+    }
+    
     func selectSong(audioID: String, index: Int) {
         stateController?.checkDonationStatus()
         guard index < 2 else { return }
