@@ -1,8 +1,9 @@
 ![Screenshot](readme.png) 
 
-<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ME8E22EZTC5G4" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> if you would like to support the development of this application. </span>
+When a song is dropped into the app the best transitions from that song are displayed based on BPM and the keys of songs. 
+The DJ can then pick a song from the list in Traktor. 
 
-When a song is dropped into the app the best transitions from that song are displayed. The DJ can then pick a song from the list in Traktor.
+Two songs can also be dropped into the app in order to find the shortest path between two songs, allowing a DJ to quickly transition between two desired songs. 
 
 The tool creates a weighted digraph of every song in a Traktor collection of songs, where the weights determine what song is best to mix into from the current song. The weight is calculated using the BPM of the songs and their different keys. 
 The app is implemented in Swift, available for macOS. 
