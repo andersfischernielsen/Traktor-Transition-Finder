@@ -4,7 +4,7 @@
 @import "{{ site.theme }}";
 
 .page-header {
-	filter: grayscale()
+	filter: grayscale(1)
 }
 
 .site-footer-credits {
