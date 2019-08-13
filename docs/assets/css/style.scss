@@ -14,3 +14,15 @@
 .btn {
 	display: none
 }
+
+h2 {
+	color: gray
+}
+
+.site-footer-owner {
+	color: lightgray
+
+	&.a {
+		color: gray
+	}
+}
