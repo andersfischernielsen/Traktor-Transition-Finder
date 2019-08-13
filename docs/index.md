@@ -4,10 +4,10 @@
 
 ***
 
-![Screenshot](readme.png) 
+![Screenshot](readme/readme.png) 
 
 
-<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GFDKRJ7LCQFQS" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> if you think this project is awesome. </span>
+<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ME8E22EZTC5G4" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> if you would like to support the development of this application. </span>
 
 When a song is dropped into the app the best transitions from that song are displayed. The DJ can then pick a song from the list in Traktor.
 
@@ -24,3 +24,8 @@ The tool creates a weighted digraph of every song in a Traktor collection of son
 - Double-click transitions in the transition list to explore continuous transitions.
 - Double-click transition in the transition history to jump back to a previous song.
 
+
+## Implementation
+* The first version of the app consisted of a F# backend handling parsing the Traktor 2 collection and serving results as JSON to the Electron frontend. 
+* The second version of the app was implemented in TypeScript and Electron. 
+* The third (current) version of the app is implemented in Swift, available for macOS. 
