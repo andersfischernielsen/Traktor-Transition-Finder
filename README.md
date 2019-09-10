@@ -6,7 +6,9 @@
 
 ***
 
-When a song is dropped into the app the best transitions from that song are displayed. The DJ can then pick a song from the list in Traktor.
+When a song is dropped into the app the best transitions from that song are displayed. The shortest optimal transition path from one song to another can also be found. 
+
+The DJ can then pick a song from the list in Traktor. 
 
 ![Screenshot](readme/readme.png) 
 
