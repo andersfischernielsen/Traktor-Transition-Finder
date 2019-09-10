@@ -6,13 +6,13 @@
 
 ***
 
-<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ME8E22EZTC5G4" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> if you would like to support the development of this application. </span>
-
 When a song is dropped into the app the best transitions from that song are displayed. The DJ can then pick a song from the list in Traktor.
 
 ![Screenshot](readme/readme.png) 
 
 The tool creates a weighted digraph of every song in a Traktor collection of songs, where the weights determine what song is best to mix into from the current song. The weight is calculated using the BPM of the songs and their different keys. 
+
+<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ME8E22EZTC5G4" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a> if you would like to support the development of this application. </span>
 
 ## How to Use
 - Open the app and select `File` -> `Open Collection...` and select your Traktor collection. 
