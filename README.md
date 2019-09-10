@@ -1,5 +1,5 @@
 
-<p align="center"><img src="docs/icon.png" width="256" height="256"></img></p>
+<p align="center"><img src="docs/icon.png" width="128" height="128"></img></p>
 <h1 align="center">Traktor Transition Finder</p></h1>
 <p align="center">A small tool for automatically finding the next song to play when DJing using Traktor</p>
 <p align="center"><a href="https://github.com/andersfischernielsen/Traktor-Transition-Finder/releases/latest">Download</a></p>
